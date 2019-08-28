@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage Title="Create Account"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DungeonTasker.RegisterAdd">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid>
+                <StackLayout HorizontalOptions="Center" Grid.Row="1" x:Name="Names" Orientation="Vertical">
+                    <Label Text="Please enter your Username and Password"/>
+                    <Entry Placeholder="Username" x:Name="EntryMrk" Text=""/>
+                    <Entry Placeholder="Password" x:Name="EntryMrk2" Text=""/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical" HorizontalOptions="Center" Grid.Row="3" x:Name="AccountBtn">
+                    <Button Text="Create" Clicked="RegisterAddAccount" Padding="50,0,50,0" x:Name="RegisterAddbtn"></Button>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
