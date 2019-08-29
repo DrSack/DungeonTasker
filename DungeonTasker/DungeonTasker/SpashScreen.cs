@@ -13,6 +13,7 @@ namespace DungeonTasker
 {
     class SpashScreen : ContentPage
     {
+        int test = 0;
         public SpashScreen()
         {
             createSplash("Welcome");
