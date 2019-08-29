@@ -15,128 +15,84 @@ namespace DungeonTasker
 
     public partial class GreetPage : ContentPage
     {
-        bool startup = true;
-
+        bool begin = true;
         public GreetPage()
         {
             InitializeComponent();
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var files = System.IO.Directory.GetFiles(documents);
-            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            if (!CheckAccounts(files))
-            {
-                NonUsers();
-            }
-            else
-            {
-                Update(files);
-            }
+            
             RegisterBtn();
-            startup = false;
         }
 
-        public async void Update(string[] files)
-        {
-            try
-            {
-                foreach (var file in files)
-                {
-                    string[] lines;
-                    var checking = File.ReadAllText(file);
-                    lines = checking.Split(',');
-                    if ((lines[2] == "trueB" && lines[3] != "checked") || (lines[2] == "trueB" && startup))
-                    {
-                        AddUsers(file);
-                    }
-                }
-                if (UsersStack.Children.Count == 0)
-                {
-                    NonUsers();
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Welcome", "Create an account using register", "Close");
-            }
-        }
 
         public void RegisterBtn()
         {
             var RegisterClicked = new TapGestureRecognizer();
             RegisterClicked.Tapped += (s, e) =>
             {
-               Navigation.PushAsync(new RegisterAdd(this, false));
+               Navigation.PushAsync(new Register(this));
             };
             Register.GestureRecognizers.Add(RegisterClicked);
         }
 
-        private void AddUsers(string file)
+        public async void Login()
         {
-            string[] line;
-            string nice;
-            using (StreamReader sr = new StreamReader(file)) { nice = sr.ReadToEnd(); }
-
-            line = nice.Split(',');
-            if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }
-
-            using (var outputfile = new StreamWriter(file, false))
-            {
-                if (nice.Contains("falseB")){nice = nice.Replace("falseB", "trueB");}
-                if (!nice.Contains("checked")){nice = nice.Replace("incorrect", "checked,");}
-                outputfile.Write(nice);
-            }
             try
             {
-                Label nonuser = (Label)UsersStack.Children[0];
-                if(nonuser.Text == "No Users Added...")
+                string[] line;
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var files = Directory.GetFiles(documents);
+                bool hit = false;
+                foreach (var file in files)
                 {
-                    UsersStack.Children.RemoveAt(0);
+                    string nice2;
+                    using (StreamReader sr = new StreamReader(file)) { nice2 = sr.ReadToEnd(); }
+                    line = nice2.Split(',');
+
+                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }
+
+                    if (EntryMrk.Text == line[0] && EntryMrk2.Text == line[1])
+                    {
+                        hit = true;
+                        ExtraPopups.LoginWrite(this, file, line);
+
+                    }
+                    else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])
+                    {
+                        hit = true;
+                        throw new Exception("Incorrect Password");
+                    }
+                }
+                if(!User.checkinfo(EntryMrk.Text, EntryMrk2.Text))
+                {
+                    throw new Exception("Please enter both username and password");
+                }
+                else if (!hit)
+                {
+                    throw new Exception("Account not found");
                 }
             }
-            catch (Exception)
+            catch (Exception es)
             {
-
+                if (es != null) { await DisplayAlert("Error", es.Message, "Close"); }
+                else { await DisplayAlert("Error", "Account not found", "Close"); }
             }
-            var lul = new StackLayout();
-            lul.Orientation = StackOrientation.Horizontal;
-            lul.HorizontalOptions = LayoutOptions.Center;
-            lul.VerticalOptions = LayoutOptions.Center;
-            var name = new Label
-            {
-                Text = line[0],
-                FontSize = 10,
-                VerticalTextAlignment = TextAlignment.Center,
-            };
-            
-            var btn = new Button { FontSize = 10, Text = "Login" };
-            var btn2 = new Button { FontSize = 10, Text = "Delete" };
-
-            btn.Clicked += async (sender, args) => ExtraPopups.Login(line, this, file);
-            btn2.Clicked += async (sender, args) =>
-            {
-                Delete(file, lul);
-            };
-
-            lul.Children.Add(name);
-            lul.Children.Add(btn);
-            lul.Children.Add(btn2);
-            UsersStack.Children.Add(lul);
         }
+
         public bool CheckAccounts(string[] files)
         {
             try
             {
                 foreach (var file in files)
                 {
-                    if (!File.Exists(file))
+                    if (File.Exists(file))
                     {
-                        return false;
+                        return true;
                     }
                     else
                     {
-                        
-                        return true;
-                        
+                        return false;
                     }
                 }
             }
@@ -151,7 +107,7 @@ namespace DungeonTasker
          * If the login file is still logged:true then proceed to bypass login screen and go into
          * app.
          **/
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             string[] line;
             string all;
@@ -173,56 +129,20 @@ namespace DungeonTasker
                     Application.Current.MainPage = new NavigationPage(new Add(user));
                 }
             }
-        }
-
-
-        private void Button_ClickedAdd(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new RegisterAdd(this, true));
-        }
-
-        public async void Delete(string file, StackLayout layout)
-        {
-            string[] ok;
-            string nice3;
-
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var files = System.IO.Directory.GetFiles(documents);
-            using (StreamReader sr = new StreamReader(file)) { nice3 = sr.ReadToEnd(); }
-
-            ok = nice3.Split(',');
-            if (ok[0].Contains("ID:")) { ok[0] = ok[0].Replace("ID:", ""); }
-            File.Delete(file);
-
-            Label nice2 = (Label)layout.Children[0];
-                if(nice2.Text == ok[0])
-                {
-                    await Task.Run(async () =>
-                    {
-                       Animations.CloseStackLayout(layout, "Users", 30, 300);
-                    });
-                    UsersStack.Children.Remove(layout);
-                if (UsersStack.Children.Count == 0)
-                    {
-                        NonUsers();
-                    }
-                }
-            
-            
-        }
-
-        public void NonUsers()
-        {
-            
-            var nice = new Label()
+            if (begin && !CheckAccounts(files))
             {
-                Text = "No Users Added...",
-                VerticalTextAlignment = TextAlignment.Center,
-                HorizontalTextAlignment = TextAlignment.Center
-            };
-            UsersStack.Children.Add(nice);
+                Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new user", "close");
+                begin = false;
+            }
+            
+            
         }
 
+
+        private void LoginBtn(object sender, EventArgs e)
+        {
+            Login();
+        }
       
     }
 }

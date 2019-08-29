@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage Title="Don't DO IT"  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DungeonTasker.GreetPage">
+             x:Class="DungeonTasker.GreetPage"
+             NavigationPage.HasNavigationBar="False">
 
     <StackLayout Margin="0,35,0,0" Orientation="Vertical" x:Name="NeinStack">
         
@@ -11,21 +12,12 @@
             </StackLayout>
 
         <StackLayout VerticalOptions="Start" Margin="0,30,0,0">
-        <StackLayout x:Name="Names" BackgroundColor="Black" Padding="2,2,2,2" Margin="50,0,50,0" VerticalOptions="StartAndExpand">
-                <Grid>
-                    <ScrollView x:Name="ScrollNames" HeightRequest="155">
-                        <StackLayout  BackgroundColor="White" MinimumHeightRequest="155">
-                            <StackLayout x:Name="UsersStack" BackgroundColor="White" MinimumHeightRequest="155">
-
-                            </StackLayout>
-                    </StackLayout>
-                </ScrollView>
-                </Grid>
-            </StackLayout>
+            <Entry Placeholder="Username" x:Name="EntryMrk" Text=""/>
+            <Entry Placeholder="Password" x:Name="EntryMrk2" Text=""/>
         </StackLayout>
 
         <StackLayout VerticalOptions="CenterAndExpand">
-            <Button Text="Add Account" Clicked="Button_ClickedAdd" Padding="70,0,70,0" Margin="0,0,0,0" BorderRadius="20" HorizontalOptions="Center"></Button>
+            <Button Text="Login" Clicked="LoginBtn" Padding="70,0,70,0" Margin="0,0,0,0" BorderRadius="20" HorizontalOptions="Center"></Button>
             <StackLayout    x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,40,0,0">
                 <!--<Button Text="Login" Clicked="Button_Clicked" Padding="50,0,50,0"/>-->
                 <Label>

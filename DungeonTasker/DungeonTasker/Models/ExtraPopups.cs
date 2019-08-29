@@ -102,13 +102,42 @@ namespace DungeonTasker.Models
 
         public static async 
         Task
-ShowMessage(string message, string title,string buttonText, ContentPage page, Action afterHideCallback)
+            ShowMessage(string message, string title,string buttonText, ContentPage page, Action afterHideCallback)
         {
             await page.DisplayAlert(title,message,buttonText);
             afterHideCallback?.Invoke();
         }
         
+        public static async void LoginWrite(GreetPage page, string file, string[] line)
+        {
+            User user;
+            string stringfile;
 
+            using (StreamReader sr = new StreamReader(file)) { stringfile = sr.ReadToEnd(); }
+            using (var outputfile = new StreamWriter(file, false))
+            {
+                if (stringfile.Contains("Character:"))
+                {
+                    stringfile = stringfile.Replace("Logged:false", "Logged:true");
+                }
+                else
+                {
+                    stringfile += "\nCharacter:<0-0>";
+                    stringfile += "\nLogged:true";
+                }
+                outputfile.Write(stringfile);
+            }
+
+            string character = User.CheckForstring(file, "Character:");
+            string logged = User.CheckForstring(file, "Logged:");
+
+            user = new User(line[0], line[1], character, logged, file);
+
+            await page.FadeTo(1, 300);
+            await page.FadeTo(0, 300);
+
+            Application.Current.MainPage = new NavigationPage(new Add(user));
+        }
 
     }
 }
