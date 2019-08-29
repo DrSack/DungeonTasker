@@ -13,7 +13,6 @@ namespace DungeonTasker
 {
     class SpashScreen : ContentPage
     {
-        string user;
         public SpashScreen()
         {
             createSplash("Welcome");
@@ -26,7 +25,6 @@ namespace DungeonTasker
             await this.FadeTo(1, 1500);
             await this.FadeTo(0, 1500);
             Application.Current.MainPage = new NavigationPage(new GreetPage());
-
 
         }
 
