@@ -31,7 +31,7 @@ namespace DungeonTasker.Views
         public async void Add_Time(object sender, EventArgs e)
         {
             int i = 0;
-            string action = await DisplayActionSheet("Set time: ", "Cancel", null, "10 Seconds", "5 seconds", "10 seconds");
+            string action = await DisplayActionSheet("Set time: ", "Cancel", null, "10 Seconds", "15 seconds", "20 seconds");
 
 
             if (action != "Cancel")
@@ -39,6 +39,16 @@ namespace DungeonTasker.Views
                 if (action == "10 Seconds")
                 {
                     i = 10;
+                    Timer(action, i);
+                }
+                else if (action == "15 seconds")
+                {
+                    i = 15;
+                    Timer(action, i);
+                }
+                else if (action == "20 seconds")
+                {
+                    i = 20;
                     Timer(action, i);
                 }
             }
@@ -78,41 +88,60 @@ namespace DungeonTasker.Views
             var cool2 = new Label { Text = i.ToString() };
             TimerUpdatecs time = new TimerUpdatecs(i, action);
             ListTimer.Add(time);
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            if(i != 0)
             {
-                time.time -= 1;
-                cool2.Text = time.time.ToString();
-                Currentuser.UpdateCurrenttimes(ListTimer);
-
-                if(truthtime.nice == false)
+                Device.StartTimer(TimeSpan.FromSeconds(1), () =>
                 {
-                    return false;
-                }
+                    time.time -= 1;
+                    cool2.Text = time.time.ToString();
+                    Currentuser.UpdateCurrenttimes(ListTimer);
 
-                if (time.time == 0)
-                {
-                    Application.Current.MainPage.DisplayAlert("stuff", "stuff", "stuff");
-                    var redeembtn = new Button { Text = "Redeem" };
-                    redeembtn.Clicked += async (s, a) =>
+                    if (truthtime.nice == false)
                     {
-                        await Task.Run(async () =>
-                        {
-                            Animations.CloseStackLayout(timerlads, "Timer", 30, 500);
-                        });
+                        return false;
+                    }
 
-                        timers.Children.Remove(timerlads);
-                        ListTimer.Remove(time);
-                        Currentuser.UpdateCurrenttimes(ListTimer);
-                    };
-                    timerlads.Children.Add(redeembtn);
-                    timers.Children.Add(timerlads);
-                    return false;
-                }
-                return true;
-            });
+                    if (time.time <= 0)
+                    {
+                        DisplayRedeem(timerlads, time);
+                        return false;
+                    }
+                    return true;
+                });
+                timerlads.Children.Add(cool);
+                timerlads.Children.Add(cool2);
+                timers.Children.Add(timerlads);
+            }
 
-            timerlads.Children.Add(cool);
-            timerlads.Children.Add(cool2);
+            
+
+            else
+            {
+                timerlads.Children.Add(cool);
+                timerlads.Children.Add(cool2);
+                timers.Children.Add(timerlads);
+                DisplayRedeem(timerlads, time);
+            }
+
+            
+        }
+
+        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs time)
+        {
+            Application.Current.MainPage.DisplayAlert("stuff", "stuff", "stuff");
+            var redeembtn = new Button { Text = "Redeem" };
+            redeembtn.Clicked += async (s, a) =>
+            {
+                await Task.Run(async () =>
+                {
+                    Animations.CloseStackLayout(timerlads, "Timer", 30, 500);
+                });
+
+                timers.Children.Remove(timerlads);
+                ListTimer.Remove(time);
+                Currentuser.UpdateCurrenttimes(ListTimer);
+            };
+            timerlads.Children.Add(redeembtn);
             timers.Children.Add(timerlads);
         }
     }
