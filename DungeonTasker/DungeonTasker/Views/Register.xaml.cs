@@ -15,13 +15,11 @@ namespace DungeonTasker
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Register : ContentPage
 	{
-        GreetPage nice;
-		public Register(GreetPage cool)
+		public Register()
 		{
 			InitializeComponent();
             this.Title = "Create Account";
             this.RegisterAddbtn.Text = "Create";
-            this.nice = cool;
             this.EntryMrk2.IsPassword = true;
 		}
 

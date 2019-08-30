@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using DungeonTasker.Models;
+using DungeonTasker.Views;
 
 namespace DungeonTasker.Models
 {
@@ -40,20 +41,84 @@ namespace DungeonTasker.Models
             this.Logged = Logged;
             this.file = file;
         }
+
+        public void WriteCurrenttimes(TimerUpdatecs timer)
+        {
+            string nice;
+            using (StreamReader sr = new StreamReader(file)) { nice = sr.ReadToEnd(); }
+            using (var outputfile = new StreamWriter(file, false))
+            {
+                nice += "\nTimer:"+timer.type+":"+timer.time;
+                outputfile.Write(nice);
+            }
+        }
+
+        public void Checktimer(DetailsPage page)
+        {
+            using (var sr = new StreamReader(file))
+            {
+                string line;
+                string[] split;
+                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                {
+                    if (line.Contains("Timer"))
+                    {
+                        split = line.Split(':');
+                        int result = Int32.Parse(split[2]);
+                        page.Timer("lul",result);
+                    }
+
+                }
+            }
+            Rewrite("true");
+        }
+
+        public void UpdateCurrenttimes(List<TimerUpdatecs> timer)
+        {
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(file))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                {
+                    if (!line.Contains("Timer")){ sw.WriteLine(line); }
+                        
+                }
+                foreach(TimerUpdatecs timeboi in timer)
+                {
+                    sw.WriteLine("Timer:" + timeboi.type + ":" + timeboi.time);
+                }
+            }
+            File.Delete(file);
+            File.Move(tempFile, file);
+        }
+
         /*
          *This method is responsible for rewriting all variables back into a file.
          *@para NONE
          * @returns Is Void
-         */ 
-        public void Rewrite()
+         */
+        public void Rewrite(string truth)
         {
-            string newfile = string.Format("ID:{0},{1},", Username, Password);
-            newfile += string.Format("\nCharacter:{0}", Character);
-            newfile += string.Format("\nLogged:{0}", "false");
-            File.WriteAllText(file,newfile);
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var filename = Path.Combine(documents, Username + "Login.dt");
-            this.file = filename;
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(file))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                {
+                    if (line.Contains("Logged")) { sw.WriteLine("Logged:" + truth); }
+                    else { sw.WriteLine(line); }
+                }
+            }
+            File.Delete(file);
+            File.Move(tempFile, file);
+
         }
 
         /*

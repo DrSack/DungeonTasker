@@ -17,17 +17,21 @@ namespace DungeonTasker.Views
 	{
         Page page;
         User user;
-		public MasterPage (Page page, User user)
+        logged truth;
+		public MasterPage (Page page, User user, logged truth)
 		{
 			InitializeComponent ();
             this.page = page;
             this.user = user;
+            this.truth = truth;
+            
 		}
 
         private void Exit_Clicked(object sender, EventArgs e)
         {
             user.Logged = "false";
-            user.Rewrite();
+            user.Rewrite("false");
+            truth.nice = false;
             if (User.CheckForstring(user.file, "Logged:") == "false" )
             {
                 File.WriteAllText(user.file, File.ReadAllText(user.file));

@@ -15,14 +15,14 @@ namespace DungeonTasker
 	public partial class Add : MasterDetailPage
 	{
         User nice;
-
+        logged truth = new logged();
         public Add(User user)
 		{
             this.nice = user;
             InitializeComponent();
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            this.Detail = new NavigationPage(new DetailsPage(user));
-            this.Master = new MasterPage(Detail, user);
+            this.Detail = new NavigationPage(new DetailsPage(user, truth));
+            this.Master = new MasterPage(Detail, user, truth);
         }
     }
 }
