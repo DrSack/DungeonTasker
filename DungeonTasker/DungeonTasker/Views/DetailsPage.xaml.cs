@@ -30,31 +30,9 @@ namespace DungeonTasker.Views
 
         public async void Add_Time(object sender, EventArgs e)
         {
-            int i = 0;
             await this.Navigation.PushModalAsync(new DatePicker(this));
-
-            // string action = await DisplayActionSheet("Set time: ", "Cancel", null, "10 Seconds", "15 seconds", "20 seconds");
-
-
-            //if (action != "Cancel")
-            //{
-            //    if (action == "10 Seconds")
-            //    {
-            //        i = 10;
-            //        Timer(action, i);
-            //    }
-            //    else if (action == "15 seconds")
-            //    {
-            //        i = 15;
-            //        Timer(action, i);
-            //    }
-            //    else if (action == "20 seconds")
-            //    {
-            //        i = 20;
-            //        Timer(action, i);
-            //    }
-            //}
         }
+
         protected override void OnAppearing()
         {
             if (truth)
