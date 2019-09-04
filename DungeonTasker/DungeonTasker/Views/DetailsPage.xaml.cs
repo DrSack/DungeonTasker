@@ -11,16 +11,16 @@ using Xamarin.Forms.Xaml;
 
 namespace DungeonTasker.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DetailsPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class DetailsPage : ContentPage
     {
         List<TimerUpdatecs> ListTimer = new List<TimerUpdatecs>();
         User Currentuser;
         bool truth = true;
         logged truthtime;
-		public DetailsPage(User user, logged truth)
-		{
-            InitializeComponent ();
+        public DetailsPage(User user, logged truth)
+        {
+            InitializeComponent();
             this.Currentuser = user;
             this.truthtime = truth;
             Name.Text = Currentuser.Username;
@@ -31,89 +31,98 @@ namespace DungeonTasker.Views
         public async void Add_Time(object sender, EventArgs e)
         {
             int i = 0;
-            string action = await DisplayActionSheet("Set time: ", "Cancel", null, "10 Seconds", "15 seconds", "20 seconds");
+            await this.Navigation.PushModalAsync(new DatePicker(this));
+
+            // string action = await DisplayActionSheet("Set time: ", "Cancel", null, "10 Seconds", "15 seconds", "20 seconds");
 
 
-            if (action != "Cancel")
-            {
-                if (action == "10 Seconds")
-                {
-                    i = 10;
-                    Timer(action, i);
-                }
-                else if (action == "15 seconds")
-                {
-                    i = 15;
-                    Timer(action, i);
-                }
-                else if (action == "20 seconds")
-                {
-                    i = 20;
-                    Timer(action, i);
-                }
-            }
+            //if (action != "Cancel")
+            //{
+            //    if (action == "10 Seconds")
+            //    {
+            //        i = 10;
+            //        Timer(action, i);
+            //    }
+            //    else if (action == "15 seconds")
+            //    {
+            //        i = 15;
+            //        Timer(action, i);
+            //    }
+            //    else if (action == "20 seconds")
+            //    {
+            //        i = 20;
+            //        Timer(action, i);
+            //    }
+            //}
         }
         protected override void OnAppearing()
         {
             if (truth)
             {
-                using (var sr = new StreamReader(Currentuser.file))
+                using (var sr = new StreamReader(Currentuser.timer))
                 {
                     string line;
-                    string[] split;
                     while (!string.IsNullOrEmpty(line = sr.ReadLine()))
                     {
-                        if (line.Contains("Timer"))
-                        {
-                            split = line.Split(':');
-                            int result = Int32.Parse(split[2]);
-                            Timer(split[1], result);
-                        }
+                        DateTime nice = Convert.ToDateTime(line);
+                        TimeSpan Rem = nice - DateTime.Now;
+                        Timer("Lul", nice, Rem);
                     }
                 }
                 truth = false;
             }
 
-            
-        }
-            public void Timer(string action, int i)
-        {
 
+        }
+        public void Timer(string Task, DateTime Trg, TimeSpan Rem)
+        {
             var timerlads = new StackLayout();
             timerlads.Orientation = StackOrientation.Horizontal;
             timerlads.BackgroundColor = Color.White;
             timerlads.Margin = new Thickness(3, 1, 3, 1);
 
-            var cool = new Label { Text = action };
-            var cool2 = new Label { Text = i.ToString() };
-            TimerUpdatecs time = new TimerUpdatecs(i, action);
-            ListTimer.Add(time);
-            if(i != 0)
+            var cool = new Label { Text = Task };
+            var cool2 = new Label();
+            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, Task);
+
+            time.R = time.T - DateTime.Now;
+
+            if (DateTime.Now >= time.T)
             {
+                time.R = DateTime.Now - DateTime.Now;
+            }
+
+            cool2.Text = string.Format("{0} {1}:{2}:{3}", time.T.ToString(), time.R.Hours.ToString("00"),
+            time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
+            ListTimer.Add(time);
+            Currentuser.UpdateCurrenttimes(ListTimer);
+
+            if (DateTime.Now < Trg)
+            {
+
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
                 {
-                    time.time -= 1;
-                    cool2.Text = time.time.ToString();
-                    Currentuser.UpdateCurrenttimes(ListTimer);
+                    time.R = time.T - DateTime.Now;
+                    cool2.Text = string.Format("{0} {1}:{2}:{3}", time.T.ToString(), time.R.Hours.ToString("00"),
+                    time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
                     if (truthtime.nice == false)
                     {
                         return false;
                     }
 
-                    if (time.time <= 0)
+                    if (DateTime.Now >= Trg)
                     {
                         DisplayRedeem(timerlads, time);
                         return false;
                     }
+
                     return true;
                 });
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
                 timers.Children.Add(timerlads);
             }
-
-            
 
             else
             {
@@ -123,10 +132,12 @@ namespace DungeonTasker.Views
                 DisplayRedeem(timerlads, time);
             }
 
-            
         }
+        
 
-        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs time)
+        
+
+        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times)
         {
             Application.Current.MainPage.DisplayAlert("stuff", "stuff", "stuff");
             var redeembtn = new Button { Text = "Redeem" };
@@ -138,7 +149,7 @@ namespace DungeonTasker.Views
                 });
 
                 timers.Children.Remove(timerlads);
-                ListTimer.Remove(time);
+                ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
             };
             timerlads.Children.Add(redeembtn);

@@ -6,15 +6,15 @@ using DungeonTasker;
 
     public class TimerUpdatecs
     {
-     public int time { get; set; }
+    public DateTime T { get; set; }
+    public TimeSpan R { get; set; }
     public string type { get; set; }
 
-    public Guid InstanceID { get; private set; }
-        public TimerUpdatecs(int time, string name)
+        public TimerUpdatecs(DateTime trig, TimeSpan Rem, string name)
         {
-          this.time = time;
+          this.T = trig;
+          this.R = Rem;
           this.type = name;
-        this.InstanceID = Guid.NewGuid();
         }
 
         

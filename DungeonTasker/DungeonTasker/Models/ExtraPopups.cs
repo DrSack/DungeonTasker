@@ -50,14 +50,14 @@ namespace DungeonTasker.Models
                         string character = User.CheckForstring(file, "Character:");
                         string logged = User.CheckForstring(file, "Logged:");
 
-                        user = new User(line[0], line[1], character, logged, file);
+                        //user = new User(line[0], line[1], character, logged, file);
                         
                         await page.FadeTo(1, 300);
                         await page.FadeTo(0, 300);
                         await Greet.FadeTo(1, 300);
                         await Greet.FadeTo(0, 300);
                         
-                        Application.Current.MainPage = new NavigationPage(new Add(user));
+                        //Application.Current.MainPage = new NavigationPage(new Add(user));
                     }
                     else
                     {
@@ -108,7 +108,7 @@ namespace DungeonTasker.Models
             afterHideCallback?.Invoke();
         }
         
-        public static async void LoginWrite(GreetPage page, string file, string[] line)
+        public static async void LoginWrite(GreetPage page, string file, string times, string[] line)
         {
             User user;
             string stringfile;
@@ -130,8 +130,8 @@ namespace DungeonTasker.Models
 
             string character = User.CheckForstring(file, "Character:");
             string logged = User.CheckForstring(file, "Logged:");
-
-            user = new User(line[0], line[1], character, logged, file);
+            
+            user = new User(line[0], line[1], character, logged, file, times);
 
             await page.FadeTo(1, 300);
             await page.FadeTo(0, 300);

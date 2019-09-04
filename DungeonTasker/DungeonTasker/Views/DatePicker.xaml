@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             x:Class="DungeonTasker.Views.DatePicker">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="_entry"
+               Placeholder="Enter event to be reminded of" />
+            <Label Text="Select the time below to be reminded at." />
+            <TimePicker x:Name="_timePicker"
+                    Format="T"
+                     />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Enable timer:" />
+                <Button Text="Add" x:Name="_switch"
+                    HorizontalOptions="EndAndExpand"
+                    Clicked="_button_Toggled" />
+            </StackLayout>
+            <StackLayout x:Name="test_numbers">
+                
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

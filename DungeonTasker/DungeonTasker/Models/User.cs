@@ -18,7 +18,7 @@ namespace DungeonTasker.Models
         public string Character { get; set; }
         public string Logged { get; set; }
         public string file {get; set;}
-
+        public string timer { get; set; }
         public User()
         {
             
@@ -33,13 +33,14 @@ namespace DungeonTasker.Models
          * string Logged: sets if logged in, 
          * string file: set the file path.
          */
-        public User(string Username, string Password, string Character, string Logged, string file)
+        public User(string Username, string Password, string Character, string Logged, string file, string timer)
         {
             this.Username = Username;
             this.Password = Password;
             this.Character = Character;
             this.Logged = Logged;
             this.file = file;
+            this.timer = timer;
         }
 
         public void WriteCurrenttimes(TimerUpdatecs timer)
@@ -48,7 +49,7 @@ namespace DungeonTasker.Models
             using (StreamReader sr = new StreamReader(file)) { nice = sr.ReadToEnd(); }
             using (var outputfile = new StreamWriter(file, false))
             {
-                nice += "\nTimer:"+timer.type+":"+timer.time;
+                nice += String.Format("\n{0}", timer.T);
                 outputfile.Write(nice);
             }
         }
@@ -65,7 +66,7 @@ namespace DungeonTasker.Models
                     {
                         split = line.Split(':');
                         int result = Int32.Parse(split[2]);
-                        page.Timer("lul",result);
+                        //page.Timer("lul",result);
                     }
 
                 }
@@ -77,23 +78,15 @@ namespace DungeonTasker.Models
         {
             string tempFile = Path.GetTempFileName();
 
-            using (var sr = new StreamReader(file))
             using (var sw = new StreamWriter(tempFile))
             {
-                string line;
-
-                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
-                {
-                    if (!line.Contains("Timer")){ sw.WriteLine(line); }
-                        
-                }
                 foreach(TimerUpdatecs timeboi in timer)
                 {
-                    sw.WriteLine("Timer:" + timeboi.type + ":" + timeboi.time);
+                    sw.WriteLine(string.Format("{0}", timeboi.T.ToString()));
                 }
             }
-            File.Delete(file);
-            File.Move(tempFile, file);
+            File.Delete(this.timer);
+            File.Move(tempFile, this.timer);
         }
 
         /*
@@ -159,8 +152,10 @@ namespace DungeonTasker.Models
             string line = string.Format("ID:{0},{1},", User, Pass);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
             var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
-            
-            
+            var Items = Path.Combine(documents, User+ "Inv.dt");
+            var Stats = Path.Combine(documents, User+ "Stats.dt");
+            var Timer = Path.Combine(documents, User + "Timer.dt");
+
                 if (File.Exists(filename))// If the file already exists throw and exception
                 {
                     throw new Exception("Please delete current account");
@@ -169,6 +164,9 @@ namespace DungeonTasker.Models
                 {
                     //Write onto file and save onto device
                     File.WriteAllText(filename, line);
+                    File.WriteAllText(Items, "Add later");
+                    File.WriteAllText(Stats, "Add later");
+                    File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.
                     await ExtraPopups.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
                     {

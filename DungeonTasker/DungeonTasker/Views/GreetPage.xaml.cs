@@ -55,7 +55,8 @@ namespace DungeonTasker
                     if (EntryMrk.Text == line[0] && EntryMrk2.Text == line[1])
                     {
                         hit = true;
-                        ExtraPopups.LoginWrite(this, file, line);
+                        var Timers = Path.Combine(documents, line[0]+ "Timer.dt");
+                        ExtraPopups.LoginWrite(this, file, Timers, line);
 
                     }
                     else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])
@@ -125,7 +126,8 @@ namespace DungeonTasker
                 string logged = User.CheckForstring(file, "Logged:");
                 if (all.Contains("Logged:true"))
                 {
-                    User user = new User(line[0], line[1], character, logged, file);
+                    var Timer = Path.Combine(documents, line[0] + "Timer.dt");
+                    User user = new User(line[0], line[1], character, logged, file, Timer);
                     Application.Current.MainPage = new NavigationPage(new Add(user));
                 }
             }
