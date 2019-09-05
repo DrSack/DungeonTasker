@@ -43,37 +43,6 @@ namespace DungeonTasker.Models
             this.timer = timer;
         }
 
-        public void WriteCurrenttimes(TimerUpdatecs timer)
-        {
-            string nice;
-            using (StreamReader sr = new StreamReader(file)) { nice = sr.ReadToEnd(); }
-            using (var outputfile = new StreamWriter(file, false))
-            {
-                nice += String.Format("\n{0}", timer.T);
-                outputfile.Write(nice);
-            }
-        }
-
-        public void Checktimer(DetailsPage page)
-        {
-            using (var sr = new StreamReader(file))
-            {
-                string line;
-                string[] split;
-                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
-                {
-                    if (line.Contains("Timer"))
-                    {
-                        split = line.Split(':');
-                        int result = Int32.Parse(split[2]);
-                        //page.Timer("lul",result);
-                    }
-
-                }
-            }
-            Rewrite("true");
-        }
-
         public void UpdateCurrenttimes(List<TimerUpdatecs> timer)
         {
             string tempFile = Path.GetTempFileName();
@@ -82,7 +51,7 @@ namespace DungeonTasker.Models
             {
                 foreach(TimerUpdatecs timeboi in timer)
                 {
-                    sw.WriteLine(string.Format("{0}", timeboi.T.ToString()));
+                    sw.WriteLine(string.Format("{0},{1}",timeboi.type, timeboi.T.ToString()));
                 }
             }
             File.Delete(this.timer);
@@ -149,7 +118,7 @@ namespace DungeonTasker.Models
             {
                 // if the username and password are not filled in throw an exception
                 if (!checkinfo(User, Pass)) { throw new Exception("Please enter both credentials... ");}
-            string line = string.Format("ID:{0},{1},", User, Pass);// format file structure
+            string line = string.Format("ID:{0},{1},\nCharacter:<0-0>\nLogged:false", User, Pass);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
             var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
             var Items = Path.Combine(documents, User+ "Inv.dt");
@@ -164,7 +133,7 @@ namespace DungeonTasker.Models
                 {
                     //Write onto file and save onto device
                     File.WriteAllText(filename, line);
-                    File.WriteAllText(Items, "Add later");
+                    File.WriteAllText(Items, "Weapons:IronDagger,\nKeys:0,");
                     File.WriteAllText(Stats, "Add later");
                     File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.

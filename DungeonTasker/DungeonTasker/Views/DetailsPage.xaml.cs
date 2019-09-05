@@ -40,11 +40,13 @@ namespace DungeonTasker.Views
                 using (var sr = new StreamReader(Currentuser.timer))
                 {
                     string line;
+                    string[] split;
                     while (!string.IsNullOrEmpty(line = sr.ReadLine()))
                     {
-                        DateTime nice = Convert.ToDateTime(line);
+                        split = line.Split(',');
+                        DateTime nice = Convert.ToDateTime(split[1]);
                         TimeSpan Rem = nice - DateTime.Now;
-                        Timer("Lul", nice, Rem);
+                        Timer(split[0], nice, Rem);
                     }
                 }
                 truth = false;
@@ -70,7 +72,7 @@ namespace DungeonTasker.Views
                 time.R = DateTime.Now - DateTime.Now;
             }
 
-            cool2.Text = string.Format("{0} {1}:{2}:{3}", time.T.ToString(), time.R.Hours.ToString("00"),
+            cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
             time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
             ListTimer.Add(time);
             Currentuser.UpdateCurrenttimes(ListTimer);
@@ -81,7 +83,7 @@ namespace DungeonTasker.Views
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
                 {
                     time.R = time.T - DateTime.Now;
-                    cool2.Text = string.Format("{0} {1}:{2}:{3}", time.T.ToString(), time.R.Hours.ToString("00"),
+                    cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
                     time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
                     if (truthtime.nice == false)

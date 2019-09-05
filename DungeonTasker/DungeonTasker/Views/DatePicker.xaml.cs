@@ -15,25 +15,43 @@ namespace DungeonTasker.Views
         DetailsPage page;
         public DatePicker(DetailsPage page)
         {
+            //Initialize the componenets and add the content page.
             this.page = page;
             InitializeComponent();
             _timePicker.Time = DateTime.Now.TimeOfDay;
             
         }
 
-
+        /*
+         * When the add button is pressed add the time to the Tasks page.
+         * returns NULL
+         */
         private async void _button_Toggled(object sender, ToggledEventArgs e)
         {
-            DateTime _triggerTime = DateTime.Today + _timePicker.Time;
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now;
 
-            if (_triggerTime <= DateTime.Now)
+            DateTime _triggerTime = _datePicker.Date + _timePicker.Time;// Add both the date picked and the time picked to a datetime variable
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
+            try// Try clause to detect error
             {
-                _triggerTime = DateTime.Now.AddMinutes(1);
+                if (_triggerTime <= DateTime.Now)
+                {// When the date selected is lower than the current date throw an exception
+                    throw new Exception("Date Invalid");
+                }
+                else
+                {
+                    //Add a timer to the Tasks page and close the current page.
+                    page.Timer(_entry.Text, _triggerTime, _remainderTime);
+                    await page.Navigation.PopModalAsync();
+                }
             }
+            catch (Exception es)
+            {
+                //throw exception
+               await DisplayAlert("Error", es.Message, "Close");
+            }
+            
 
-            page.Timer(_entry.Text, _triggerTime, _remainderTime);
-            await page.Navigation.PopModalAsync();
+            
         }
     }
 }

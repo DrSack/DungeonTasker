@@ -19,9 +19,6 @@ namespace DungeonTasker
         public GreetPage()
         {
             InitializeComponent();
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var files = System.IO.Directory.GetFiles(documents);
-            
             RegisterBtn();
         }
 
@@ -55,8 +52,9 @@ namespace DungeonTasker
                     if (EntryMrk.Text == line[0] && EntryMrk2.Text == line[1])
                     {
                         hit = true;
-                        var Timers = Path.Combine(documents, line[0]+ "Timer.dt");
-                        ExtraPopups.LoginWrite(this, file, Timers, line);
+                        var Timers = Path.Combine(documents, line[0] + "Timer.dt");
+                        var Items = Path.Combine(documents, line[0] + "Inv.dt");
+                        ExtraPopups.LoginWrite(this, file, Timers, Items ,line);
 
                     }
                     else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])
@@ -127,8 +125,10 @@ namespace DungeonTasker
                 if (all.Contains("Logged:true"))
                 {
                     var Timer = Path.Combine(documents, line[0] + "Timer.dt");
+                    var Items = Path.Combine(documents, line[0] + "Inv.dt");
                     User user = new User(line[0], line[1], character, logged, file, Timer);
-                    Application.Current.MainPage = new NavigationPage(new Add(user));
+                    InventoryItems items = new InventoryItems(Items);
+                    Application.Current.MainPage = new NavigationPage(new Add(user, items));
                 }
             }
             if (begin && !CheckAccounts(files))

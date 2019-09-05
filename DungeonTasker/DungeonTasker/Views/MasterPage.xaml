@@ -11,6 +11,6 @@
         <Button Text="Tasks" Clicked="Tasks_Clicked"></Button>
         <Button Text="Store" Clicked="Store_Clicked"></Button>
         <Button Text="Logout" Clicked="Exit_Clicked" x:Name="stuff"></Button>
-        <Button Text="Exit" Clicked="Terminate_Clicked"></Button>
+        <Button Text="Settings" Clicked="Settings_Clicked"></Button>
     </StackLayout>
 </ContentPage>

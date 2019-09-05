@@ -11,9 +11,14 @@
             <Entry x:Name="_entry"
                Placeholder="Enter event to be reminded of" />
             <Label Text="Select the time below to be reminded at." />
+            <Label Text="Date" />
+            <DatePicker x:Name="_datePicker"
+                    Format="D" />
+            <Label Text="Time" />
             <TimePicker x:Name="_timePicker"
                     Format="T"
                      />
+
             <StackLayout Orientation="Horizontal">
                 <Label Text="Enable timer:" />
                 <Button Text="Add" x:Name="_switch"

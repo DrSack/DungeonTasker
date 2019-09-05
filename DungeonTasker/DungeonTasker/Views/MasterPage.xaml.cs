@@ -17,14 +17,15 @@ namespace DungeonTasker.Views
 	{
         Page page;
         User user;
+        InventoryItems items;
         logged truth;
-		public MasterPage (Page page, User user, logged truth)
+		public MasterPage (Page page, User user, InventoryItems items, logged truth)
 		{
 			InitializeComponent ();
             this.page = page;
             this.user = user;
+            this.items = items;
             this.truth = truth;
-            
 		}
 
         private void Exit_Clicked(object sender, EventArgs e)
@@ -50,22 +51,15 @@ namespace DungeonTasker.Views
         private void Store_Clicked(object sender, EventArgs e)
         {
             
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory());
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items));
             ((MasterDetailPage)Parent).IsPresented = false;
 
         }
 
-        private void Terminate_Clicked(object sender, EventArgs e)
+        private void Settings_Clicked(object sender, EventArgs e)
         {
-            if(Device.RuntimePlatform == Device.iOS){
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-            else if(Device.RuntimePlatform == Device.Android)
-            {
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-
-            
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items));
+            ((MasterDetailPage)Parent).IsPresented = false;
         }
     }
 }
