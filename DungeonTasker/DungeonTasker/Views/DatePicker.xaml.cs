@@ -12,13 +12,20 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatePicker : ContentPage
     {
-        DetailsPage page;
+        DetailsPage page;//Initialize variables
+
+        /*
+         * Contructor for DatePicker, initialize all components
+         * PARAM
+         * page: obtain and store variable page to be used within the class
+         * RETURN Nothing
+         */
         public DatePicker(DetailsPage page)
         {
             //Initialize the componenets and add the content page.
             this.page = page;
             InitializeComponent();
-            _timePicker.Time = DateTime.Now.TimeOfDay;
+            _timePicker.Time = DateTime.Now.TimeOfDay;// set the default date for _timerpicked to the current time.
             
         }
 

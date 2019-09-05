@@ -8,10 +8,6 @@ namespace DungeonTasker.Models
 {
     class Animations
     {
-        Animations()
-        {
-
-        }
         /*
          * This method is responsible for creating an animation that closes that particular stack layout full
          * 

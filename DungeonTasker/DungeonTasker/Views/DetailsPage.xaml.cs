@@ -16,26 +16,50 @@ namespace DungeonTasker.Views
     {
         List<TimerUpdatecs> ListTimer = new List<TimerUpdatecs>();
         User Currentuser;
-        bool truth = true;
         logged truthtime;
+        bool truth = true;//Initialize all variables
+
+        /*
+         * Contructor for DetailsPage to encapsulate current user information and truth value.
+         * PARAM
+         * user: parse the user to be used within this class
+         * truth: parse truth to notify Device.StartTimer to stop whenever truthtime is off
+         * RETURN Nothing
+         */
         public DetailsPage(User user, logged truth)
         {
             InitializeComponent();
             this.Currentuser = user;
             this.truthtime = truth;
             Name.Text = Currentuser.Username;
-            Character.Text = Currentuser.Character;
-            //Currentuser.Checktimer(this);
+            Character.Text = Currentuser.Character;// Initialize all components
         }
 
+        /*
+         * Simple button even to open another page for selecting a date and time for a new task
+         * PARAM 
+         * sender: reference to the control object
+         * eventargs: object data
+         * RETURNS Nothing
+         */
         public async void Add_Time(object sender, EventArgs e)
         {
-            await this.Navigation.PushModalAsync(new DatePicker(this));
+            await this.Navigation.PushModalAsync(new DatePicker(this));// open DatePicker
         }
 
+        /*
+         * A method that is called whenever this page appears and 
+         * systematically scans through each singleline of the timer file within the user class 
+         * and checks whenever timer information has been found. Where the timer information and 
+         * its corresponding name is taken and parsed through the Timer method to display each 
+         * current operating timers still active according to the timer file
+         * 
+         * PARAM void
+         * RETURN Nothing
+         */
         protected override void OnAppearing()
         {
-            if (truth)
+            if (truth)// if this is the first time opening the content page
             {
                 using (var sr = new StreamReader(Currentuser.timer))
                 {
@@ -45,70 +69,84 @@ namespace DungeonTasker.Views
                     {
                         split = line.Split(',');
                         DateTime nice = Convert.ToDateTime(split[1]);
-                        TimeSpan Rem = nice - DateTime.Now;
-                        Timer(split[0], nice, Rem);
+                        TimeSpan Rem = nice - DateTime.Now;// store information into variables
+                        Timer(split[0], nice, Rem);//call Timer and parse variables
                     }
                 }
-                truth = false;
+                truth = false;// declare false so timers wont be added again
             }
 
 
         }
+
+        /*
+         * This method is responsible for creating timers based on DateTime and TimeSpan 
+         * information which is parse from the DatePicker page
+         * 
+         * PARAM
+         * Task: A string which contains the title of the task
+         * Trg: The end date of the task 
+         * Rem: The leftover time remaining
+         * 
+         * RETURNS Nothing
+         */
         public void Timer(string Task, DateTime Trg, TimeSpan Rem)
         {
             var timerlads = new StackLayout();
             timerlads.Orientation = StackOrientation.Horizontal;
             timerlads.BackgroundColor = Color.White;
-            timerlads.Margin = new Thickness(3, 1, 3, 1);
+            timerlads.Margin = new Thickness(3, 1, 3, 1);//Initialize Stacklayout and its properties
 
             var cool = new Label { Text = Task };
             var cool2 = new Label();
-            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, Task);
+            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, Task);//Initialize labels and TimerUpdatecs object
 
             time.R = time.T - DateTime.Now;
 
             if (DateTime.Now >= time.T)
-            {
+            {//if the current time is overdue then time remainging is 00:00:00
                 time.R = DateTime.Now - DateTime.Now;
             }
 
             cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
             time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
-            ListTimer.Add(time);
-            Currentuser.UpdateCurrenttimes(ListTimer);
 
-            if (DateTime.Now < Trg)
+            ListTimer.Add(time);// add the TimerUpdatecs time variable to the ListTimer list
+            Currentuser.UpdateCurrenttimes(ListTimer);// Update the current times on the file
+
+            if (DateTime.Now < Trg)// Check whenever the current date is still under the end date of the task.
             {
 
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-                {
-                    time.R = time.T - DateTime.Now;
+                {// Start timer to be run by a background thread
+                    time.R = time.T - DateTime.Now;//update remaining time
                     cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
                     time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
-                    if (truthtime.nice == false)
+                    if (truthtime.nice == false)// check whenever the truthtime boolean encapsulation class is false
                     {
                         return false;
                     }
 
-                    if (DateTime.Now >= Trg)
+                    if (DateTime.Now >= Trg)// if the timer is equal to the end date or over
                     {
                         DisplayRedeem(timerlads, time);
-                        return false;
+                        return false;// 
                     }
 
-                    return true;
+                    return true;// return true to continue thread and timer operation
                 });
+
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
-                timers.Children.Add(timerlads);
+                timers.Children.Add(timerlads);// add all controls to stack layouts
             }
 
-            else
+            else// if over due display redeem button
             {
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
-                timers.Children.Add(timerlads);
+                timers.Children.Add(timerlads);// add all controls to stack layouts
                 DisplayRedeem(timerlads, time);
             }
 
@@ -116,6 +154,15 @@ namespace DungeonTasker.Views
         
 
         
+        /*
+         * This method is responsible for displaying the redeem button and updating the 
+         * current timer file with new timer information and removing the current element from the ListTimer
+         * 
+         * PARAM
+         * timerlads: the stacklayout that is to be updated with the redeem button
+         * times: the current TimerUpdatecs to be removed from the ListTimer list 
+         * RETURNS Nothing
+         */
 
         public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times)
         {

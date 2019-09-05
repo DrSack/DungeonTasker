@@ -13,16 +13,12 @@ namespace DungeonTasker.Models
 {
     public class User
     {
-        public string Username { get; set; }
+        public string Username { get; set; } 
         public string Password { private get; set; }
         public string Character { get; set; }
         public string Logged { get; set; }
         public string file {get; set;}
-        public string timer { get; set; }
-        public User()
-        {
-            
-        }
+        public string timer { get; set; }// Intialize all variables
 
         /*
          * The User constructor 
@@ -42,26 +38,32 @@ namespace DungeonTasker.Models
             this.file = file;
             this.timer = timer;
         }
+        /*
+         * Update the current operating timers on to the timer file 
+         * 
+         * PARAM timer a list that uses the TimerUpdatecs object class
+         * RETURNS Nothing
+         */
 
         public void UpdateCurrenttimes(List<TimerUpdatecs> timer)
         {
-            string tempFile = Path.GetTempFileName();
+            string tempFile = Path.GetTempFileName();//create a temporary file
 
-            using (var sw = new StreamWriter(tempFile))
+            using (var sw = new StreamWriter(tempFile))//open streamwriter
             {
-                foreach(TimerUpdatecs timeboi in timer)
+                foreach(TimerUpdatecs timeboi in timer)// for each timer within the timer list
                 {
-                    sw.WriteLine(string.Format("{0},{1}",timeboi.type, timeboi.T.ToString()));
+                    sw.WriteLine(string.Format("{0},{1}",timeboi.type, timeboi.T.ToString()));// write onto the temporary file the name and time information 
                 }
             }
-            File.Delete(this.timer);
-            File.Move(tempFile, this.timer);
+            File.Delete(this.timer);//Delete the current timer file
+            File.Move(tempFile, this.timer);//Replace the timer with the temporary file with the updated information
         }
 
         /*
          *This method is responsible for rewriting all variables back into a file.
          *@para NONE
-         * @returns Is Void
+         * @returns Nothing
          */
         public void Rewrite(string truth)
         {

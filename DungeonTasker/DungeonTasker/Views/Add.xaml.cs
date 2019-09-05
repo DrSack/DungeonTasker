@@ -14,19 +14,26 @@ namespace DungeonTasker
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Add : MasterDetailPage
 	{
-        User nice;// Store the user information
-        logged truth = new logged();// Used for telling threads of the application to stop running whenever this is false
+        User nice;//Initialize and store information of corresponding variables
         InventoryItems Inv;
 
-        //Initialize all components and classes for traversing through both details page and masterpage
+        logged truth = new logged();// Used for telling threads of the application to stop running whenever this is false
+      
+        /*
+         * Initialize all components and classes for traversing through both details page and masterpage
+         * PARAM 
+         * user: the user data
+         * items: the items data
+         * RETURNS Nothing
+         */
         public Add(User user, InventoryItems items)
 		{
             this.nice = user;
             this.Inv = items;
             InitializeComponent();
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            this.Detail = new NavigationPage(new DetailsPage(user, truth));
-            this.Master = new MasterPage(Detail, user, items, truth);
+            this.Detail = new NavigationPage(new DetailsPage(user, truth));// Set Detailspage arguments with user information and truth value.
+            this.Master = new MasterPage(Detail, user, items, truth);// set the masterpage information with user, items, and truth valus.
         }
     }
 }

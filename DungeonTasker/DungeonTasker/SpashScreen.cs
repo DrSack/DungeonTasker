@@ -13,11 +13,19 @@ namespace DungeonTasker
 {
     class SpashScreen : ContentPage
     {
+        /*
+         * This is the Contructor, which calls the splash screen
+         * 
+         */
+
         public SpashScreen()
         {
             createSplash("Welcome");
         }
-
+        /*
+         * Call this whenever the screen appears
+         * This fades in and out hen changes the mainpage to the GreetPage for smoother design.
+         */
         protected override async void OnAppearing()
         {
 
@@ -27,6 +35,13 @@ namespace DungeonTasker
             Application.Current.MainPage = new NavigationPage(new GreetPage());
 
         }
+
+        /*
+         * Creates a splashscreen to display text in the middle of the screen 
+         * PARAM
+         * text: the splashscreen name
+         * RETURNS Nothing
+         */
 
         public void createSplash(string text)
         {

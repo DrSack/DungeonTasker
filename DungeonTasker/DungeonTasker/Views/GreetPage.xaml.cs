@@ -16,12 +16,23 @@ namespace DungeonTasker
     public partial class GreetPage : ContentPage
     {
         bool begin = true;
+        
+        /*
+         * Contructor for GreetPage, Initialize all controls. 
+         * 
+         */
+
         public GreetPage()
         {
             InitializeComponent();
             RegisterBtn();
         }
 
+        /*
+         * Whenever the register text is tapped open the register page 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
 
         public void RegisterBtn()
         {
@@ -32,6 +43,12 @@ namespace DungeonTasker
             };
             Register.GestureRecognizers.Add(RegisterClicked);
         }
+
+        /*
+         * The login algorithm that decides whenver the user trying to login is genuine
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
 
         public async void Login()
         {
@@ -47,9 +64,9 @@ namespace DungeonTasker
                     using (StreamReader sr = new StreamReader(file)) { nice2 = sr.ReadToEnd(); }
                     line = nice2.Split(',');
 
-                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }
+                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }// obtain username and password information
 
-                    if (EntryMrk.Text == line[0] && EntryMrk2.Text == line[1])
+                    if (EntryMrk.Text == line[0] && EntryMrk2.Text == line[1])// checks if entrytext is the same as file information
                     {
                         hit = true;
                         var Timers = Path.Combine(documents, line[0] + "Timer.dt");
@@ -57,28 +74,36 @@ namespace DungeonTasker
                         ExtraPopups.LoginWrite(this, file, Timers, Items ,line);
 
                     }
-                    else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])
+                    else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])// if the password is incorrect
                     {
                         hit = true;
                         throw new Exception("Incorrect Password");
                     }
                 }
-                if(!User.checkinfo(EntryMrk.Text, EntryMrk2.Text))
+                if(!User.checkinfo(EntryMrk.Text, EntryMrk2.Text))// if both entry's are empty
                 {
                     throw new Exception("Please enter both username and password");
                 }
-                else if (!hit)
+                else if (!hit)// if entrytext found no accounts corresponding to that username.
                 {
                     throw new Exception("Account not found");
                 }
             }
-            catch (Exception es)
+            catch (Exception es)//catch exception
             {
                 if (es != null) { await DisplayAlert("Error", es.Message, "Close"); }
                 else { await DisplayAlert("Error", "Account not found", "Close"); }
             }
         }
 
+        /*
+         * Check to see if there are anyfiles that exist within the device
+         * PARAM
+         * files: the file directory
+         * RETURNS 
+         * true: whenever a files exist
+         * false: whenever it doesn't
+         */
         public bool CheckAccounts(string[] files)
         {
             try
@@ -105,7 +130,11 @@ namespace DungeonTasker
          * Check all files within local folder and see if a login file is still logged in.
          * If the login file is still logged:true then proceed to bypass login screen and go into
          * app.
-         **/
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
+
         protected override void OnAppearing()
         {
             string[] line;
@@ -140,7 +169,14 @@ namespace DungeonTasker
             
         }
 
-
+        /*
+         * Whenever the login button is pressed this calls the Login() method
+         * 
+         * PARAM
+         * sender: reference to the control object
+         * eventargs: object data
+         * RETURNS Nothing
+         */
         private void LoginBtn(object sender, EventArgs e)
         {
             Login();
