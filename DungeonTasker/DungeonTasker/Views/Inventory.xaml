@@ -4,8 +4,6 @@
              x:Class="DungeonTasker.Views.Inventory">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                HorizontalOptions="Center" />
             <ScrollView HeightRequest="200">
                 <StackLayout x:Name="ItemsList">
                     

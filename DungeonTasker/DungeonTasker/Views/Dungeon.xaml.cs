@@ -28,6 +28,12 @@ namespace DungeonTasker.Views
             InitializeComponent();
             selectBoss();
         }
+        /*
+         * Obtains how keys there are within the Invfile and display it on the KetsLeft label text
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
 
         public void selectKey()
         {
@@ -35,6 +41,13 @@ namespace DungeonTasker.Views
             keys = keys.Replace(",", "");
             KeysLeft.Text = keys;
         }
+
+        /*
+         * Randomly selects the features of what the boss character will look like
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
 
         private void selectBoss()
         {

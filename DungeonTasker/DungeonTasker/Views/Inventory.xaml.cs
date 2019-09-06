@@ -54,6 +54,8 @@ namespace DungeonTasker.Views
             {//Runs through each array within the List
                 var ItemTitle = new Label();
                 ItemTitle.Text = Types[0];
+                ItemTitle.FontSize = 30;
+                ItemTitle.FontAttributes = FontAttributes.Bold;
                 ItemTitle.HorizontalTextAlignment = TextAlignment.Center;
                 Types.RemoveAt(0);
                 ItemsList.Children.Add(ItemTitle);//add type of item to stacklayout
