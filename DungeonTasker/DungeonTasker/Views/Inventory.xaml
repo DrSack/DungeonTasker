@@ -4,11 +4,11 @@
              x:Class="DungeonTasker.Views.Inventory">
     <ContentPage.Content>
         <StackLayout>
-            <ScrollView HeightRequest="200">
+            
                 <StackLayout x:Name="ItemsList">
                     
                 </StackLayout>
-            </ScrollView>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

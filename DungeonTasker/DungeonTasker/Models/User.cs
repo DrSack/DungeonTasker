@@ -135,8 +135,8 @@ namespace DungeonTasker.Models
                 {
                     //Write onto file and save onto device
                     File.WriteAllText(filename, line);
-                    File.WriteAllText(Items, "Weapons:IronDagger,\nKeys:0,");
-                    File.WriteAllText(Stats, "Add later");
+                    File.WriteAllText(Items, "Weapons:IronDagger,\nKeys:0,\nEquipped:IronDagger");
+                    File.WriteAllText(Stats, "HEALTH:100");
                     File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.
                     await ExtraPopups.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
