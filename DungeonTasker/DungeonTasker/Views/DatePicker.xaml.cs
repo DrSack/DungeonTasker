@@ -12,7 +12,7 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DatePicker : ContentPage
     {
-        DetailsPage page;//Initialize variables
+        Tasks page;//Initialize variables
 
         /*
          * Contructor for DatePicker, initialize all components
@@ -20,7 +20,7 @@ namespace DungeonTasker.Views
          * page: obtain and store variable page to be used within the class
          * RETURN Nothing
          */
-        public DatePicker(DetailsPage page)
+        public DatePicker(Tasks page)
         {
             //Initialize the componenets and add the content page.
             this.page = page;

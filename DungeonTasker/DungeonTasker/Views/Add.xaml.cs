@@ -32,7 +32,7 @@ namespace DungeonTasker
             this.Inv = items;
             InitializeComponent();
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            this.Detail = new NavigationPage(new DetailsPage(user, truth));// Set Detailspage arguments with user information and truth value.
+            this.Detail = new NavigationPage(new Tasks(user, items, truth));// Set Detailspage arguments with user information and truth value.
             this.Master = new MasterPage(Detail, user, items, truth);// set the masterpage information with user, items, and truth valus.
         }
     }

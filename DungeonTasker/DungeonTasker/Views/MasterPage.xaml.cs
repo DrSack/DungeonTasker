@@ -18,6 +18,7 @@ namespace DungeonTasker.Views
         Page page;
         User user;
         InventoryItems items;
+        Dungeon dungeon;
         logged truth;
 
         /*
@@ -39,6 +40,7 @@ namespace DungeonTasker.Views
             this.user = user;
             this.items = items;
             this.truth = truth;
+            dungeon = new Dungeon(this.user, this.items);
 		}
         /*
          * If user decides to logout set the word "logged:true" to false such that the user isnt logged 
@@ -51,7 +53,7 @@ namespace DungeonTasker.Views
         private void Exit_Clicked(object sender, EventArgs e)
         {
             user.Logged = "false";
-            user.Rewrite("false");
+            User.Rewrite("Logged:", "false", user.file);
             truth.nice = false;
             if (User.CheckForstring(user.file, "Logged:") == "false" )
             {
@@ -92,6 +94,24 @@ namespace DungeonTasker.Views
             ((MasterDetailPage)Parent).IsPresented = false;
 
         }
+
+        /*
+         * If this is selected change the detailspage to the Dungeonpage
+         * 
+         * PARAM 
+         * sender: reference to the control object
+         * eventargs: object data
+         * RETURNS Nothing
+         */
+
+        private void Dungeon_Clicked(object sender, EventArgs e)
+        {
+            dungeon.selectKey();
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(dungeon);
+            ((MasterDetailPage)Parent).IsPresented = false;
+
+        }
+
 
         /*
          * If this is selected change the detailspage to the settings

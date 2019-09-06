@@ -12,10 +12,11 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailsPage : ContentPage
+    public partial class Tasks : ContentPage
     {
         List<TimerUpdatecs> ListTimer = new List<TimerUpdatecs>();
         User Currentuser;
+        InventoryItems items;
         logged truthtime;
         bool truth = true;//Initialize all variables
 
@@ -26,11 +27,12 @@ namespace DungeonTasker.Views
          * truth: parse truth to notify Device.StartTimer to stop whenever truthtime is off
          * RETURN Nothing
          */
-        public DetailsPage(User user, logged truth)
+        public Tasks(User user,InventoryItems items , logged truth)
         {
             InitializeComponent();
             this.Currentuser = user;
             this.truthtime = truth;
+            this.items = items;
             Name.Text = Currentuser.Username;
             Character.Text = Currentuser.Character;// Initialize all components
         }
@@ -178,6 +180,7 @@ namespace DungeonTasker.Views
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
+                items.GiveKey(1);
             };
             timerlads.Children.Add(redeembtn);
             timers.Children.Add(timerlads);

@@ -65,7 +65,7 @@ namespace DungeonTasker.Models
          *@para NONE
          * @returns Nothing
          */
-        public void Rewrite(string truth)
+        public static void Rewrite(string command,string truth, string file)
         {
             string tempFile = Path.GetTempFileName();
 
@@ -76,13 +76,13 @@ namespace DungeonTasker.Models
 
                 while (!string.IsNullOrEmpty(line = sr.ReadLine()))
                 {
-                    if (line.Contains("Logged")) { sw.WriteLine("Logged:" + truth); }
+                    if (line.Contains(command)) { sw.WriteLine(command + truth); }
                     else { sw.WriteLine(line); }
                 }
             }
+
             File.Delete(file);
             File.Move(tempFile, file);
-
         }
 
         /*

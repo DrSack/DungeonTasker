@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace DungeonTasker.Models
@@ -19,6 +20,21 @@ namespace DungeonTasker.Models
         public InventoryItems(string file)
         {
             this.Invfile = file;
+        }
+
+        /*
+         * Add keys to the Inventoryfile
+         * PARAM
+         * key: the number of keys to be added.
+         * RETURNS Nothing
+         */
+        public void GiveKey(int key)
+        {
+            string keys = User.CheckForstring(Invfile, "Keys:");
+            keys = keys.Replace(",", "");
+            int realkey = Int32.Parse(keys);
+            realkey += key;
+            User.Rewrite("Keys:", realkey.ToString(), Invfile);
         }
 
     }
