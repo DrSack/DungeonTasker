@@ -40,7 +40,7 @@ namespace DungeonTasker.Models
                 {
                     totaldmg += 2;
                     if (weapon.Contains("Dagger")){totaldmg += 1;CurrentDmg = totaldmg;EquippedWeapon = weapon;User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
-                    if (weapon.Contains("Bow")) { totaldmg += 2; CurrentDmg = totaldmg; EquippedWeapon = weapon; User.Rewrite("Equipped:", EquippedWeapon, items.Invfile); }
+                    if (weapon.Contains("Bow")) { totaldmg += 2; CurrentDmg = totaldmg; EquippedWeapon = weapon; User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
                 }
             }
             catch(Exception e)

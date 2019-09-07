@@ -21,10 +21,12 @@ namespace DungeonTasker.Views
         private string CurrentName { get; set; }
         User user;
         InventoryItems items;
-        public Dungeon(User user, InventoryItems items)
+        WeaponInfo weapon;
+        public Dungeon(User user, InventoryItems items, WeaponInfo weapon)
         {
             this.user = user;
             this.items = items;
+            this.weapon = weapon;
             InitializeComponent();
             selectBoss();
         }
@@ -82,6 +84,24 @@ namespace DungeonTasker.Views
 
                 CurrentBoss = Boss;
                 CurrentName = Name;
+            }
+        }
+
+        private async void BattleBtn(object sender, EventArgs e)
+        {
+            int realKeys;
+            string keys = User.CheckForstring(items.Invfile, "Keys:");
+            keys = keys.Replace(",", "");
+            realKeys = Int32.Parse(keys);
+            if(realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
+            {
+                await this.Navigation.PushModalAsync(new Game(this));
+                items.GiveKey(-1);
+                selectKey();
+            }
+            else
+            {
+                await DisplayAlert("Error", "Not enough keys to battle", "cancel");
             }
         }
     }

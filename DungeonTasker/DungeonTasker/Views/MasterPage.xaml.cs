@@ -43,7 +43,7 @@ namespace DungeonTasker.Views
             this.truth = truth;
             this.weapon = weapon;
             weapon.SetWeapon(this, User.CheckForstring(items.Invfile, "Equipped:"));
-            dungeon = new Dungeon(this.user, this.items);
+            dungeon = new Dungeon(this.user, this.items, this.weapon);
 		}
         /*
          * If user decides to logout set the word "logged:true" to false such that the user isnt logged 

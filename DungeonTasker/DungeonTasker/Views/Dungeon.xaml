@@ -46,7 +46,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Button Text="BATTLE" TextColor="Red" x:Name="BattleBtn"/>
+                <Button Text="BATTLE" TextColor="Red" Clicked="BattleBtn"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
