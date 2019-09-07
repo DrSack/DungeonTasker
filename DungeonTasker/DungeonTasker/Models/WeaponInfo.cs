@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DungeonTasker.Views;
+using Xamarin.Forms;
 
 namespace DungeonTasker.Models
 {
-    class WeaponInfo
+    public class WeaponInfo
     {
         int CurrentDmg { get; set; }
         string EquippedWeapon { get; set; }
         InventoryItems items;
 
-        WeaponInfo(InventoryItems items)
+        public WeaponInfo(InventoryItems items)
         {
             this.items = items;
         }
@@ -21,29 +23,31 @@ namespace DungeonTasker.Models
             if (weapon.Contains("Iron"))
             {
                 totaldmg += 2;
-                if (weapon.Contains("Dagger"))
-                {
-                    totaldmg += 1;
-                    return totaldmg;
-                }
+                if (weapon.Contains("Dagger")) { totaldmg += 1;return totaldmg;}
+                if (weapon.Contains("Bow")) { totaldmg += 2; return totaldmg; }
             }
             return 0;
         }
 
-        public void SetWeapon()
+        public void SetWeapon(ContentPage page, string weapon)
         {
             int totaldmg = 0;
-            EquippedWeapon = User.CheckForstring(items.Invfile, "Equipped:");
-
-            if (EquippedWeapon.Contains("Iron"))
+            try
             {
-                totaldmg += 2;
-                if (EquippedWeapon.Contains("Dagger"))
+                if (EquippedWeapon == weapon) { throw new Exception("Already equipped"); }
+
+                if (weapon.Contains("Iron"))
                 {
-                    totaldmg += 1;
-                    CurrentDmg = totaldmg;
+                    totaldmg += 2;
+                    if (weapon.Contains("Dagger")){totaldmg += 1;CurrentDmg = totaldmg;EquippedWeapon = weapon;User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
+                    if (weapon.Contains("Bow")) { totaldmg += 2; CurrentDmg = totaldmg; EquippedWeapon = weapon; User.Rewrite("Equipped:", EquippedWeapon, items.Invfile); }
                 }
             }
+            catch(Exception e)
+            {
+                page.DisplayAlert("Error", e.Message, "Close");
+            }
+            
         }
     }
 }

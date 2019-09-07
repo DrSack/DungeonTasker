@@ -19,6 +19,7 @@ namespace DungeonTasker.Views
         User user;
         InventoryItems items;
         Dungeon dungeon;
+        WeaponInfo weapon;
         logged truth;
 
         /*
@@ -33,13 +34,15 @@ namespace DungeonTasker.Views
          * RETURNS Nothing
          */
 
-        public MasterPage (Page page, User user, InventoryItems items, logged truth)
+        public MasterPage (Page page, User user, InventoryItems items, WeaponInfo weapon, logged truth)
 		{
 			InitializeComponent ();
             this.page = page;
             this.user = user;
             this.items = items;
             this.truth = truth;
+            this.weapon = weapon;
+            weapon.SetWeapon(this, User.CheckForstring(items.Invfile, "Equipped:"));
             dungeon = new Dungeon(this.user, this.items);
 		}
         /*
@@ -90,7 +93,7 @@ namespace DungeonTasker.Views
         private void Store_Clicked(object sender, EventArgs e)
         {
             
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items));
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, weapon));
             ((MasterDetailPage)Parent).IsPresented = false;
 
         }
@@ -124,7 +127,7 @@ namespace DungeonTasker.Views
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items));
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, weapon));
             ((MasterDetailPage)Parent).IsPresented = false;
         }
     }

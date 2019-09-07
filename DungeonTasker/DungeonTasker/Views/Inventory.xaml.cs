@@ -15,14 +15,16 @@ namespace DungeonTasker.Views
 	public partial class Inventory : ContentPage
 	{
         InventoryItems items;// Store items information
+        WeaponInfo weapon;
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
          * RETURNS Nothing
          */
-		public Inventory(InventoryItems items)
+		public Inventory(InventoryItems items, WeaponInfo weapon)
 		{
             this.items = items;
+            this.weapon = weapon;
             InitializeComponent ();
             displayitems();
 
@@ -88,6 +90,13 @@ namespace DungeonTasker.Views
                         Label2.HorizontalTextAlignment = TextAlignment.Center;
                         Label2.VerticalTextAlignment = TextAlignment.Center;
                         button.Text = "equip";
+
+                        button.Clicked += (s, a) =>
+                        {
+                            weapon.SetWeapon(this, item);
+                            ItemsList.Children.Clear();
+                            displayitems();
+                        };
 
                         LayoutItem.Children.Add(Label);
                         LayoutItem.Children.Add(Label2);

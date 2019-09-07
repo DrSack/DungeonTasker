@@ -91,7 +91,8 @@ namespace DungeonTasker
             }
             catch (Exception es)//catch exception
             {
-                if (es != null) { await DisplayAlert("Error", es.Message, "Close"); }
+                if (es.GetType().FullName == "System.IndexOutOfRangeException") { await DisplayAlert("Error", "Please enter both username and password", "Close"); }
+                else if (es != null) { await DisplayAlert("Error", es.Message, "Close"); }
                 else { await DisplayAlert("Error", "Account not found", "Close"); }
             }
         }
