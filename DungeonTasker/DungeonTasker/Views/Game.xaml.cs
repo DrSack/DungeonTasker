@@ -47,18 +47,30 @@ namespace DungeonTasker.Views
             BossHeatlh.Text = boss.Health.ToString();
         }
 
-        private void InitializeBattleSequqnce()
+        protected override void OnAppearing()
         {
+            InitializeBattleSequqnce();
+        }
+
+            private async void InitializeBattleSequqnce()
+        {
+            var label = new Label();
+            label.Opacity = 0;
+            label.HorizontalTextAlignment = TextAlignment.Center;
+            label.VerticalTextAlignment = TextAlignment.Center;
             Random rand = new Random();
             if (rand.Next(0, 2) == 0)
             {
-                var label = new Label();
+                label.Text = "BOSS HAS INITIATION";
             }
             else
             {
-
+                label.Text = "PLAYER HAS INITIATION";
             }
-                
+            Announce.Children.Add(label);
+            await label.FadeTo(1, 1000, Easing.Linear);
+            await label.FadeTo(0, 1000, Easing.Linear);
+            Announce.Children.Clear();
         }
     }
 }

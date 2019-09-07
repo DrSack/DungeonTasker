@@ -12,8 +12,8 @@
                 <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossName"/>
                 <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossHeatlh"/>
             </StackLayout>
-            <StackLayout VerticalOptions="StartAndExpand" x:Name="Announce">
-                
+            <StackLayout VerticalOptions="StartAndExpand" x:Name="Announce" BackgroundColor="LightBlue">
+
             </StackLayout>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
                 <StackLayout Orientation="Vertical" Margin="10,0,0,0">
