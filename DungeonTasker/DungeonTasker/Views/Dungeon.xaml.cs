@@ -48,6 +48,13 @@ namespace DungeonTasker.Views
             KeysLeft.Text = keys;
         }
 
+        public void clearBoss()
+        {
+            CurrentBoss = null;
+            CurrentName = null;
+            selectBoss();
+        }
+
         /*
          * Randomly selects the features of what the boss character will look like
          * 

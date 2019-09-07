@@ -10,9 +10,9 @@
             <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
                 <Label Text="Boss" HorizontalTextAlignment="End" x:Name="Boss" FontSize="Large" FontAttributes="Bold"/>
                 <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossName"/>
-                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossHeatlh"/>
+                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossHealth"/>
             </StackLayout>
-            <StackLayout VerticalOptions="StartAndExpand" x:Name="Announce" BackgroundColor="LightBlue">
+            <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce">
 
             </StackLayout>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
@@ -24,7 +24,7 @@
                 <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="Black" Padding="2,2,2,2">
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
                         <StackLayout>
-                            <Button Text="Attack"/>
+                            <Button Text="Attack" Clicked="AttackBtn"/>
                             <Button Text=""/>
                         </StackLayout>
                         <StackLayout>

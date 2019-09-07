@@ -13,9 +13,14 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Game : ContentPage
     {
-        Dungeon dungeon;
+        private bool battlesequence { get; set; }
+        private bool game { get; set; }
+        private bool attack { get; set; }
+        private bool WON { get; set; }
 
+        Dungeon dungeon;
         Stats boss;
+        
         public Game(Dungeon dungeon)
         {
             this.dungeon = dungeon;
@@ -44,33 +49,110 @@ namespace DungeonTasker.Views
 
             Boss.Text = dungeon.CurrentBoss;
             BossName.Text = dungeon.CurrentName;
-            BossHeatlh.Text = boss.Health.ToString();
+            BossHealth.Text = boss.Health.ToString();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
-            InitializeBattleSequqnce();
+            await InitializeBattleSequqnce();
+            await BossAttack();
         }
 
-            private async void InitializeBattleSequqnce()
+            private async Task InitializeBattleSequqnce()
         {
             var label = new Label();
             label.Opacity = 0;
             label.HorizontalTextAlignment = TextAlignment.Center;
             label.VerticalTextAlignment = TextAlignment.Center;
+            label.FontSize = 50;
+            label.FontAttributes = FontAttributes.Bold;
+
             Random rand = new Random();
             if (rand.Next(0, 2) == 0)
             {
                 label.Text = "BOSS HAS INITIATION";
+                battlesequence = false;
             }
             else
             {
                 label.Text = "PLAYER HAS INITIATION";
+                battlesequence = true;
             }
+
+            game = true;
             Announce.Children.Add(label);
             await label.FadeTo(1, 1000, Easing.Linear);
             await label.FadeTo(0, 1000, Easing.Linear);
-            Announce.Children.Clear();
+            Announce.Children.Remove(label);
+        }
+
+        private async Task Announcer(string message)
+        {
+            var label = new Label();
+            label.Opacity = 0;
+            label.HorizontalTextAlignment = TextAlignment.Center;
+            label.VerticalTextAlignment = TextAlignment.Center;
+            label.FontSize = 50;
+            label.FontAttributes = FontAttributes.Bold;
+            label.Text = message;
+            Announce.Children.Add(label);
+            await label.FadeTo(1, 500, Easing.Linear);
+            await label.FadeTo(0, 500, Easing.Linear);
+            Announce.Children.Remove(label);
+        }
+
+        private async void checkHP()
+        {
+            if (WON)
+            {
+                await DisplayAlert("Congrats", "YOU WIN", "close");
+                dungeon.stats.Health = 100;
+                boss.Health = 100;
+            }
+            else
+            {
+                await DisplayAlert("Congrats", "YOU LOSE", "close");
+                dungeon.stats.Health = 100;
+                boss.Health = 100;
+            }
+            dungeon.clearBoss();
+            await this.Navigation.PopModalAsync();
+        }
+
+        private async Task BossAttack()
+        {
+            if (!battlesequence)
+            {
+                Random rand = new Random();
+                int damage = rand.Next(5, 25);
+                await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()));
+                dungeon.stats.Health -= damage;
+                InitializeStats();
+                CharacterHealth.RelRotateTo(360, 500);
+                await CharacterHealth.ScaleTo(5, 300);
+                await CharacterHealth.ScaleTo(1, 300);
+
+                if (dungeon.stats.Health <= 0) { WON = false; game = false; checkHP(); }
+                await Announcer("PLAYER TURN");
+                battlesequence = true;
+            }
+            
+        }
+
+        private async void AttackBtn(object sender, EventArgs e)
+        {
+            if (battlesequence)
+            {
+                battlesequence = false;
+                await Announcer("Player Dealt 3 Damage");
+                boss.Health -= dungeon.weapon.CurrentDmg;
+                
+                InitializeStats();
+
+                if (boss.Health <= 0) { WON = true; game = false; checkHP(); }
+                await Announcer("BOSS TURN");
+                await BossAttack();
+            }
         }
     }
 }

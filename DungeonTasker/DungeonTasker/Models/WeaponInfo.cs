@@ -8,8 +8,8 @@ namespace DungeonTasker.Models
 {
     public class WeaponInfo
     {
-        int CurrentDmg { get; set; }
-        string EquippedWeapon { get; set; }
+        public int CurrentDmg { get; set; }
+        public string EquippedWeapon { get; set; }
         InventoryItems items;
 
         public WeaponInfo(InventoryItems items)
