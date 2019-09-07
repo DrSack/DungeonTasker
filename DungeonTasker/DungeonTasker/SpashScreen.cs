@@ -15,25 +15,22 @@ namespace DungeonTasker
     {
         /*
          * This is the Contructor, which calls the splash screen
-         * 
          */
-
         public SpashScreen()
         {
-            createSplash("Welcome");
+            createSplash("Dungeon Tasker");
         }
+
         /*
          * Call this whenever the screen appears
          * This fades in and out hen changes the mainpage to the GreetPage for smoother design.
          */
         protected override async void OnAppearing()
         {
-
             base.OnAppearing();
             await this.FadeTo(1, 1500);
             await this.FadeTo(0, 1500);
             Application.Current.MainPage = new NavigationPage(new GreetPage());
-
         }
 
         /*
@@ -42,23 +39,22 @@ namespace DungeonTasker
          * text: the splashscreen name
          * RETURNS Nothing
          */
-
         public void createSplash(string text)
         {
             NavigationPage.SetHasNavigationBar(this, false);
-            this.BackgroundColor = Color.Black;
+            this.BackgroundColor = Color.FromHex("#212121");
             var layout = new StackLayout
             {
-                BackgroundColor = Color.Black,
+                BackgroundColor = Color.FromHex("#212121"),
                 VerticalOptions = LayoutOptions.Center
-
             };
 
             var label = new Label
             {
                 Text = text,
-                TextColor = Color.White,
-                FontSize = 30,
+                TextColor = Color.FromHex("#00ff00"),
+                FontSize = 50,
+                FontFamily = Device.RuntimePlatform == Device.Android ? "norwester.otf#Norwester-Regular" : null,
                 HorizontalOptions = LayoutOptions.Center
             };
 
