@@ -17,6 +17,7 @@ namespace DungeonTasker
         User nice;//Initialize and store information of corresponding variables
         InventoryItems Inv;
         WeaponInfo weapon;
+        Stats stats;
         logged truth = new logged();// Used for telling threads of the application to stop running whenever this is false
       
         /*
@@ -26,15 +27,16 @@ namespace DungeonTasker
          * items: the items data
          * RETURNS Nothing
          */
-        public Add(User user, InventoryItems items)
+        public Add(User user, InventoryItems items, Stats stats)
 		{
             this.nice = user;
             this.Inv = items;
             this.weapon = new WeaponInfo(Inv);
+            this.stats = stats;
             InitializeComponent();
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             this.Detail = new NavigationPage(new Tasks(user, items, truth));// Set Detailspage arguments with user information and truth value.
-            this.Master = new MasterPage(Detail, user, items, weapon, truth);// set the masterpage information with user, items, and truth valus.
+            this.Master = new MasterPage(Detail, user, items, weapon, stats, truth);// set the masterpage information with user, items, and truth valus.
         }
     }
 }

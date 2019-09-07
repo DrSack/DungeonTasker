@@ -20,6 +20,7 @@ namespace DungeonTasker.Views
         InventoryItems items;
         Dungeon dungeon;
         WeaponInfo weapon;
+        Stats stats;
         logged truth;
 
         /*
@@ -34,7 +35,7 @@ namespace DungeonTasker.Views
          * RETURNS Nothing
          */
 
-        public MasterPage (Page page, User user, InventoryItems items, WeaponInfo weapon, logged truth)
+        public MasterPage (Page page, User user, InventoryItems items, WeaponInfo weapon, Stats stats,  logged truth)
 		{
 			InitializeComponent ();
             this.page = page;
@@ -42,8 +43,9 @@ namespace DungeonTasker.Views
             this.items = items;
             this.truth = truth;
             this.weapon = weapon;
+            this.stats = stats;
             weapon.SetWeapon(this, User.CheckForstring(items.Invfile, "Equipped:"));
-            dungeon = new Dungeon(this.user, this.items, this.weapon);
+            dungeon = new Dungeon(this.user, this.items, this.weapon, this.stats);
 		}
         /*
          * If user decides to logout set the word "logged:true" to false such that the user isnt logged 

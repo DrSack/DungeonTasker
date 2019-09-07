@@ -123,9 +123,9 @@ namespace DungeonTasker.Models
             string line = string.Format("ID:{0},{1},\nCharacter:<0-0>\nLogged:false", User, Pass);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
             var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
-            var Items = Path.Combine(documents, User+ "Inv.dt");
-            var Stats = Path.Combine(documents, User+ "Stats.dt");
-            var Timer = Path.Combine(documents, User + "Timer.dt");
+            var Items = Path.Combine(documents, User+"Inv.dt");
+            var Stats = Path.Combine(documents, User+"Stats.dt");
+            var Timer = Path.Combine(documents, User+"Timer.dt");
 
                 if (File.Exists(filename))// If the file already exists throw and exception
                 {

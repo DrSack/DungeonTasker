@@ -41,7 +41,7 @@ namespace DungeonTasker.Models
          * 
          * RETURNS Nothing
          */
-        public static async void LoginWrite(GreetPage page, string file, string times, string items , string[] line)
+        public static async void LoginWrite(GreetPage page, string file, string times, string items , string stats, string[] line)
         {
             string stringfile;
             using (StreamReader sr = new StreamReader(file)) { stringfile = sr.ReadToEnd(); }
@@ -56,11 +56,12 @@ namespace DungeonTasker.Models
 
             User user = new User(line[0], line[1], character, logged, file, times);
             InventoryItems item = new InventoryItems(items);
+            Stats stat = new Stats(stats);
 
             await page.FadeTo(1, 300);
             await page.FadeTo(0, 300);//fade in and out to transition to next screen
 
-            Application.Current.MainPage = new NavigationPage(new Add(user,item));// replace the mainpage with Add()
+            Application.Current.MainPage = new NavigationPage(new Add(user,item,stat));// replace the mainpage with Add()
         }
 
     }

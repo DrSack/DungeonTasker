@@ -71,7 +71,8 @@ namespace DungeonTasker
                         hit = true;
                         var Timers = Path.Combine(documents, line[0] + "Timer.dt");
                         var Items = Path.Combine(documents, line[0] + "Inv.dt");
-                        ExtraPopups.LoginWrite(this, file, Timers, Items ,line);
+                        var Stats = Path.Combine(documents, line[0] + "Stats.dt");
+                        ExtraPopups.LoginWrite(this, file, Timers, Items, Stats, line);
 
                     }
                     else if (EntryMrk.Text == line[0] && EntryMrk2.Text != line[1])// if the password is incorrect
@@ -156,9 +157,11 @@ namespace DungeonTasker
                 {
                     var Timer = Path.Combine(documents, line[0] + "Timer.dt");
                     var Items = Path.Combine(documents, line[0] + "Inv.dt");
+                    var Stats = Path.Combine(documents, line[0] + "Stats.dt");
                     User user = new User(line[0], line[1], character, logged, file, Timer);
                     InventoryItems items = new InventoryItems(Items);
-                    Application.Current.MainPage = new NavigationPage(new Add(user, items));
+                    Stats stat = new Stats(Stats);
+                    Application.Current.MainPage = new NavigationPage(new Add(user, items, stat));
                 }
             }
             if (begin && !CheckAccounts(files))

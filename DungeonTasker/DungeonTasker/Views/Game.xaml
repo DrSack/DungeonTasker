@@ -7,21 +7,29 @@
              x:Class="DungeonTasker.Views.Game">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout VerticalOptions="Start">
-                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="Boss"/>
+            <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
+                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="Boss" FontSize="Large" FontAttributes="Bold"/>
+                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossName"/>
+                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossHeatlh"/>
             </StackLayout>
-            <BoxView VerticalOptions="StartAndExpand"/>
+            <StackLayout VerticalOptions="StartAndExpand" x:Name="Announce">
+                
+            </StackLayout>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
-                <Label Text="Character" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character"/>
+                <StackLayout Orientation="Vertical" Margin="10,0,0,0">
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="Large" FontAttributes="Bold"/>
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName"/>
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth"/>
+                </StackLayout>
                 <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="Black" Padding="2,2,2,2">
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
                         <StackLayout>
                             <Button Text="Attack"/>
-                            <Button Text="Magic"/>
+                            <Button Text=""/>
                         </StackLayout>
                         <StackLayout>
-                            <Button Text="Block"/>
-                            <Button Text="Items"/>
+                            <Button Text=""/>
+                            <Button Text=""/>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

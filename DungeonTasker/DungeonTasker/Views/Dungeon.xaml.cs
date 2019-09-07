@@ -17,16 +17,20 @@ namespace DungeonTasker.Views
         private string[] Currentears = { "<>", "||", "!!" };
         private string Currenteyes = "0^#@.Xx";
         private string Currentnose = ".*@:!";
-        private string CurrentBoss { get; set; }
-        private string CurrentName { get; set; }
-        User user;
-        InventoryItems items;
-        WeaponInfo weapon;
-        public Dungeon(User user, InventoryItems items, WeaponInfo weapon)
+        public string CurrentBoss { get; set; }
+        public string CurrentName { get; set; }
+
+        public User user;
+        public InventoryItems items;
+        public WeaponInfo weapon;
+        public Stats stats;
+
+        public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats)
         {
             this.user = user;
             this.items = items;
             this.weapon = weapon;
+            this.stats = stats;
             InitializeComponent();
             selectBoss();
         }
@@ -96,7 +100,7 @@ namespace DungeonTasker.Views
             if(realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
             {
                 await this.Navigation.PushModalAsync(new Game(this));
-                items.GiveKey(-1);
+                items.GiveKey(0);
                 selectKey();
             }
             else
