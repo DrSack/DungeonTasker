@@ -144,7 +144,7 @@ namespace DungeonTasker.Views
             if (battlesequence)
             {
                 battlesequence = false;
-                await Announcer("Player Dealt 3 Damage");
+                await Announcer(string.Format("PLAYER Dealt {0} Damage", dungeon.weapon.CurrentDmg.ToString()));
                 boss.Health -= dungeon.weapon.CurrentDmg;
                 
                 InitializeStats();

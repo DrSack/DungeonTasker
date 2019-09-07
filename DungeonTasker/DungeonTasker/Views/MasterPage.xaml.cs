@@ -95,7 +95,7 @@ namespace DungeonTasker.Views
         private void Store_Clicked(object sender, EventArgs e)
         {
             
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, weapon));
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, this.weapon));
             ((MasterDetailPage)Parent).IsPresented = false;
 
         }
@@ -129,7 +129,7 @@ namespace DungeonTasker.Views
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, weapon));
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, this.weapon));
             ((MasterDetailPage)Parent).IsPresented = false;
         }
     }
