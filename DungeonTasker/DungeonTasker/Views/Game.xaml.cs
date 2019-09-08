@@ -58,6 +58,8 @@ namespace DungeonTasker.Views
 
         protected override async void OnAppearing()
         {
+            MoveCharBossAsync(Character, true);
+            MoveCharBossAsync(Boss, false);
             await InitializeBattleSequqnce();
             await BossAttack();
         }
@@ -130,7 +132,7 @@ namespace DungeonTasker.Views
                 int damage = rand.Next(5, 25);
                 await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()));
                 CharacterHP -= damage;
-                InitializeStats();
+                await AttackPixelBoss();
                 CharacterHealth.RelRotateTo(360, 500);
                 await CharacterHealth.ScaleTo(5, 300);
                 await CharacterHealth.ScaleTo(1, 300);
@@ -142,6 +144,48 @@ namespace DungeonTasker.Views
             
         }
 
+        private async Task AttackPixelCharacter()
+        {
+            CharacterAttacking.Opacity = 100;
+            await CharacterAttacking.TranslateTo(Application.Current.MainPage.Width-10, -Application.Current.MainPage.Height +BossStats.Height+CharacterStats.Height, 1000);
+            InitializeStats();
+            CharacterAttacking.Opacity = 0;
+            CharacterAttacking.TranslationY += Application.Current.MainPage.Height-BossStats.Height-CharacterStats.Height;
+            CharacterAttacking.TranslationX -= Application.Current.MainPage.Width+10;
+        }
+
+        private async Task AttackPixelBoss()
+        {
+            BossAttacking.Opacity = 100;
+            await BossAttacking.TranslateTo(-Application.Current.MainPage.Width + 10, Application.Current.MainPage.Height-BossStats.Height-36, 1000);
+            InitializeStats();
+            BossAttacking.Opacity = 0;
+            BossAttacking.TranslationY -= Application.Current.MainPage.Height-BossStats.Height-36;
+            BossAttacking.TranslationX += Application.Current.MainPage.Width - 10;
+        }
+
+        private async void MoveCharBossAsync(Label move,bool nice)
+        {
+            await Task.Run(async () =>
+            {
+                while (CharacterHP >= 0 || BossHP >= 0)
+                {
+                    if (nice)
+                    {
+                        await move.TranslateTo(5, 0, 500);
+                        await move.TranslateTo(-5, 0, 500);
+                    }
+                    else
+                    {
+                        await move.TranslateTo(-5, 0, 500);
+                        await move.TranslateTo(5, 0, 500);
+                    }
+                }
+            });
+
+
+        }
+
         private async void AttackBtn(object sender, EventArgs e)
         {
             if (battlesequence && !ANNOUNCING)
@@ -151,8 +195,8 @@ namespace DungeonTasker.Views
                 int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
                 await Announcer(string.Format("PLAYER Dealt {0} Damage", damage));
                 BossHP -= damage;
-                InitializeStats();
-                BossHealth.RelRotateTo(-360, 500);
+                await AttackPixelCharacter();
+                BossHealth.RelRotateTo(360, 500);
                 await BossHealth.ScaleTo(5, 300);
                 await BossHealth.ScaleTo(1, 300);
 

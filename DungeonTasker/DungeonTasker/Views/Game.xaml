@@ -6,22 +6,24 @@
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.Game">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout x:Name="Collide">
             <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
-                <StackLayout HorizontalOptions="EndAndExpand">
-                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="Large" FontAttributes="Bold"/>
+                <StackLayout HorizontalOptions="EndAndExpand" x:Name="BossStats">
+                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="30" FontAttributes="Bold"/>
                 <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName"/>
                     <StackLayout HorizontalOptions="EndAndExpand">
                     <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
+            <Label Text="[*]" HorizontalTextAlignment="End" x:Name="BossAttacking" Opacity="0"/>
             <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce">
 
             </StackLayout>
+            <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0"/>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
-                <StackLayout Orientation="Vertical" Margin="10,0,0,0">
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="Large" FontAttributes="Bold"/>
+                <StackLayout Orientation="Vertical" Margin="10,0,0,0" x:Name="CharacterStats">
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="30" FontAttributes="Bold"/>
                     <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName"/>
                     <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth"/>
                 </StackLayout>
