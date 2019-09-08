@@ -8,7 +8,8 @@ namespace DungeonTasker.Models
 {
     public class WeaponInfo
     {
-        public int CurrentDmg { get; set; }
+        public int Minimum { get; set; }
+        public int Maximum { get; set; }
         public string EquippedWeapon { get; set; }
         InventoryItems items;
 
@@ -17,14 +18,15 @@ namespace DungeonTasker.Models
             this.items = items;
         }
 
-        public static int ObtainWeaponInfo(string weapon)
+        public static int ObtainWeaponInfo(string weapon, bool minimum)
         {
             int totaldmg = 0;
             if (weapon.Contains("Iron"))
             {
                 totaldmg += 2;
-                if (weapon.Contains("Dagger")) { totaldmg += 1;return totaldmg;}
-                if (weapon.Contains("Bow")) { totaldmg += 2; return totaldmg; }
+                if (minimum) { return totaldmg; }
+                if (weapon.Contains("Dagger")) { totaldmg += 3;return totaldmg;}
+                if (weapon.Contains("Bow")) { totaldmg += 4; return totaldmg; }
             }
             return 0;
         }
@@ -32,6 +34,7 @@ namespace DungeonTasker.Models
         public void SetWeapon(ContentPage page, string weapon)
         {
             int totaldmg = 0;
+            int minimum = 0;
             try
             {
                 if (EquippedWeapon == weapon) { throw new Exception("Already equipped"); }
@@ -39,8 +42,9 @@ namespace DungeonTasker.Models
                 if (weapon.Contains("Iron"))
                 {
                     totaldmg += 2;
-                    if (weapon.Contains("Dagger")){totaldmg += 1;CurrentDmg = totaldmg;EquippedWeapon = weapon;User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
-                    if (weapon.Contains("Bow")) { totaldmg += 2; CurrentDmg = totaldmg; EquippedWeapon = weapon; User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
+                    minimum = totaldmg;
+                    if (weapon.Contains("Dagger")){totaldmg += 3;Maximum = totaldmg; Minimum = minimum; EquippedWeapon = weapon;User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
+                    if (weapon.Contains("Bow")) { totaldmg += 4; Maximum = totaldmg; Minimum = minimum; EquippedWeapon = weapon; User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);}
                 }
             }
             catch(Exception e)

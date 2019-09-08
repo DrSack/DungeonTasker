@@ -54,42 +54,53 @@ namespace DungeonTasker.Views
             ListItems.Add(Keys);
             ListItems.Add(Equipped);
 
-            Types.Add("Weapon");
+            Types.Add("Weapons");
             Types.Add("Keys");
             Types.Add("Equipped");// Add to lists
 
             foreach (string[] type in ListItems)
             {//Runs through each array within the List
                 var ItemTitle = new Label();
+                var LayoutWeapon = new StackLayout();
                 ItemTitle.Text = Types[0];
                 ItemTitle.FontSize = 30;
                 ItemTitle.FontAttributes = FontAttributes.Bold;
                 ItemTitle.HorizontalTextAlignment = TextAlignment.Center;
+                LayoutWeapon.BackgroundColor = Color.Black;
+                LayoutWeapon.Padding = new Thickness(2, 2, 2, 2);
+                LayoutWeapon.Spacing = 2;
                 ItemsList.Children.Add(ItemTitle);//add type of item to stacklayout
 
                 foreach (string item in type)
                 {// for each array run through each individual item and display as a Label
                     var Label = new Label();
+                    var LayoutItem = new StackLayout();
+
                     Label.Text = item;
-                    Label.HorizontalTextAlignment = TextAlignment.Center;
+                    Label.FontSize = 15;
+                    Label.FontAttributes = FontAttributes.Bold;
+                    
+                    Label.HorizontalTextAlignment = TextAlignment.Start;
                     Label.VerticalTextAlignment = TextAlignment.Center;
+                    LayoutItem.BackgroundColor = Color.White;
 
                     if (string.IsNullOrEmpty(item))
                     {
                         break;
                     }
 
-                    else if (Types[0] == "Weapon")
+                    else if (Types[0] == "Weapons")
                     {
-                        var LayoutItem = new StackLayout();
                         var button = new Button();
                         var Label2 = new Label();
-                        LayoutItem.HorizontalOptions = LayoutOptions.Center;
+                        Label.Margin = new Thickness(5, 0, 0, 0);
+                        LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
                         LayoutItem.Orientation = StackOrientation.Horizontal;
-                        Label2.Text = string.Format("Damage: {0}", WeaponInfo.ObtainWeaponInfo(item).ToString());
-                        Label2.HorizontalTextAlignment = TextAlignment.Center;
+                        Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
+                        Label2.HorizontalTextAlignment = TextAlignment.Start;
                         Label2.VerticalTextAlignment = TextAlignment.Center;
                         button.Text = "equip";
+                        button.HorizontalOptions = LayoutOptions.EndAndExpand;
 
                         button.Clicked += (s, a) =>
                         {
@@ -101,12 +112,34 @@ namespace DungeonTasker.Views
                         LayoutItem.Children.Add(Label);
                         LayoutItem.Children.Add(Label2);
                         LayoutItem.Children.Add(button);
-                        ItemsList.Children.Add(LayoutItem);
+                        LayoutWeapon.Children.Add(LayoutItem);
+                        ItemsList.Children.Add(LayoutWeapon);
 
+                    }
+
+                    else if (Types[0] == "Equipped")
+                    {
+                        var equipped = new StackLayout();
+                        var Label2 = new Label();
+                        Label.HorizontalTextAlignment = TextAlignment.Center;
+                        Label.Text = string.Format("{0}", item);
+                        Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
+                        equipped.HorizontalOptions = LayoutOptions.CenterAndExpand;
+                        equipped.Orientation = StackOrientation.Horizontal;
+                        LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
+
+                        equipped.Children.Add(Label);
+                        equipped.Children.Add(Label2);
+                        LayoutItem.Children.Add(equipped);
+                        LayoutWeapon.Children.Add(LayoutItem);
+                        ItemsList.Children.Add(LayoutWeapon);
                     }
                     else
                     {
-                        ItemsList.Children.Add(Label);
+                        Label.HorizontalTextAlignment = TextAlignment.Center;
+                        LayoutItem.Children.Add(Label);
+                        LayoutWeapon.Children.Add(LayoutItem);
+                        ItemsList.Children.Add(LayoutWeapon);
                     }
                     
                     

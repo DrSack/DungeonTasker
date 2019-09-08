@@ -92,7 +92,7 @@ namespace DungeonTasker.Views
          * eventargs: object data
          * RETURNS Nothing
          */
-        private void Store_Clicked(object sender, EventArgs e)
+        private void Inventory_Clicked(object sender, EventArgs e)
         {
             
             ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, this.weapon));

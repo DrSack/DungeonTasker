@@ -14,9 +14,10 @@ namespace DungeonTasker.Views
     public partial class Game : ContentPage
     {
         private bool battlesequence { get; set; }
-        private bool game { get; set; }
-        private bool attack { get; set; }
         private bool WON { get; set; }
+
+        private int CharacterHP { get; set; }
+        private int BossHP { get; set; }
 
         Dungeon dungeon;
         Stats boss;
@@ -26,9 +27,12 @@ namespace DungeonTasker.Views
             this.dungeon = dungeon;
             this.boss = new Stats();
             this.boss.Health = 100;
+
+            this.BossHP = this.boss.Health;
+            this.CharacterHP = dungeon.stats.Health;
+
             InitializeComponent();
             InitializeStats();
-            
         }
 
         protected override bool OnBackButtonPressed()
@@ -45,11 +49,11 @@ namespace DungeonTasker.Views
         {
             Character.Text = dungeon.user.Character;
             CharacterName.Text = dungeon.user.Username;
-            CharacterHealth.Text = dungeon.stats.Health.ToString();
+            CharacterHealth.Text = CharacterHP.ToString();
 
             Boss.Text = dungeon.CurrentBoss;
             BossName.Text = dungeon.CurrentName;
-            BossHealth.Text = boss.Health.ToString();
+            BossHealth.Text = BossHP.ToString();
         }
 
         protected override async void OnAppearing()
@@ -79,7 +83,6 @@ namespace DungeonTasker.Views
                 battlesequence = true;
             }
 
-            game = true;
             Announce.Children.Add(label);
             await label.FadeTo(1, 1000, Easing.Linear);
             await label.FadeTo(0, 1000, Easing.Linear);
@@ -106,14 +109,10 @@ namespace DungeonTasker.Views
             if (WON)
             {
                 await DisplayAlert("Congrats", "YOU WIN", "close");
-                dungeon.stats.Health = 100;
-                boss.Health = 100;
             }
             else
             {
                 await DisplayAlert("Congrats", "YOU LOSE", "close");
-                dungeon.stats.Health = 100;
-                boss.Health = 100;
             }
             dungeon.clearBoss();
             await this.Navigation.PopModalAsync();
@@ -126,13 +125,13 @@ namespace DungeonTasker.Views
                 Random rand = new Random();
                 int damage = rand.Next(5, 25);
                 await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()));
-                dungeon.stats.Health -= damage;
+                CharacterHP -= damage;
                 InitializeStats();
                 CharacterHealth.RelRotateTo(360, 500);
                 await CharacterHealth.ScaleTo(5, 300);
                 await CharacterHealth.ScaleTo(1, 300);
 
-                if (dungeon.stats.Health <= 0) { WON = false; game = false; checkHP(); }
+                if (CharacterHP <= 0) { WON = false; checkHP(); }
                 await Announcer("PLAYER TURN");
                 battlesequence = true;
             }
@@ -144,12 +143,14 @@ namespace DungeonTasker.Views
             if (battlesequence)
             {
                 battlesequence = false;
-                await Announcer(string.Format("PLAYER Dealt {0} Damage", dungeon.weapon.CurrentDmg.ToString()));
-                boss.Health -= dungeon.weapon.CurrentDmg;
+                Random rand = new Random();
+                int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
+                await Announcer(string.Format("PLAYER Dealt {0} Damage", damage));
+                BossHP -= damage;
                 
                 InitializeStats();
 
-                if (boss.Health <= 0) { WON = true; game = false; checkHP(); }
+                if (BossHP <= 0) { WON = true; checkHP(); }
                 await Announcer("BOSS TURN");
                 await BossAttack();
             }

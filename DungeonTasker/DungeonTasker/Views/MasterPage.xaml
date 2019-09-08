@@ -9,7 +9,7 @@
         </StackLayout>
         <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center"></Label>
         <Button Text="Tasks" Clicked="Tasks_Clicked"></Button>
-        <Button Text="Store" Clicked="Store_Clicked"></Button>
+        <Button Text="Inventory" Clicked="Inventory_Clicked"></Button>
         <Button Text="Dungeon" Clicked="Dungeon_Clicked"></Button>
         <Button Text="Logout" Clicked="Exit_Clicked" x:Name="stuff"></Button>
         <Button Text="Settings" Clicked="Settings_Clicked"></Button>
