@@ -15,7 +15,7 @@ namespace DungeonTasker.Views
     {
         private bool battlesequence { get; set; }
         private bool WON { get; set; }
-
+        private bool ANNOUNCING { get; set; }
         private int CharacterHP { get; set; }
         private int BossHP { get; set; }
 
@@ -64,6 +64,7 @@ namespace DungeonTasker.Views
 
             private async Task InitializeBattleSequqnce()
         {
+            ANNOUNCING = true;
             var label = new Label();
             label.Opacity = 0;
             label.HorizontalTextAlignment = TextAlignment.Center;
@@ -87,10 +88,12 @@ namespace DungeonTasker.Views
             await label.FadeTo(1, 1000, Easing.Linear);
             await label.FadeTo(0, 1000, Easing.Linear);
             Announce.Children.Remove(label);
+            ANNOUNCING = false;
         }
 
         private async Task Announcer(string message)
         {
+            ANNOUNCING = true;
             var label = new Label();
             label.Opacity = 0;
             label.HorizontalTextAlignment = TextAlignment.Center;
@@ -102,6 +105,7 @@ namespace DungeonTasker.Views
             await label.FadeTo(1, 500, Easing.Linear);
             await label.FadeTo(0, 500, Easing.Linear);
             Announce.Children.Remove(label);
+            ANNOUNCING = false;
         }
 
         private async void checkHP()
@@ -140,7 +144,7 @@ namespace DungeonTasker.Views
 
         private async void AttackBtn(object sender, EventArgs e)
         {
-            if (battlesequence)
+            if (battlesequence && !ANNOUNCING)
             {
                 battlesequence = false;
                 Random rand = new Random();
