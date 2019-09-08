@@ -151,8 +151,10 @@ namespace DungeonTasker.Views
                 int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
                 await Announcer(string.Format("PLAYER Dealt {0} Damage", damage));
                 BossHP -= damage;
-                
                 InitializeStats();
+                BossHealth.RelRotateTo(-360, 500);
+                await BossHealth.ScaleTo(5, 300);
+                await BossHealth.ScaleTo(1, 300);
 
                 if (BossHP <= 0) { WON = true; checkHP(); }
                 await Announcer("BOSS TURN");

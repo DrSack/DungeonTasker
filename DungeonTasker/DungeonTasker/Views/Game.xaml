@@ -8,9 +8,13 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
-                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="Boss" FontSize="Large" FontAttributes="Bold"/>
-                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossName"/>
-                <Label Text="Boss" HorizontalTextAlignment="End" x:Name="BossHealth"/>
+                <StackLayout HorizontalOptions="EndAndExpand">
+                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="Large" FontAttributes="Bold"/>
+                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName"/>
+                    <StackLayout HorizontalOptions="EndAndExpand">
+                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth"/>
+                    </StackLayout>
+                </StackLayout>
             </StackLayout>
             <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce">
 
