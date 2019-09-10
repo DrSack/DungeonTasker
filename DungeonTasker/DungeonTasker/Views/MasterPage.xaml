@@ -5,7 +5,7 @@
              Title="Master Page">
     <StackLayout>
         <StackLayout>
-            <Image Source="icon.png" Aspect="AspectFill" HorizontalOptions="FillAndExpand"></Image>
+            <Image Source="mastah.png" Aspect="AspectFill" HorizontalOptions="FillAndExpand"></Image>
         </StackLayout>
         <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center"></Label>
         <Button Text="Tasks" Clicked="Tasks_Clicked"></Button>

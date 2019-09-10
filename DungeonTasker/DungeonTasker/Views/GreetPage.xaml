@@ -5,11 +5,10 @@
              NavigationPage.HasNavigationBar="False">
 
     <StackLayout Margin="0,35,0,0" Orientation="Vertical" x:Name="NeinStack">
-        
-            
-            <StackLayout  Padding="5,5,5,5" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
-                <Label FontSize="Large" Text="Dungeon Tasker"></Label>
-            </StackLayout>
+
+        <StackLayout  Padding="5,5,5,5" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
+            <Label FontSize="Large" TextColor="#00ff00" Text="Dungeon Tasker"></Label>
+        </StackLayout>
 
         <StackLayout VerticalOptions="Start" Margin="30,30,30,0">
             <Entry Placeholder="Username" x:Name="EntryMrk" Text=""/>
@@ -30,12 +29,6 @@
                     </Label.FormattedText>
                 </Label>
             </StackLayout>
-            </StackLayout>
-
-
-        
-            
-        
+        </StackLayout>
     </StackLayout>
-
 </ContentPage>

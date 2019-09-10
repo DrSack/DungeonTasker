@@ -18,7 +18,7 @@ namespace DungeonTasker
          */
         public SpashScreen()
         {
-            createSplash("Dungeon Tasker");
+            createSplash("Dungeon\n  Tasker");
         }
 
         /*
@@ -52,8 +52,8 @@ namespace DungeonTasker
             var label = new Label
             {
                 Text = text,
-                TextColor = Color.FromHex("#00ff00"),
-                FontSize = 50,
+                TextColor = Color.FromHex("#00ff33"),
+                FontSize = 55,
                 FontFamily = Device.RuntimePlatform == Device.Android ? "norwester.otf#Norwester-Regular" : null,
                 HorizontalOptions = LayoutOptions.Center
             };
