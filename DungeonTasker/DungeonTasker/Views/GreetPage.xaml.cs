@@ -26,6 +26,7 @@ namespace DungeonTasker
         {
             InitializeComponent();
             RegisterBtn();
+            this.EntryMrk2.IsPassword = true;
         }
 
         /*

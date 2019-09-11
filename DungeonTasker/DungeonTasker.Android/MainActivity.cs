@@ -16,6 +16,7 @@ namespace DungeonTasker.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

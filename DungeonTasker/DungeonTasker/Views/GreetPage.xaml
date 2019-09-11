@@ -2,33 +2,32 @@
 <ContentPage Title="Don't DO IT"  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.GreetPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#212121">
 
     <StackLayout Margin="0,35,0,0" Orientation="Vertical" x:Name="NeinStack">
 
         <StackLayout  Padding="5,5,5,5" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
-            <Label FontSize="Large" TextColor="#00ff00" Text="Dungeon Tasker"></Label>
+            <Label FontSize="50" TextColor="#00ff00" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
         </StackLayout>
 
-        <StackLayout VerticalOptions="Start" Margin="30,30,30,0">
-            <Entry Placeholder="Username" x:Name="EntryMrk" Text=""/>
-            <Entry Placeholder="Password" x:Name="EntryMrk2" Text=""/>
-        </StackLayout>
 
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <Button Text="Login" Clicked="LoginBtn" Padding="70,0,70,0" Margin="0,0,0,0" BorderRadius="20" HorizontalOptions="Center"></Button>
-            <StackLayout    x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,40,0,0">
-                <!--<Button Text="Login" Clicked="Button_Clicked" Padding="50,0,50,0"/>-->
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="If you aren't registered "/>
-                            <Span FontSize="Medium" TextColor="Orange" Text="Register" x:Name="Register"/>
-                            <Span Text=" here"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
+        <StackLayout VerticalOptions="CenterAndExpand" Margin="30,30,30,0">
+            <Entry Placeholder="Username" x:Name="EntryMrk" Text="" TextColor="White" PlaceholderColor="White"/>
+            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="" TextColor="White" PlaceholderColor="White"/>
+            <Button Text="Login" Clicked="LoginBtn" Margin="0,20,0,0" BorderRadius="20" BackgroundColor="#F44336" TextColor="White"></Button>
+        </StackLayout>
+        
+        <StackLayout    x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
+            <!--<Button Text="Login" Clicked="Button_Clicked" Padding="50,0,50,0"/>-->
+            <Label FontFamily="norwester.otf#Norwester-Regular">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="Don't have an account?  "/>
+                        <Span FontSize="Medium" TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
         </StackLayout>
     </StackLayout>
 </ContentPage>
