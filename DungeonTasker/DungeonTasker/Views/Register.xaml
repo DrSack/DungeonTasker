@@ -1,21 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage Title="Create Account"
-    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DungeonTasker.Register">
+             x:Class="DungeonTasker.Register"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#212121">
+
     <ContentPage.Content>
         <StackLayout>
-            <Grid>
-                <StackLayout HorizontalOptions="Center" Grid.Row="1" x:Name="Names" Orientation="Vertical">
-                    <Label Text="Please enter your Username and Password"/>
-                    <Entry Placeholder="Username" x:Name="EntryMrk" Text=""/>
-                    <Entry Placeholder="Password" x:Name="EntryMrk2" Text=""/>
-                </StackLayout>
+            <StackLayout Margin="0,90,0,0" Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Start">
+                <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
+                <Label Text="Create an account" HorizontalOptions="Center" TextColor="White" FontSize="Large" Margin="0,30,0,0" FontFamily="norwester.otf#Norwester-Regular"/>
+            </StackLayout>
 
-                <StackLayout Orientation="Vertical" HorizontalOptions="Center" Grid.Row="3" x:Name="AccountBtn">
-                    <Button Text="Create" Clicked="RegisterAddAccount" Padding="50,0,50,0" x:Name="RegisterAddbtn"></Button>
-                </StackLayout>
-            </Grid>
+            <StackLayout VerticalOptions="CenterAndExpand" x:Name="Names" Margin="30,60,30,30">
+                <Entry Placeholder="Username" x:Name="EntryMrk" Text="" TextColor="White" PlaceholderColor="White"/>
+                <Entry Placeholder="Password" x:Name="EntryMrk2" Text="" TextColor="White" PlaceholderColor="White"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" x:Name="AccountBtn">
+                <Button Text="Create Account" Clicked="RegisterAddAccount" Margin="50,30,50,60" BorderRadius="25" BackgroundColor="#F44336" TextColor="White" x:Name="RegisterAddbtn"></Button>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

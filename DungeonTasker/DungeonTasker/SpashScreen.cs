@@ -41,7 +41,6 @@ namespace DungeonTasker
          */
         public void createSplash(string text)
         {
-            NavigationPage.SetHasNavigationBar(this, false);
             this.BackgroundColor = Color.FromHex("#212121");
             var layout = new StackLayout
             {

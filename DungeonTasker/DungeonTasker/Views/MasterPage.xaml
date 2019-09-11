@@ -7,6 +7,7 @@
         <StackLayout>
             <Image Source="mastah.png" Aspect="AspectFill" HorizontalOptions="FillAndExpand"></Image>
         </StackLayout>
+        
         <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center"></Label>
         <Button Text="Tasks" Clicked="Tasks_Clicked"></Button>
         <Button Text="Inventory" Clicked="Inventory_Clicked"></Button>

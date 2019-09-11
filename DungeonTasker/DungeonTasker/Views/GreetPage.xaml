@@ -5,26 +5,23 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="#212121">
 
-    <StackLayout Margin="0,35,0,0" Orientation="Vertical" x:Name="NeinStack">
-
-        <StackLayout  Padding="5,5,5,5" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
-            <Label FontSize="50" TextColor="#00ff00" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
+    <StackLayout Orientation="Vertical" x:Name="NeinStack">
+        <StackLayout Margin="0,90,0,0" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
+            <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
         </StackLayout>
 
-
-        <StackLayout VerticalOptions="CenterAndExpand" Margin="30,30,30,0">
+        <StackLayout VerticalOptions="CenterAndExpand" Margin="30,60,30,30">
             <Entry Placeholder="Username" x:Name="EntryMrk" Text="" TextColor="White" PlaceholderColor="White"/>
             <Entry Placeholder="Password" x:Name="EntryMrk2" Text="" TextColor="White" PlaceholderColor="White"/>
-            <Button Text="Login" Clicked="LoginBtn" Margin="0,20,0,0" BorderRadius="20" BackgroundColor="#F44336" TextColor="White"></Button>
+            <Button Text="Login" Clicked="LoginBtn" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
         </StackLayout>
-        
-        <StackLayout    x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
-            <!--<Button Text="Login" Clicked="Button_Clicked" Padding="50,0,50,0"/>-->
-            <Label FontFamily="norwester.otf#Norwester-Regular">
+
+        <StackLayout x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
+            <Label>
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span TextColor="White" Text="Don't have an account?  "/>
-                        <Span FontSize="Medium" TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline"/>
+                        <Span TextColor="White" Text="Don't have an account? "/>
+                        <Span TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline"/>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
