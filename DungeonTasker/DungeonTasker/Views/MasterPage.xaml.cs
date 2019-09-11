@@ -129,7 +129,7 @@ namespace DungeonTasker.Views
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Inventory(items, this.weapon));
+            ((MasterDetailPage)Parent).Detail = new Settings(user, truth);
             ((MasterDetailPage)Parent).IsPresented = false;
         }
     }
