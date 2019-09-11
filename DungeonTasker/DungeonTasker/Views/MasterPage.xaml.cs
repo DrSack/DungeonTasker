@@ -122,7 +122,7 @@ namespace DungeonTasker.Views
          * If this is selected change the detailspage to the settings
          * 
          * PARAM 
-         * sender: reference to the control object
+         * sender:reference to the control object
          * eventargs: object data
          * RETURNS Nothing
          */

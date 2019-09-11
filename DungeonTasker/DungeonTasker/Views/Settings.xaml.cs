@@ -12,6 +12,13 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
     public partial class Settings : ContentPage
     {
         User user;
@@ -26,6 +33,12 @@ namespace DungeonTasker.Views
 
         }
 
+        /*
+         * 
+         *
+         *
+         *
+         */
         private void Button_Clicked(object sender, EventArgs e)
         {
             user.Logged = "false";
