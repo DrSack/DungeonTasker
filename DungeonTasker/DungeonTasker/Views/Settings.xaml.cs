@@ -14,7 +14,7 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 
     /**
-     * 
+     * username hi password w
      * 
      * 
      * 
@@ -34,10 +34,12 @@ namespace DungeonTasker.Views
         }
 
         /*
-         * 
-         *
-         *
-         *
+         * If user decides to logout set the word "logged:true" to false such that the user isnt logged 
+         * automatically back onto their account next time they open the app
+         * PARAM 
+         * sender: reference to the control object
+         * eventargs: object data
+         * RETURNS Nothing
          */
         private void Button_Clicked(object sender, EventArgs e)
         {

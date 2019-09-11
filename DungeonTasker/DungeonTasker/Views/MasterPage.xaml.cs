@@ -47,27 +47,7 @@ namespace DungeonTasker.Views
             weapon.SetWeapon(this, User.CheckForstring(items.Invfile, "Equipped:"));
             dungeon = new Dungeon(this.user, this.items, this.weapon, this.stats);
 		}
-        /*
-         * If user decides to logout set the word "logged:true" to false such that the user isnt logged 
-         * automatically back onto their account next time they open the app
-         * PARAM 
-         * sender: reference to the control object
-         * eventargs: object data
-         * RETURNS Nothing
-         */
-        private void Exit_Clicked(object sender, EventArgs e)
-        {
-            user.Logged = "false";
-            User.Rewrite("Logged:", "false", user.file);
-            truth.nice = false;
-            if (User.CheckForstring(user.file, "Logged:") == "false" )
-            {
-                File.WriteAllText(user.file, File.ReadAllText(user.file));
-                Application.Current.MainPage = new NavigationPage(new SpashScreen());
-            }
-            
-            
-        }
+      
 
         /*
          * If this is selected change the detailspage to the taskpage
@@ -129,7 +109,8 @@ namespace DungeonTasker.Views
 
         private void Settings_Clicked(object sender, EventArgs e)
         {
-            ((MasterDetailPage)Parent).Detail = new Settings(user, truth);
+            
+            ((MasterDetailPage)Parent).Detail = new NavigationPage(new Settings(user, truth));
             ((MasterDetailPage)Parent).IsPresented = false;
         }
     }
