@@ -8,9 +8,11 @@
     <ContentPage.Content>
         <StackLayout>
             <Button Text="Logout"
-             VerticalOptions="Center "
+             VerticalOptions="Center"
              HorizontalOptions="Center"
              Clicked="Button_Clicked"/>
+
+            <Button Text="Delete Account"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
