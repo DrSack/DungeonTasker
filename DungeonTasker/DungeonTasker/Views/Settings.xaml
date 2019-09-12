@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.Settings">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="CenterAndExpand">
             <Button Text="Logout"
              VerticalOptions="Center"
              HorizontalOptions="Center"

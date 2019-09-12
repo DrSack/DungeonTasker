@@ -40,7 +40,7 @@ namespace DungeonTasker
             var RegisterClicked = new TapGestureRecognizer();
             RegisterClicked.Tapped += (s, e) =>
             {
-               Navigation.PushAsync(new Register());
+               Navigation.PushModalAsync(new NavigationPage(new Register()));
             };
             Register.GestureRecognizers.Add(RegisterClicked);
         }

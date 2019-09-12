@@ -120,7 +120,7 @@ namespace DungeonTasker.Models
             {
                 // if the username and password are not filled in throw an exception
                 if (!checkinfo(User, Pass)) { throw new Exception("Please enter both credentials... ");}
-            string line = string.Format("ID:{0},{1},\nCharacter:<0-0>\nLogged:false", User, Pass);// format file structure
+            string line = string.Format("ID:{0},{1},\nCharacter:(ง’̀-‘́)ง\nLogged:false", User, Pass);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
             var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
             var Items = Path.Combine(documents, User+"Inv.dt");
@@ -141,7 +141,7 @@ namespace DungeonTasker.Models
                     // Show display alert then close current page and go back to previous opened window.
                     await ExtraPopups.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
                     {
-                        await Rego.Navigation.PopAsync();
+                        await Rego.Navigation.PopModalAsync();
                     });
                 }
             }
