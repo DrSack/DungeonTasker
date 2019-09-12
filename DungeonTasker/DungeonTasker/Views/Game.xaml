@@ -4,38 +4,45 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DungeonTasker.Views.Game">
+             x:Class="DungeonTasker.Views.Game"
+             BackgroundColor="#212121">
+    
     <ContentPage.Content>
         <StackLayout x:Name="Collide">
             <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
                 <StackLayout HorizontalOptions="EndAndExpand" x:Name="BossStats">
-                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="30" FontAttributes="Bold"/>
-                <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName"/>
+                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="38" FontAttributes="Bold" TextColor="#F44336"/>
+                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName" TextColor="#F44336" FontAttributes="Bold" FontSize="Medium"/>
                     <StackLayout HorizontalOptions="EndAndExpand">
-                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth"/>
+                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth" TextColor="Accent" FontSize="Medium"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-            <Label Text="[*]" HorizontalTextAlignment="End" x:Name="BossAttacking" Opacity="0"/>
+            
+            <Label Text="[*]" HorizontalTextAlignment="End" x:Name="BossAttacking" Opacity="0" TextColor="#F44336"/>
             <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce">
 
             </StackLayout>
-            <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0"/>
+            
+            <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0" TextColor="Accent"/>
+            
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
                 <StackLayout Orientation="Vertical" Margin="10,0,0,0" x:Name="CharacterStats">
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="30" FontAttributes="Bold"/>
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName"/>
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth"/>
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="38" FontAttributes="Bold" TextColor="Accent"/>
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName" TextColor="White" FontAttributes="Bold" FontSize="Medium"/>
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth" TextColor="Accent" FontSize="Medium"/>
                 </StackLayout>
-                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="Black" Padding="2,2,2,2">
+                
+                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
                         <StackLayout>
-                            <Button Text="Attack" Clicked="AttackBtn"/>
-                            <Button Text=""/>
+                            <Button Text="Attack" Clicked="AttackBtn" TextColor="#F44336" BackgroundColor="White"/>
+                            <Button Text="Button" BackgroundColor="White"/>
                         </StackLayout>
+                        
                         <StackLayout>
-                            <Button Text=""/>
-                            <Button Text=""/>
+                            <Button Text="Button" BackgroundColor="White"/>
+                            <Button Text="Button" BackgroundColor="White"/>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

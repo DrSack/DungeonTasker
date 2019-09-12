@@ -14,6 +14,7 @@
             </StackLayout>
 
             <StackLayout VerticalOptions="CenterAndExpand" x:Name="Names" Margin="30">
+                <Entry Placeholder="Full Name" TextColor="White" PlaceholderColor="#BDBDBD"/>
                 <Entry Placeholder="Username"  Text="{Binding Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
                 <Entry Placeholder="Password"  Text="{Binding Password}" TextColor="White" PlaceholderColor="#BDBDBD"/>
             </StackLayout>
