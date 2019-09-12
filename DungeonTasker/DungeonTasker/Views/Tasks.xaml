@@ -18,11 +18,11 @@
                 <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
                 <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Large"></Label>
             </StackLayout>
-            
+
             <ScrollView HeightRequest="200">
                 <StackLayout Padding="2,2,2,2">
                     <StackLayout x:Name="timers" MinimumHeightRequest="200">
-                        
+
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

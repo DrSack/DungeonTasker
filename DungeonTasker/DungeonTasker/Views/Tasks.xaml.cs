@@ -27,7 +27,7 @@ namespace DungeonTasker.Views
          * truth: parse truth to notify Device.StartTimer to stop whenever truthtime is off
          * RETURN Nothing
          */
-        public Tasks(User user,InventoryItems items , logged truth)
+        public Tasks(User user, InventoryItems items, logged truth)
         {
             InitializeComponent();
             this.Currentuser = user;
@@ -153,9 +153,9 @@ namespace DungeonTasker.Views
             }
 
         }
-        
 
-        
+
+
         /*
          * This method is responsible for displaying the redeem button and updating the 
          * current timer file with new timer information and removing the current element from the ListTimer
@@ -168,7 +168,7 @@ namespace DungeonTasker.Views
 
         public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times, string task)
         {
-            Application.Current.MainPage.DisplayAlert("Reminder Alert", string.Format("Key Ready. Assigned Task:{0} is done",task), "close");
+            Application.Current.MainPage.DisplayAlert("Reminder Alert", string.Format("Assigned Task:{0} Timer is Done", task), "Close");
             var redeembtn = new Button { Text = "Redeem" };
             redeembtn.Clicked += async (s, a) =>
             {
