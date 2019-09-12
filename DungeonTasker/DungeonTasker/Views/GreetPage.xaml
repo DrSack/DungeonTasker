@@ -11,17 +11,22 @@
         </StackLayout>
 
         <StackLayout VerticalOptions="CenterAndExpand" Margin="30,60,30,30">
-            <Entry Placeholder="Username" x:Name="EntryMrk" Text="" TextColor="White" PlaceholderColor="White"/>
-            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="" TextColor="White" PlaceholderColor="White"/>
-            <Button Text="Login" Clicked="LoginBtn" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
+            <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding Username}" TextColor="White" PlaceholderColor="White"/>
+            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding Password}" TextColor="White" PlaceholderColor="White" IsPassword="True"/>
+            <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
         </StackLayout>
+
 
         <StackLayout x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
                         <Span TextColor="White" Text="Don't have an account? "/>
-                        <Span TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline"/>
+                        <Span TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                            </Span.GestureRecognizers>
+                        </Span>
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
