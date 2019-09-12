@@ -19,7 +19,7 @@ namespace DungeonTasker
         public SpashScreen()
         {
             NavigationPage.SetHasNavigationBar(this, false);
-            createSplash("Dungeon\n  Tasker");
+            createSplash("Dungeon\n Tasker");
         }
 
         /*

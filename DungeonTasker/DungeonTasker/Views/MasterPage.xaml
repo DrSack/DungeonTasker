@@ -2,16 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.Views.MasterPage"
-             Title="Master Page">
+             Title="Master Page"
+             BackgroundColor="White">
+    
     <StackLayout>
         <StackLayout>
             <Image Source="mastah.png" Aspect="AspectFill" HorizontalOptions="FillAndExpand"></Image>
         </StackLayout>
         
-        <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center"></Label>
-        <Button Text="Tasks" Clicked="Tasks_Clicked"></Button>
-        <Button Text="Inventory" Clicked="Inventory_Clicked"></Button>
-        <Button Text="Dungeon" Clicked="Dungeon_Clicked"></Button>
-        <Button Text="Settings" Clicked="Settings_Clicked"></Button>
+        <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center" TextColor="#212121" Margin="0,20" FontAttributes="Bold"></Label>
+        
+        <Button Text="Tasks" Clicked="Tasks_Clicked" BackgroundColor="White"></Button>
+        <Button Text="Inventory" Clicked="Inventory_Clicked" BackgroundColor="White"></Button>
+        <Button Text="Dungeon" Clicked="Dungeon_Clicked" BackgroundColor="White"></Button>
+        <Button Text="Settings" Clicked="Settings_Clicked" BackgroundColor="White" VerticalOptions="EndAndExpand" Margin="0,25"></Button>
     </StackLayout>
 </ContentPage>

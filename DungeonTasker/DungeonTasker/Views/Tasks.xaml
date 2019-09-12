@@ -6,7 +6,7 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="150">
+            <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="180">
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
                     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                         <Label Text="" FontSize="Large" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
@@ -15,7 +15,7 @@
             </StackLayout>
 
             <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,20,0,0">
-                <Label HorizontalTextAlignment="Center" Text="Welcome" FontSize="Large" TextColor="#212121"></Label>
+                <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
                 <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Large"></Label>
             </StackLayout>
             
@@ -26,10 +26,7 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-            
-            <Label Text="Somestuff will be added i guess..."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
             <Button Margin="10" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="End" BackgroundColor="#212121" 
                     WidthRequest="50" HeightRequest="50" BorderRadius="25"></Button>
         </StackLayout>
