@@ -14,7 +14,7 @@
             <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
             <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding Password}" TextColor="White" 
                    PlaceholderColor="#BDBDBD" IsPassword="True"/>
-            
+
             <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
         </StackLayout>
 

@@ -13,7 +13,7 @@
              HorizontalOptions="Center"
              Clicked="Button_Clicked"/>
 
-            <Button Text="Delete Account"/>
+            <Button Text="Delete Account" Clicked="DeleteAccountBtn" x:Name="DeleteBtn"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

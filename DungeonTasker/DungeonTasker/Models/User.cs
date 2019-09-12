@@ -108,6 +108,20 @@ namespace DungeonTasker.Models
                 return null;
             }
         }
+
+        public void DeleteAccount()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
+            var filename = Path.Combine(documents, Username + "Login.dt");// File name is equal to the username+login.dt
+            var Items = Path.Combine(documents, Username + "Inv.dt");
+            var Stats = Path.Combine(documents, Username + "Stats.dt");
+            var Timer = Path.Combine(documents, Username + "Timer.dt");
+            File.Delete(filename);
+            File.Delete(Items);
+            File.Delete(Stats);
+            File.Delete(Timer);
+        }
+
         /*
          * This method is responsible for creating a file and writing the information of the textfields onto it
          *  @para string User: the username, string Pass: the password, RegisterAdd Rego: the page class. 

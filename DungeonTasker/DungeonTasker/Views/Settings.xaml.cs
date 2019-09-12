@@ -29,8 +29,6 @@ namespace DungeonTasker.Views
             InitializeComponent();
             this.user = user;
             this.truth = truth;
-
-
         }
 
         /*
@@ -41,7 +39,7 @@ namespace DungeonTasker.Views
          * eventargs: object data
          * RETURNS Nothing
          */
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             user.Logged = "false";
             User.Rewrite("Logged:", "false", user.file);
@@ -49,9 +47,19 @@ namespace DungeonTasker.Views
             if (User.CheckForstring(user.file, "Logged:") == "false")
             {
                 File.WriteAllText(user.file, File.ReadAllText(user.file));
+                await this.FadeTo(0, 600);
                 Application.Current.MainPage = new NavigationPage(new SpashScreen());
             }
 
+        }
+
+        private async void DeleteAccountBtn(object sender, EventArgs e)
+        {
+            DeleteBtn.IsEnabled = false;
+            truth.nice = false;
+            user.DeleteAccount();
+            await this.FadeTo(0, 600);
+            Application.Current.MainPage = new NavigationPage(new SpashScreen());
         }
     }
 }

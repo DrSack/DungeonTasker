@@ -14,13 +14,12 @@
             </StackLayout>
 
             <StackLayout VerticalOptions="CenterAndExpand" x:Name="Names" Margin="30">
-                <Entry Placeholder="Email" Text="" TextColor="White" PlaceholderColor="#BDBDBD"/>
-                <Entry Placeholder="Username" x:Name="EntryMrk" Text="" TextColor="White" PlaceholderColor="#BDBDBD"/>
-                <Entry Placeholder="Password" x:Name="EntryMrk2" Text="" TextColor="White" PlaceholderColor="#BDBDBD"/>
+                <Entry Placeholder="Username"  Text="{Binding Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
+                <Entry Placeholder="Password"  Text="{Binding Password}" TextColor="White" PlaceholderColor="#BDBDBD"/>
             </StackLayout>
 
             <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" x:Name="AccountBtn">
-                <Button Text="Create Account" Clicked="RegisterAddAccount" Margin="50,0,50,150" 
+                <Button Text="Create Account" Command="{Binding RegisterBtn}" Margin="50,0,50,150" 
                         BorderRadius="25" BackgroundColor="#F44336" TextColor="White" x:Name="RegisterAddbtn"></Button>
             </StackLayout>
         </StackLayout>

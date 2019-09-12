@@ -32,8 +32,10 @@ namespace DungeonTasker.ViewModel
             Password = "";
             Login = new Command(async () => await LoginCommand());
             RegisterCommand = new Command(async () => await page.Navigation.PushModalAsync(new Register()));
+            MessagingCenter.Subscribe<GreetPage>(this, "Hi", (sender) => OnAppearing());
             this.page = page;
-            OnAppearing();
+            
+            
         }
 
         /*
@@ -41,7 +43,7 @@ namespace DungeonTasker.ViewModel
         * PARAM Nothing
         * RETURNS Nothing
         */
-        async Task LoginCommand()
+        private async Task LoginCommand()
         {
             try
             {
@@ -132,6 +134,7 @@ namespace DungeonTasker.ViewModel
 
 
         }
+
 
         /*
          * Check to see if there are anyfiles that exist within the device

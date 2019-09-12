@@ -132,7 +132,7 @@ namespace DungeonTasker.Views
 
                     if (DateTime.Now >= Trg)// if the timer is equal to the end date or over
                     {
-                        DisplayRedeem(timerlads, time);
+                        DisplayRedeem(timerlads, time, Task);
                         return false;// 
                     }
 
@@ -149,7 +149,7 @@ namespace DungeonTasker.Views
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
                 timers.Children.Add(timerlads);// add all controls to stack layouts
-                DisplayRedeem(timerlads, time);
+                DisplayRedeem(timerlads, time, Task);
             }
 
         }
@@ -166,9 +166,9 @@ namespace DungeonTasker.Views
          * RETURNS Nothing
          */
 
-        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times)
+        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times, string task)
         {
-            Application.Current.MainPage.DisplayAlert("stuff", "stuff", "stuff");
+            Application.Current.MainPage.DisplayAlert("Reminder Alert", string.Format("Key Ready. Assigned Task:{0} is done",task), "close");
             var redeembtn = new Button { Text = "Redeem" };
             redeembtn.Clicked += async (s, a) =>
             {

@@ -25,6 +25,10 @@ namespace DungeonTasker
             InitializeComponent();
             BindingContext = new GreetPageViewModel(this);
         }
-      
+
+        protected override void OnAppearing()
+        {
+            MessagingCenter.Send(this, "Hi");
+        }
     }
 }
