@@ -7,7 +7,7 @@
              x:Class="DungeonTasker.Views.Settings"
              x:Name="Content">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="CenterAndExpand">
             <Button Text="Logout"
              VerticalOptions="Center"
              HorizontalOptions="Center"
