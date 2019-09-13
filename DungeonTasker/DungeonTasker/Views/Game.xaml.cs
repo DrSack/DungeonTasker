@@ -61,7 +61,7 @@ namespace DungeonTasker.Views
             MoveCharBossAsync(Character, true);
             MoveCharBossAsync(Boss, false);
             await InitializeBattleSequqnce();
-            await BossAttack();
+            BossAttack();
         }
 
             private async Task InitializeBattleSequqnce()
@@ -78,11 +78,13 @@ namespace DungeonTasker.Views
             if (rand.Next(0, 2) == 0)
             {
                 label.Text = "BOSS HAS INITIATION";
+                label.TextColor = Color.FromHex("#F44336");
                 battlesequence = false;
             }
             else
             {
                 label.Text = "PLAYER HAS INITIATION";
+                label.TextColor = Color.Accent;
                 battlesequence = true;
             }
 
@@ -93,10 +95,18 @@ namespace DungeonTasker.Views
             ANNOUNCING = false;
         }
 
-        private async Task Announcer(string message)
+        private async Task Announcer(string message, bool battlesequence)
         {
             ANNOUNCING = true;
             var label = new Label();
+            if (!battlesequence)
+            {
+                label.TextColor = Color.FromHex("#F44336");
+            }
+            else if(battlesequence == true)
+            {
+                label.TextColor = Color.Accent;
+            }
             label.Opacity = 0;
             label.HorizontalTextAlignment = TextAlignment.Center;
             label.VerticalTextAlignment = TextAlignment.Center;
@@ -124,13 +134,13 @@ namespace DungeonTasker.Views
             await this.Navigation.PopModalAsync();
         }
 
-        private async Task BossAttack()
+        private async void BossAttack()
         {
             if (!battlesequence)
             {
                 Random rand = new Random();
                 int damage = rand.Next(5, 25);
-                await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()));
+                await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()),false);
                 CharacterHP -= damage;
                 await AttackPixelBoss();
                 CharacterHealth.RelRotateTo(360, 500);
@@ -138,7 +148,7 @@ namespace DungeonTasker.Views
                 await CharacterHealth.ScaleTo(1, 300);
 
                 if (CharacterHP <= 0) { WON = false; checkHP(); }
-                await Announcer("PLAYER TURN");
+                await Announcer("PLAYER TURN", true);
                 battlesequence = true;
             }
             
@@ -193,7 +203,8 @@ namespace DungeonTasker.Views
                 battlesequence = false;
                 Random rand = new Random();
                 int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
-                await Announcer(string.Format("PLAYER Dealt {0} Damage", damage));
+                await Announcer(string.Format("PLAYER Dealt {0} Damage", damage),true)
+                    ;
                 BossHP -= damage;
                 await AttackPixelCharacter();
                 BossHealth.RelRotateTo(360, 500);
@@ -201,8 +212,8 @@ namespace DungeonTasker.Views
                 await BossHealth.ScaleTo(1, 300);
 
                 if (BossHP <= 0) { WON = true; checkHP(); }
-                await Announcer("BOSS TURN");
-                await BossAttack();
+                await Announcer("BOSS TURN", false);
+                BossAttack();
             }
         }
     }
