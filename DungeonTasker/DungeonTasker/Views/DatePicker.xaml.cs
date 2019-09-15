@@ -33,9 +33,10 @@ namespace DungeonTasker.Views
          * When the add button is pressed add the time to the Tasks page.
          * returns NULL
          */
-        private async void _button_Toggled(object sender, ToggledEventArgs e)
-        {
 
+
+        private async void _switch_Clicked(object sender, EventArgs e)
+        {
             DateTime _triggerTime = _datePicker.Date + _timePicker.Time;// Add both the date picked and the time picked to a datetime variable
             TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
             try// Try clause to detect error
@@ -54,11 +55,8 @@ namespace DungeonTasker.Views
             catch (Exception es)
             {
                 //throw exception
-               await DisplayAlert("Error", es.Message, "Close");
+                await DisplayAlert("Error", es.Message, "Close");
             }
-            
-
-            
         }
     }
 }

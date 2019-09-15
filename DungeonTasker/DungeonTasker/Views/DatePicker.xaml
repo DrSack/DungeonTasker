@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.DatePicker">
     <ContentPage.Content>
@@ -18,12 +17,10 @@
             <TimePicker x:Name="_timePicker"
                     Format="T"
                      />
-
             <StackLayout Orientation="Horizontal">
                 <Label Text="Enable timer:" />
                 <Button Text="Add" x:Name="_switch"
-                    HorizontalOptions="EndAndExpand"
-                    Clicked="_button_Toggled" />
+                    HorizontalOptions="EndAndExpand" Clicked="_switch_Clicked"/>
             </StackLayout>
             <StackLayout x:Name="test_numbers">
                 
