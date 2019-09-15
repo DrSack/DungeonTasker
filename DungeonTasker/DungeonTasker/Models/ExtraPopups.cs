@@ -54,7 +54,7 @@ namespace DungeonTasker.Models
             string character = User.CheckForstring(file, "Character:");
             string logged = User.CheckForstring(file, "Logged:");//obtain file information
 
-            User user = new User(line[0], line[1], character, logged, file, times);
+            User user = new User(line[0], line[1], line[2], character, logged, file, times);
             InventoryItems item = new InventoryItems(items);
             Stats stat = new Stats(stats);
 

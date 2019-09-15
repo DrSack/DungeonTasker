@@ -120,7 +120,7 @@ namespace DungeonTasker.ViewModel
                     var Timer = Path.Combine(documents, line[0] + "Timer.dt");
                     var Items = Path.Combine(documents, line[0] + "Inv.dt");
                     var Stats = Path.Combine(documents, line[0] + "Stats.dt");
-                    User user = new User(line[0], line[1], character, logged, file, Timer);
+                    User user = new User(line[0], line[1],line[2], character, logged, file, Timer);
                     InventoryItems items = new InventoryItems(Items);
                     Stats stat = new Stats(Stats);
                     Application.Current.MainPage = new NavigationPage(new Add(user, items, stat));

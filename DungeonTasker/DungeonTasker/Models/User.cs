@@ -15,6 +15,7 @@ namespace DungeonTasker.Models
     {
         public string Username { get; set; } 
         public string Password { private get; set; }
+        public string FullName { get; set; }
         public string Character { get; set; }
         public string Logged { get; set; }
         public string file {get; set;}
@@ -29,10 +30,11 @@ namespace DungeonTasker.Models
          * string Logged: sets if logged in, 
          * string file: set the file path.
          */
-        public User(string Username, string Password, string Character, string Logged, string file, string timer)
+        public User(string Username, string Password, string FullName, string Character, string Logged, string file, string timer)
         {
             this.Username = Username;
             this.Password = Password;
+            this.FullName = FullName;
             this.Character = Character;
             this.Logged = Logged;
             this.file = file;
@@ -128,13 +130,13 @@ namespace DungeonTasker.Models
          *  @returns is Void
          *  
          */
-        public static async void StoreInfo(string User, string Pass, Register Rego)
+        public static async void StoreInfo(string User, string Pass, string FullName, Register Rego)
         {
             try
             {
                 // if the username and password are not filled in throw an exception
-                if (!checkinfo(User, Pass)) { throw new Exception("Please enter both credentials... ");}
-            string line = string.Format("ID:{0},{1},\nCharacter:(ง’̀-‘́)ง\nLogged:false", User, Pass);// format file structure
+                if (!checkinfo(User, Pass)) { throw new Exception("Please enter all credentials... ");}
+            string line = string.Format("ID:{0},{1},{2},\nCharacter:(ง’̀-‘́)ง\nLogged:false", User, Pass, FullName);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
             var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
             var Items = Path.Combine(documents, User+"Inv.dt");

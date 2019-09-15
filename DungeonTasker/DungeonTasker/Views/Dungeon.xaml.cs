@@ -104,10 +104,10 @@ namespace DungeonTasker.Views
             string keys = User.CheckForstring(items.Invfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
-            if(realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
+            if(realKeys > 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
             {
                 await this.Navigation.PushModalAsync(new Game(this));
-                items.GiveKey(0);
+                items.GiveKey(-1);
                 selectKey();
             }
             else

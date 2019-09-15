@@ -11,7 +11,7 @@ namespace DungeonTasker.ViewModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
-
+        public string FullName { get; set; }
         public Command RegisterBtn { get; set; }
         Register page;
         public RegisterViewModel(Register page)
@@ -19,6 +19,7 @@ namespace DungeonTasker.ViewModel
             this.page = page;
             Username = "";
             Password = "";
+            FullName = "";
             RegisterBtn = new Command(async () => await RegisterAddAccount());
         }
 
@@ -34,13 +35,13 @@ namespace DungeonTasker.ViewModel
         {
             try
             {
-                if ((!Username.Equals("") && !Password.Equals("")))// check if both username and password fields are filled
+                if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username and password fields are filled
                 {
-                    User.StoreInfo(Username, Password, page);// store and create new files based on the information given
+                    User.StoreInfo(Username, Password, FullName, page);// store and create new files based on the information given
                 }
                 else
                 {
-                    throw new Exception("Please enter both credentials... ");// throw exception
+                    throw new Exception("Please enter all credentials... ");// throw exception
                 }
             }
             catch (Exception es)
