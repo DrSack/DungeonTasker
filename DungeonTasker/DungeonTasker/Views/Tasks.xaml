@@ -5,30 +5,33 @@
              Title="Tasks">
 
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="180">
-                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                        <Label Text="" FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+        <Grid x:Name="Gridman">
+            <StackLayout Grid.Column="0" Grid.Row="0">
+                <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="180">
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
+                        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                            <Label Text="" FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+                        </StackLayout>
                     </StackLayout>
                 </StackLayout>
-            </StackLayout>
 
-            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,20,0,0">
-                <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
-                <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Large"></Label>
-            </StackLayout>
-
-            <ScrollView HeightRequest="200">
-                <StackLayout Padding="2,2,2,2">
-                    <StackLayout x:Name="timers" MinimumHeightRequest="200">
-
-                    </StackLayout>
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,20,0,0">
+                    <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
+                    <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Large"></Label>
                 </StackLayout>
-            </ScrollView>
 
-            <Button Margin="10" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="End" BackgroundColor="#212121" 
+                <ScrollView HeightRequest="200">
+                    <StackLayout Padding="2,2,2,2">
+                        <StackLayout x:Name="timers" MinimumHeightRequest="200">
+
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+
+                <Button Margin="10" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="End" BackgroundColor="#212121" 
                     WidthRequest="50" HeightRequest="50" BorderRadius="25" Command="{Binding AddTime}"></Button>
-        </StackLayout>
+            </StackLayout>
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

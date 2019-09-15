@@ -56,7 +56,7 @@ namespace DungeonTasker.Views
          * its corresponding name is taken and parsed through the Timer method to display each 
          * current operating timers still active according to the timer file
          * 
-         * PARAM void
+         * PARAM void.
          * RETURN Nothing
          */
         protected override void OnAppearing()
@@ -92,16 +92,25 @@ namespace DungeonTasker.Views
          * 
          * RETURNS Nothing
          */
-        public void Timer(string Task, DateTime Trg, TimeSpan Rem)
+        public void Timer(string Original, DateTime Trg, TimeSpan Rem)
         {
+            string TaskName = Original;
+            bool TimerStop = false;
             var timerlads = new StackLayout();
             timerlads.Orientation = StackOrientation.Horizontal;
             timerlads.BackgroundColor = Color.White;
             timerlads.Margin = new Thickness(3, 1, 3, 1);//Initialize Stacklayout and its properties
 
-            var cool = new Label { Text = Task };
+            var cool = new Label { Text = TaskName };
             var cool2 = new Label();
-            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, Task);//Initialize labels and TimerUpdatecs object
+            var Edit = new Button();
+            var Delete = new Button();
+
+            Edit.Text = "Edit";
+            Edit.HorizontalOptions = LayoutOptions.EndAndExpand;
+            Delete.Text = "Delete";
+            Delete.HorizontalOptions = LayoutOptions.End;
+            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName);//Initialize labels and TimerUpdatecs object
 
             time.R = time.T - DateTime.Now;
 
@@ -112,6 +121,24 @@ namespace DungeonTasker.Views
 
             cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
             time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
+
+            Edit.Clicked += async (s, a) =>
+            {
+                await this.Navigation.PushModalAsync(new EditTask(time,ListTimer,Currentuser, cool));
+            };
+
+            Delete.Clicked += async (s, a) =>
+            {
+                await Task.Run(async () =>
+                {
+                    Animations.CloseStackLayout(timerlads, "Timer", 30, 500);
+                });
+
+                TimerStop = true;
+                timers.Children.Remove(timerlads);
+                ListTimer.Remove(time);
+                Currentuser.UpdateCurrenttimes(ListTimer);
+            };
 
             ListTimer.Add(time);// add the TimerUpdatecs time variable to the ListTimer list
             Currentuser.UpdateCurrenttimes(ListTimer);// Update the current times on the file
@@ -130,9 +157,16 @@ namespace DungeonTasker.Views
                         return false;
                     }
 
+                    if(TimerStop == true)
+                    {
+                        return false;
+                    }
+
                     if (DateTime.Now >= Trg)// if the timer is equal to the end date or over
                     {
-                        DisplayRedeem(timerlads, time, Task);
+                        timerlads.Children.Remove(Delete);
+                        timerlads.Children.Remove(Edit);
+                        DisplayRedeem(timerlads, time, cool.Text);
                         return false;// 
                     }
 
@@ -141,6 +175,8 @@ namespace DungeonTasker.Views
 
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
+                timerlads.Children.Add(Edit);
+                timerlads.Children.Add(Delete);
                 timers.Children.Add(timerlads);// add all controls to stack layouts
             }
 
@@ -149,7 +185,7 @@ namespace DungeonTasker.Views
                 timerlads.Children.Add(cool);
                 timerlads.Children.Add(cool2);
                 timers.Children.Add(timerlads);// add all controls to stack layouts
-                DisplayRedeem(timerlads, time, Task);
+                DisplayRedeem(timerlads, time, cool.Text);
             }
 
         }
@@ -170,6 +206,7 @@ namespace DungeonTasker.Views
         {
             Application.Current.MainPage.DisplayAlert("Reminder Alert", string.Format("Assigned Task:{0} Timer is Done", task), "Close");
             var redeembtn = new Button { Text = "Redeem" };
+            redeembtn.HorizontalOptions = LayoutOptions.EndAndExpand;
             redeembtn.Clicked += async (s, a) =>
             {
                 await Task.Run(async () =>
@@ -185,5 +222,6 @@ namespace DungeonTasker.Views
             timerlads.Children.Add(redeembtn);
             timers.Children.Add(timerlads);
         }
+
     }
 }
