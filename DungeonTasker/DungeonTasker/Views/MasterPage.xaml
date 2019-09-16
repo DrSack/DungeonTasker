@@ -11,10 +11,10 @@
         </StackLayout>
         
         <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center" TextColor="#212121" Margin="0,20" FontAttributes="Bold"></Label>
-        
-        <Button Text="Tasks" Clicked="Tasks_Clicked" BackgroundColor="White"></Button>
-        <Button Text="Inventory" Clicked="Inventory_Clicked" BackgroundColor="White"></Button>
-        <Button Text="Dungeon" Clicked="Dungeon_Clicked" BackgroundColor="White"></Button>
-        <Button Text="Settings" Clicked="Settings_Clicked" BackgroundColor="White" VerticalOptions="EndAndExpand" Margin="0,25"></Button>
+
+        <Button Text="Tasks" BackgroundColor="White" Command="{Binding Tasks_Clicked}"></Button>
+        <Button Text="Inventory" BackgroundColor="White" Command="{Binding Inventory_Clicked}"></Button>
+        <Button Text="Dungeon" BackgroundColor="White" Command="{Binding Dungeon_Clicked}"></Button>
+        <Button Text="Settings" BackgroundColor="White" VerticalOptions="EndAndExpand" Margin="0,25" Command="{Binding Settings_Clicked}"></Button>
     </StackLayout>
 </ContentPage>
