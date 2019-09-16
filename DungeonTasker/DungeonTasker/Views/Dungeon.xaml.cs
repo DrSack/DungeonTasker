@@ -20,6 +20,8 @@ namespace DungeonTasker.Views
         public string CurrentBoss { get; set; }
         public string CurrentName { get; set; }
 
+
+
         public User user;
         public InventoryItems items;
         public WeaponInfo weapon;

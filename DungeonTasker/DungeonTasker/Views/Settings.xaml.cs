@@ -1,4 +1,5 @@
 ﻿using DungeonTasker.Models;
+using DungeonTasker.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,53 +14,20 @@ namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 
-    /**
-     * username hi password w
-     * 
-     * 
-     * 
-     */
     public partial class Settings : ContentPage
     {
-        User user;
-        logged truth;
-
+        /*
+         * Constructor for Settings Class
+         * @PARAMS
+         * user: parse through to binding context
+         * truth: parse through to  binding context
+         * 
+         * @RETURNS Nothing
+         */
         public Settings(User user, logged truth)
         {
             InitializeComponent();
-            this.user = user;
-            this.truth = truth;
-        }
-
-        /*
-         * If user decides to logout set the word "logged:true" to false such that the user isnt logged 
-         * automatically back onto their account next time they open the app
-         * PARAM 
-         * sender: reference to the control object
-         * eventargs: object data
-         * RETURNS Nothing
-         */
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
-            user.Logged = "false";
-            User.Rewrite("Logged:", "false", user.file);
-            truth.nice = false;
-            if (User.CheckForstring(user.file, "Logged:") == "false")
-            {
-                File.WriteAllText(user.file, File.ReadAllText(user.file));
-                await this.FadeTo(0, 600);
-                Application.Current.MainPage = new NavigationPage(new SpashScreen());
-            }
-
-        }
-
-        private async void DeleteAccountBtn(object sender, EventArgs e)
-        {
-            DeleteBtn.IsEnabled = false;
-            truth.nice = false;
-            user.DeleteAccount();
-            await this.FadeTo(0, 600);
-            Application.Current.MainPage = new NavigationPage(new SpashScreen());
+            BindingContext = new SettingsViewModel(user,truth,this);
         }
     }
 }

@@ -152,7 +152,7 @@ namespace DungeonTasker.Views
                     cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
                     time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
-                    if (truthtime.nice == false)// check whenever the truthtime boolean encapsulation class is false
+                    if (truthtime.TasksRun == false)// check whenever the truthtime boolean encapsulation class is false
                     {
                         return false;
                     }

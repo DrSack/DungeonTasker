@@ -12,7 +12,6 @@ namespace DungeonTasker.ViewModel
 {
     class GreetPageViewModel
     {
-        bool begin = true;
         public string Username { get; set; }
         public string Password { get; set; }
 
@@ -32,7 +31,6 @@ namespace DungeonTasker.ViewModel
             Password = "";
             Login = new Command(async () => await LoginCommand());
             RegisterCommand = new Command(async () => await page.Navigation.PushModalAsync(new Register()));
-            MessagingCenter.Subscribe<GreetPage>(this, "Hi", (sender) => OnAppearing());
             this.page = page;
             
             
@@ -99,7 +97,7 @@ namespace DungeonTasker.ViewModel
          * PARAM Nothing
          * RETURNS Nothing
          */
-        private void OnAppearing()
+        public static bool OnAppearing(bool begin)
         {
             string[] line;
             string all;
@@ -129,9 +127,9 @@ namespace DungeonTasker.ViewModel
             if (begin && !CheckAccounts(files))
             {
                 Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new user", "close");
-                begin = false;
+                return false;
             }
-
+            return false;
 
         }
 
@@ -144,7 +142,7 @@ namespace DungeonTasker.ViewModel
          * true: whenever a files exist
          * false: whenever it doesn't
          */
-        public bool CheckAccounts(string[] files)
+        public static bool CheckAccounts(string[] files)
         {
             try
             {

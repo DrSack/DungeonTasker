@@ -16,6 +16,7 @@ namespace DungeonTasker
 
     public partial class GreetPage : ContentPage
     {
+        bool begin = true;
         /*
          * Contructor for GreetPage, Initialize all controls. 
          * 
@@ -28,7 +29,7 @@ namespace DungeonTasker
 
         protected override void OnAppearing()
         {
-            MessagingCenter.Send(this, "Hi");
+            begin = GreetPageViewModel.OnAppearing(begin);
         }
     }
 }

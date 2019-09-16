@@ -11,9 +11,9 @@
             <Button Text="Logout"
              VerticalOptions="Center"
              HorizontalOptions="Center"
-             Clicked="Button_Clicked"/>
+             Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}"/>
 
-            <Button Text="Delete Account" Clicked="DeleteAccountBtn" x:Name="DeleteBtn"/>
+            <Button Text="Delete Account" x:Name="DeleteBtn" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

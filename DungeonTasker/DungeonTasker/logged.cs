@@ -7,13 +7,14 @@ namespace DungeonTasker
     
     public class logged
     {
-        public bool nice { get; set; }
+        public bool TasksRun { get; set; }
         /*
          * Encapsulation class to set a boolean true and false, initialise as false
+         * This is to tell all running async tasks to stop.
          */
         public logged()
         {
-           this.nice = true;
+           this.TasksRun = true;
         }
     }
 }
