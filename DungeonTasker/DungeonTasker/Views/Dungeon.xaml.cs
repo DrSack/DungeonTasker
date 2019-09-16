@@ -24,6 +24,7 @@ namespace DungeonTasker.Views
         public InventoryItems items;
         public WeaponInfo weapon;
         public Stats stats;
+        public Stats boss = new Stats();
 
         public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats)
         {
@@ -33,6 +34,7 @@ namespace DungeonTasker.Views
             this.stats = stats;
             InitializeComponent();
             selectBoss();
+            selectBossHP();
         }
         /*
          * Obtains how keys there are within the Invfile and display it on the KetsLeft label text
@@ -52,7 +54,15 @@ namespace DungeonTasker.Views
         {
             CurrentBoss = null;
             CurrentName = null;
+            selectBossHP();
             selectBoss();
+        }
+
+        private void selectBossHP()
+        {
+            Random rnd = new Random();
+            int HEALTH = rnd.Next(25, 101);
+            boss.Health = HEALTH;
         }
 
         /*

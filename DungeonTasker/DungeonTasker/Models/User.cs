@@ -62,6 +62,35 @@ namespace DungeonTasker.Models
             File.Move(tempFile, this.timer);//Replace the timer with the temporary file with the updated information
         }
 
+
+        /*
+         *This method is responsible for adding onto an already existing line.
+         *@para NONE
+         * @returns Nothing
+         */
+        public static void AddOntoLine(string command, string truth, string file)
+        {
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(file))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                {
+                    if (line.Contains(command)) { sw.WriteLine(line+truth); }
+                    else { sw.WriteLine(line); }
+                }
+            }
+
+            File.Delete(file);
+            File.Move(tempFile, file);
+        }
+
+
+
+
         /*
          *This method is responsible for rewriting all variables back into a file.
          *@para NONE
@@ -78,7 +107,7 @@ namespace DungeonTasker.Models
 
                 while (!string.IsNullOrEmpty(line = sr.ReadLine()))
                 {
-                    if (line.Contains(command)) { sw.WriteLine(command + truth); }
+                    if (line.Contains(command)) { sw.WriteLine(command + truth);}
                     else { sw.WriteLine(line); }
                 }
             }
@@ -152,7 +181,7 @@ namespace DungeonTasker.Models
                     //Write onto file and save onto device
                     File.WriteAllText(filename, line);
                     File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0,\nEquipped:IronDagger");
-                    File.WriteAllText(Stats, "HEALTH:100\nMANA:50\nLEVEL:1");
+                    File.WriteAllText(Stats, "HEALTH:100\nLEVEL:1\nEXP:0");
                     File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.
                     await ExtraPopups.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
