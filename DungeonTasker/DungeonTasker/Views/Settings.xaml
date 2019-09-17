@@ -6,14 +6,11 @@
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.Settings"
              x:Name="Content">
+    
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <Button Text="Logout"
-             VerticalOptions="Center"
-             HorizontalOptions="Center"
-             Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}"/>
-
-            <Button Text="Delete Account" x:Name="DeleteBtn" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}"/>
+        <StackLayout>
+            <Button Text="Delete Account" x:Name="DeleteBtn" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" Padding="100,20"/>
+            <Button Text="Logout" Padding="100,20" VerticalOptions="End" HorizontalOptions="CenterAndExpand" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

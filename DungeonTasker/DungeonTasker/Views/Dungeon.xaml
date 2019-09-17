@@ -31,17 +31,17 @@
                 <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="InnerStackKey">
                     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                         <Label FontSize="30" HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="O==I\" TextColor="#FFCA28" FontAttributes="Bold"/>
-                        <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="x1 Key(s) to battle" TextColor="#212121"/>
+                        <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to battle" TextColor="#212121"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
 
             <StackLayout VerticalOptions="Start">
-                <Label HorizontalTextAlignment="Center" Margin="0,15,0,8">
+                <Label HorizontalTextAlignment="Center" Margin="0,10">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Keys (" TextColor="#212121"/>
-                            <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="KeysLeft"/>
+                            <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="KeysLeft" TextColor="#212121"/>
                             <Span Text=")" TextColor="#212121"/>
                         </FormattedString>
                     </Label.FormattedText>

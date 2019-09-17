@@ -7,24 +7,22 @@
     <ContentPage.Content>
         <Grid x:Name="Gridman">
             <StackLayout Grid.Column="0" Grid.Row="0">
-                <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="180">
+                <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="130">
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
                         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                            <Label Text="" FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+                            <Label Text="" FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>
 
-                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,20,0,0">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,10,0,10">
                     <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
-                    <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Large"></Label>
+                    <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Medium"></Label>
                 </StackLayout>
 
                 <ScrollView HeightRequest="200">
                     <StackLayout Padding="2,2,2,2">
-                        <StackLayout x:Name="timers" MinimumHeightRequest="200">
-
-                        </StackLayout>
+                        <StackLayout x:Name="timers" MinimumHeightRequest="200"></StackLayout>
                     </StackLayout>
                 </ScrollView>
 

@@ -99,7 +99,7 @@ namespace DungeonTasker.Views
             var timerlads = new StackLayout();
             timerlads.Orientation = StackOrientation.Horizontal;
             timerlads.BackgroundColor = Color.White;
-            timerlads.Margin = new Thickness(3, 1, 3, 1);//Initialize Stacklayout and its properties
+            timerlads.Margin = new Thickness(3, 1, 3, 1); // Initialize Stacklayout and its properties
 
             var cool = new Label { Text = TaskName };
             var cool2 = new Label();
@@ -110,12 +110,12 @@ namespace DungeonTasker.Views
             Edit.HorizontalOptions = LayoutOptions.EndAndExpand;
             Delete.Text = "Delete";
             Delete.HorizontalOptions = LayoutOptions.End;
-            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName);//Initialize labels and TimerUpdatecs object
+            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName); // Initialize labels and TimerUpdatecs object
 
             time.R = time.T - DateTime.Now;
 
             if (DateTime.Now >= time.T)
-            {//if the current time is overdue then time remainging is 00:00:00
+            { // If the current time is overdue then time remainging is 00:00:00
                 time.R = DateTime.Now - DateTime.Now;
             }
 
@@ -140,24 +140,24 @@ namespace DungeonTasker.Views
                 Currentuser.UpdateCurrenttimes(ListTimer);
             };
 
-            ListTimer.Add(time);// add the TimerUpdatecs time variable to the ListTimer list
-            Currentuser.UpdateCurrenttimes(ListTimer);// Update the current times on the file
+            ListTimer.Add(time); // Add the TimerUpdatecs time variable to the ListTimer list
+            Currentuser.UpdateCurrenttimes(ListTimer); // Update the current times on the file
 
-            if (DateTime.Now < Trg)// Check whenever the current date is still under the end date of the task.
+            if (DateTime.Now < Trg) // Check whenever the current date is still under the end date of the task.
             {
 
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-                {// Start timer to be run by a background thread
-                    time.R = time.T - DateTime.Now;//update remaining time
+                { // Start timer to be run by a background thread
+                    time.R = time.T - DateTime.Now; // Update remaining time
                     cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
                     time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
-                    if (truthtime.TasksRun == false)// check whenever the truthtime boolean encapsulation class is false
+                    if (truthtime.TasksRun == false) // Check whenever the truthtime boolean encapsulation class is false
                     {
                         return false;
                     }
 
-                    if(TimerStop == true)
+                    if (TimerStop == true)
                     {
                         return false;
                     }
