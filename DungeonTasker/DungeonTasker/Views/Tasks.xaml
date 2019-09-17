@@ -6,6 +6,10 @@
 
     <ContentPage.Content>
         <Grid x:Name="Gridman">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
             <StackLayout Grid.Column="0" Grid.Row="0">
                 <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="130">
                     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
@@ -16,17 +20,16 @@
                 </StackLayout>
 
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,10,0,10">
-                    <Label HorizontalTextAlignment="Center" Text="Upcoming Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
-                    <Label HorizontalTextAlignment="Center" x:Name="Name" FontSize="Medium"></Label>
+                    <Label HorizontalTextAlignment="Center" Text="Your Tasks" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
                 </StackLayout>
 
-                <ScrollView HeightRequest="200">
+                <ScrollView Grid.Row="1" HeightRequest="260">
                     <StackLayout Padding="2,2,2,2">
                         <StackLayout x:Name="timers" MinimumHeightRequest="200"></StackLayout>
                     </StackLayout>
                 </ScrollView>
 
-                <Button Margin="0,35,15,0" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="EndAndExpand" BackgroundColor="#212121" 
+                <Button Grid.Row="1" Margin="10,0,10,10" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand" BackgroundColor="#212121" 
                     WidthRequest="50" HeightRequest="50" BorderRadius="25" Command="{Binding AddTime}"></Button>
             </StackLayout>
         </Grid>

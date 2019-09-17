@@ -5,12 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.EditTask">
+    
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <StackLayout Orientation="Vertical" HeightRequest="275" WidthRequest="300">
                 <StackLayout VerticalOptions="CenterAndExpand">
-                    <Entry Placeholder="Edit Taskname" x:Name="TaskEditted"></Entry>
-                    <Button Text="Edit" Clicked="PopupEditing" x:Name="PopupEditingText"></Button>
+                    <Entry Placeholder="Edit the task's name" x:Name="TaskEditted"></Entry>
+                    <Button Text="Done" Clicked="PopupEditing" x:Name="PopupEditingText"></Button>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

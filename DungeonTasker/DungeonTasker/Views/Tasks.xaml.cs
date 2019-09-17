@@ -18,7 +18,7 @@ namespace DungeonTasker.Views
         User Currentuser;
         InventoryItems items;
         logged truthtime;
-        bool truth = true;//Initialize all variables
+        bool truth = true; // Initialize all variables
 
         /*
          * Contructor for DetailsPage to encapsulate current user information and truth value.
@@ -33,8 +33,8 @@ namespace DungeonTasker.Views
             this.Currentuser = user;
             this.truthtime = truth;
             this.items = items;
-            Name.Text = Currentuser.Username;
-            Character.Text = Currentuser.Character;// Initialize all components
+            // Name.Text = Currentuser.Username;
+            Character.Text = Currentuser.Character; // Initialize all components
         }
 
         /*
@@ -46,7 +46,7 @@ namespace DungeonTasker.Views
          */
         public async void Add_Time(object sender, EventArgs e)
         {
-            await this.Navigation.PushModalAsync(new DatePicker(this));// open DatePicker
+            await this.Navigation.PushModalAsync(new DatePicker(this)); // Open DatePicker
         }
 
         /*
@@ -61,7 +61,7 @@ namespace DungeonTasker.Views
          */
         protected override void OnAppearing()
         {
-            if (truth)// if this is the first time opening the content page
+            if (truth) // If this is the first time opening the content page
             {
                 using (var sr = new StreamReader(Currentuser.timer))
                 {
@@ -71,14 +71,13 @@ namespace DungeonTasker.Views
                     {
                         split = line.Split(',');
                         DateTime nice = Convert.ToDateTime(split[1]);
-                        TimeSpan Rem = nice - DateTime.Now;// store information into variables
-                        Timer(split[0], nice, Rem);//call Timer and parse variables
+                        TimeSpan Rem = nice - DateTime.Now; // Store information into variables
+                        Timer(split[0], nice, Rem); // Call Timer and parse variables
                     }
                 }
-                truth = false;// declare false so timers wont be added again
+
+                truth = false; // Declare false so timers wont be added again
             }
-
-
         }
 
         /*
@@ -96,38 +95,51 @@ namespace DungeonTasker.Views
         {
             string TaskName = Original;
             bool TimerStop = false;
+
+            // Initialize Stacklayout and its properties
             var timerlads = new StackLayout();
             timerlads.Orientation = StackOrientation.Horizontal;
             timerlads.BackgroundColor = Color.White;
-            timerlads.Margin = new Thickness(3, 1, 3, 1); // Initialize Stacklayout and its properties
 
-            var cool = new Label { Text = TaskName };
-            var cool2 = new Label();
-            var Edit = new Button();
-            var Delete = new Button();
+            var taskName = new Label
+            {
+                Text = TaskName,
+                Margin = new Thickness(10, 15),
+                TextColor = Color.FromHex("#212121")
+            };
 
-            Edit.Text = "Edit";
-            Edit.HorizontalOptions = LayoutOptions.EndAndExpand;
-            Delete.Text = "Delete";
-            Delete.HorizontalOptions = LayoutOptions.End;
-            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName); // Initialize labels and TimerUpdatecs object
+            var Edit = new Button
+            {
+                Text = "Edit",
+                HorizontalOptions = LayoutOptions.EndAndExpand,
+            };
 
+            var countdownFinish = new Button
+            {
+                IsEnabled = false,
+                BackgroundColor = Color.FromHex("#00CC33"),
+                HorizontalOptions = LayoutOptions.End,
+            };
+
+            // Initialize labels and TimerUpdatecs object
+            TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName);
             time.R = time.T - DateTime.Now;
 
+            // If the current time is overdue then time remainging is 00:00:00
             if (DateTime.Now >= time.T)
-            { // If the current time is overdue then time remainging is 00:00:00
+            { 
                 time.R = DateTime.Now - DateTime.Now;
             }
 
-            cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
+            countdownFinish.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
             time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
             Edit.Clicked += async (s, a) =>
             {
-                await this.Navigation.PushModalAsync(new EditTask(time,ListTimer,Currentuser, cool));
+                await this.Navigation.PushModalAsync(new EditTask(time,ListTimer,Currentuser, taskName));
             };
 
-            Delete.Clicked += async (s, a) =>
+            countdownFinish.Clicked += async (s, a) =>
             {
                 await Task.Run(async () =>
                 {
@@ -149,7 +161,7 @@ namespace DungeonTasker.Views
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
                 { // Start timer to be run by a background thread
                     time.R = time.T - DateTime.Now; // Update remaining time
-                    cool2.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
+                    countdownFinish.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
                     time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
                     if (truthtime.TasksRun == false) // Check whenever the truthtime boolean encapsulation class is false
@@ -162,35 +174,29 @@ namespace DungeonTasker.Views
                         return false;
                     }
 
-                    if (DateTime.Now >= Trg)// if the timer is equal to the end date or over
+                    if (DateTime.Now >= Trg) // If the timer is equal to the end date or over
                     {
-                        timerlads.Children.Remove(Delete);
-                        timerlads.Children.Remove(Edit);
-                        DisplayRedeem(timerlads, time, cool.Text);
-                        return false;// 
+                        timerlads.Children.Remove(countdownFinish);
+                        DisplayRedeem(timerlads, time, taskName.Text);
+                        return false; 
                     }
-
-                    return true;// return true to continue thread and timer operation
+                    return true; // Return true to continue thread and timer operation
                 });
 
-                timerlads.Children.Add(cool);
-                timerlads.Children.Add(cool2);
+                timerlads.Children.Add(taskName);
                 timerlads.Children.Add(Edit);
-                timerlads.Children.Add(Delete);
-                timers.Children.Add(timerlads);// add all controls to stack layouts
+                timerlads.Children.Add(countdownFinish);
+                timers.Children.Add(timerlads); // Add all controls to stack layouts
             }
 
-            else// if over due display redeem button
+            else // If over due display redeem button
             {
-                timerlads.Children.Add(cool);
-                timerlads.Children.Add(cool2);
-                timers.Children.Add(timerlads);// add all controls to stack layouts
-                DisplayRedeem(timerlads, time, cool.Text);
+                timerlads.Children.Add(taskName);
+                timerlads.Children.Add(Edit);
+                timers.Children.Add(timerlads); // Add all controls to stack layouts
+                DisplayRedeem(timerlads, time, taskName.Text);
             }
-
         }
-
-
 
         /*
          * This method is responsible for displaying the redeem button and updating the 
@@ -201,12 +207,16 @@ namespace DungeonTasker.Views
          * times: the current TimerUpdatecs to be removed from the ListTimer list 
          * RETURNS Nothing
          */
-
         public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times, string task)
         {
-            Application.Current.MainPage.DisplayAlert("Reminder Alert", string.Format("Assigned Task:{0} Timer is Done", task), "Close");
-            var redeembtn = new Button { Text = "Redeem" };
-            redeembtn.HorizontalOptions = LayoutOptions.EndAndExpand;
+            var redeembtn = new Button
+            {
+                Text = "Finish",
+                HorizontalOptions = LayoutOptions.End,
+                BackgroundColor = Color.FromHex("#00CC33"),
+                TextColor = Color.White,
+            };
+
             redeembtn.Clicked += async (s, a) =>
             {
                 await Task.Run(async () =>
@@ -219,9 +229,9 @@ namespace DungeonTasker.Views
                 Currentuser.UpdateCurrenttimes(ListTimer);
                 items.GiveKey(1);
             };
+
             timerlads.Children.Add(redeembtn);
             timers.Children.Add(timerlads);
         }
-
     }
 }
