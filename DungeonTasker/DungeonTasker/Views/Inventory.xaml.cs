@@ -175,13 +175,13 @@ namespace DungeonTasker.Views
             if (equippedWep.Contains("Not Equipped"))
             {
                 EquippedLabel.Text = User.CheckForstring(items.Invfile, "Equipped:");
-                Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfo.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
             else
             {
                 EquippedLabel.Text = User.CheckForstring(items.Invfile, "Equipped:");
+                Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfo.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;
             }
