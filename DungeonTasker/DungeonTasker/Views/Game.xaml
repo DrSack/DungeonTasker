@@ -37,6 +37,12 @@
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
                         <StackLayout>
                             <Button Text="Attack" Clicked="AttackBtn" TextColor="#F44336" BackgroundColor="White"/>
+                            <Button Text="Button" BackgroundColor="White"/>
+                        </StackLayout>
+                        
+                        <StackLayout>
+                            <Button Text="Button" BackgroundColor="White"/>
+                            <Button Text="Button" BackgroundColor="White"/>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

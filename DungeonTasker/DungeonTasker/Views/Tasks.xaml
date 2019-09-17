@@ -26,10 +26,9 @@
                     </StackLayout>
                 </ScrollView>
 
-                <Button Margin="10" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="End" BackgroundColor="#212121" 
+                <Button Margin="0,35,15,0" Text="+" TextColor="Accent" FontSize="Large" Clicked="Add_Time" HorizontalOptions="EndAndExpand" BackgroundColor="#212121" 
                     WidthRequest="50" HeightRequest="50" BorderRadius="25" Command="{Binding AddTime}"></Button>
             </StackLayout>
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>
