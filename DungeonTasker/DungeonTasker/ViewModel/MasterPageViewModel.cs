@@ -14,6 +14,7 @@ namespace DungeonTasker.ViewModel
         public Command Inventory_Clicked { get; set; }
         public Command Dungeon_Clicked { get; set; }
         public Command Settings_Clicked { get; set; }
+        public Command About_Clicked { get; set; }
 
         Page page;// This is the tasks page set to be binded to the Tasks_clicked command
         User user;
@@ -54,6 +55,7 @@ namespace DungeonTasker.ViewModel
             Tasks_Clicked = new Command(() => TaskNav());
             Inventory_Clicked = new Command(() => InventoryNav());
             Dungeon_Clicked = new Command(() => DungeonNav());
+            About_Clicked = new Command(() => AboutNav());
             Settings_Clicked = new Command(() => SettingsNav());
         }
 
@@ -103,6 +105,12 @@ namespace DungeonTasker.ViewModel
 
         }
 
+
+        private void AboutNav()
+        {
+            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new AboutUs());
+            ((MasterDetailPage)mainpage.Parent).IsPresented = false;
+        }
         /*
          * If this is selected change the detailspage to the settings
          * 

@@ -9,12 +9,12 @@
         <StackLayout>
             <Image Source="mastah.png" Aspect="AspectFill" HorizontalOptions="FillAndExpand"></Image>
         </StackLayout>
-        
-        <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center" TextColor="#212121" Margin="0,20" FontAttributes="Bold"></Label>
 
+        <Label FontSize="Medium" Text="Menu Items" HorizontalTextAlignment="Center" TextColor="#212121" Margin="0,20" FontAttributes="Bold"></Label>
         <Button Text="Tasks" BackgroundColor="White" Command="{Binding Tasks_Clicked}"></Button>
         <Button Text="Inventory" BackgroundColor="White" Command="{Binding Inventory_Clicked}"></Button>
         <Button Text="Dungeon" BackgroundColor="White" Command="{Binding Dungeon_Clicked}"></Button>
+        <Button Text="About Us" BackgroundColor="White" Command="{Binding About_Clicked}"></Button>
         <Button Text="Settings" BackgroundColor="White" VerticalOptions="EndAndExpand" Margin="0,25" Command="{Binding Settings_Clicked}"></Button>
     </StackLayout>
 </ContentPage>
