@@ -227,7 +227,7 @@ namespace DungeonTasker.Views
                 Random rand = new Random();
                 int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
                 await Announcer(string.Format("PLAYER Dealt {0} Damage",damage),true);
-                BossHP -= damage;
+                BossHP -= 1000;
                 await AttackPixelCharacter();
                 BossHealth.RelRotateTo(360, 500);
                 await BossHealth.ScaleTo(5, 300);

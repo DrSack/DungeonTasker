@@ -42,6 +42,7 @@ namespace DungeonTasker.Models
                 User.Rewrite("LEVEL:", Level.ToString(), file);
                 return true;
             }
+
             else
             {
                 return false;

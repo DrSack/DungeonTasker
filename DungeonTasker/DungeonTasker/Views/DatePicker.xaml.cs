@@ -25,8 +25,7 @@ namespace DungeonTasker.Views
             //Initialize the componenets and add the content page.
             this.page = page;
             InitializeComponent();
-            _timePicker.Time = DateTime.Now.TimeOfDay;// set the default date for _timerpicked to the current time.
-            
+            _timePicker.Time = DateTime.Now.AddMinutes(15).TimeOfDay;// set the default date for _timerpicked to the current time.
         }
 
         /*
@@ -41,10 +40,11 @@ namespace DungeonTasker.Views
             TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
             try// Try clause to detect error
             {
-                if (_triggerTime <= DateTime.Now)
+                if (_triggerTime <= DateTime.Now.AddMinutes(15))
                 {// When the date selected is lower than the current date throw an exception
-                    throw new Exception("Date Invalid");
+                    throw new Exception("Date Invalid\nTime less than 15");
                 }
+
                 else
                 {
                     //Add a timer to the Tasks page and close the current page.
@@ -57,6 +57,35 @@ namespace DungeonTasker.Views
                 //throw exception
                 await DisplayAlert("Error", es.Message, "Close");
             }
+        }
+
+        private async void btn5(object sender, EventArgs e)
+        {
+            DateTime _triggerTime = DateTime.Now.AddMinutes(5);
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
+            page.Timer(_entry.Text, _triggerTime, _remainderTime);
+            await page.Navigation.PopModalAsync();
+        }
+
+        private async void btn10(object sender, EventArgs e)
+        {
+            DateTime _triggerTime = DateTime.Now.AddMinutes(10);
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
+            page.Timer(_entry.Text, _triggerTime, _remainderTime);
+            await page.Navigation.PopModalAsync();
+        }
+
+        private async void btn15(object sender, EventArgs e)
+        {
+            DateTime _triggerTime = DateTime.Now.AddMinutes(15);
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now;//Take the date of the time and the trigger time to be left with the remainder time
+            page.Timer(_entry.Text, _triggerTime, _remainderTime);
+            await page.Navigation.PopModalAsync();
+        }
+
+        protected override void OnAppearing()
+        {
+            _entry.Focus();
         }
     }
 }

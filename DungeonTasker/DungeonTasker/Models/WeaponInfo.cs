@@ -53,6 +53,7 @@ namespace DungeonTasker.Models
             int minimum = 0;
             try
             {
+                if(weapon.Contains("Nothing Equipped")) { confirmWeapon(totaldmg+2, minimum+0, weapon); }
                 if (EquippedWeapon == weapon) { throw new Exception("Already equipped"); }
 
                 if (weapon.Contains("Wooden"))

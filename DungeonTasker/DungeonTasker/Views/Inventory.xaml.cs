@@ -16,6 +16,7 @@ namespace DungeonTasker.Views
 	{
         InventoryItems items;// Store items information
         WeaponInfo weapon;
+        List<string> weapons = new List<string>();
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
@@ -34,8 +35,9 @@ namespace DungeonTasker.Views
          * PARAM Nothing
          * RETURNS Nothing
          */
-        private void displayitems()
+        private async void displayitems()
         {
+            int weaponsOn;
             string line;
             string[] Weapons;
             string[] Keys;
@@ -45,6 +47,10 @@ namespace DungeonTasker.Views
 
             line = User.CheckForstring(items.Invfile, "Weapons:");
             Weapons = line.Split(',');
+            weapons = line.Split(',').ToList();
+            weaponsOn = weapons.Count;
+
+
             line = User.CheckForstring(items.Invfile, "Keys:");
             Keys = line.Split(',');// Retrieve data
             line = User.CheckForstring(items.Invfile, "Equipped:");
@@ -57,7 +63,8 @@ namespace DungeonTasker.Views
             Types.Add("Weapons");
             Types.Add("Keys");
             Types.Add("Equipped");// Add to lists
-
+            int count = 0;
+            bool NoWepCheck = true;
             foreach (string[] type in ListItems)
             {//Runs through each array within the List
                 var ItemTitle = new Label();
@@ -70,7 +77,7 @@ namespace DungeonTasker.Views
                 LayoutWeapon.Padding = new Thickness(2, 2, 2, 2);
                 LayoutWeapon.Spacing = 2;
                 ItemsList.Children.Add(ItemTitle);//add type of item to stacklayout
-
+                int i = 0;
                 foreach (string item in type)
                 {// for each array run through each individual item and display as a Label
                     var Label = new Label();
@@ -86,54 +93,121 @@ namespace DungeonTasker.Views
 
                     if (string.IsNullOrEmpty(item))
                     {
+                        if (NoWepCheck)
+                        {
+                            Label.HorizontalTextAlignment = TextAlignment.Center;
+                            Label.Text = "No Weapons";
+                            LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
+                            LayoutItem.Children.Add(Label);
+                            LayoutWeapon.Children.Add(LayoutItem);
+                            ItemsList.Children.Add(LayoutWeapon);
+                            NoWepCheck = false;
+                        }
                         break;
                     }
 
                     else if (Types[0] == "Weapons")
                     {
-                        var button = new Button();
-                        var Label2 = new Label();
-                        Label.Margin = new Thickness(5, 0, 0, 0);
-                        LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
-                        LayoutItem.Orientation = StackOrientation.Horizontal;
-                        Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
-                        Label2.HorizontalTextAlignment = TextAlignment.Start;
-                        Label2.VerticalTextAlignment = TextAlignment.Center;
-                        button.Text = "equip";
-                        button.HorizontalOptions = LayoutOptions.EndAndExpand;
+                            bool triggered = true;
+                            int nice = i;
+                            NoWepCheck = false;
+                            var button = new Button();
+                            var sell = new Button();
+                            var Label2 = new Label();
+                            Label.Margin = new Thickness(5, 0, 0, 0);
+                            LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
+                            LayoutItem.Orientation = StackOrientation.Horizontal;
+                            Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
+                            Label2.FontSize = 10;
+                            Label2.HorizontalTextAlignment = TextAlignment.Start;
+                            Label2.VerticalTextAlignment = TextAlignment.Center;
+                            button.Text = "equip";
+                            button.HorizontalOptions = LayoutOptions.EndAndExpand;
+                            button.WidthRequest = 60;
+                            button.HeightRequest = 50;
+                            sell.Text = "sell";
+                            sell.HorizontalOptions = LayoutOptions.End;
+                            sell.WidthRequest = 60;
+                            sell.HeightRequest = 50;
 
-                        button.Clicked += (s, a) =>
-                        {
-                            weapon.SetWeapon(this, item);
-                            ItemsList.Children.Clear();
-                            displayitems();
-                        };
+                            button.Clicked += (s, a) =>
+                            {
+                                weapon.SetWeapon(this, item);
+                                ItemsList.Children.Clear();
+                                displayitems();
+                            };
 
-                        LayoutItem.Children.Add(Label);
-                        LayoutItem.Children.Add(Label2);
-                        LayoutItem.Children.Add(button);
-                        LayoutWeapon.Children.Add(LayoutItem);
-                        ItemsList.Children.Add(LayoutWeapon);
+                            sell.Clicked += async (s, a) =>
+                            {
+                                Label2.Text = i.ToString();
+                                if (triggered)
+                                {
+                                    triggered = false;
+                                    weapons.RemoveAt(nice);
+                                }
+                                string weaponlist = "";
+                                foreach (string weapon in weapons)
+                                {
+                                    if (!String.IsNullOrEmpty(weapon))
+                                    {
+                                        weaponlist += weapon + ",";
+                                    }
+                                }
+                                User.Rewrite("Weapons:", weaponlist, items.Invfile);
+                                string equipped = User.CheckForstring(items.Invfile, "Equipped:");
+                                if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))
+                                {
+                                    User.Rewrite("Equipped:", "Not Equipped", items.Invfile);
+                                    weapon.SetWeapon(this, "Not Equipped");
+                                }
+                                await Task.Run(async () =>
+                                {
+                                    Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
+                                });
 
+                                ItemsList.Children.Clear();
+                                displayitems();
+                            };
+
+                            LayoutItem.Children.Add(Label);
+                            LayoutItem.Children.Add(Label2);
+                            LayoutItem.Children.Add(button);
+                            LayoutItem.Children.Add(sell);
+                            LayoutWeapon.Children.Add(LayoutItem);
+                            ItemsList.Children.Add(LayoutWeapon);
+                            count++;
+                        i++;
+                        
                     }
 
                     else if (Types[0] == "Equipped")
                     {
                         var equipped = new StackLayout();
-                        var Label2 = new Label();
                         Label.HorizontalTextAlignment = TextAlignment.Center;
                         Label.Text = string.Format("{0}", item);
-                        Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
                         equipped.HorizontalOptions = LayoutOptions.CenterAndExpand;
                         equipped.Orientation = StackOrientation.Horizontal;
                         LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-                        equipped.Children.Add(Label);
-                        equipped.Children.Add(Label2);
-                        LayoutItem.Children.Add(equipped);
-                        LayoutWeapon.Children.Add(LayoutItem);
-                        ItemsList.Children.Add(LayoutWeapon);
+                        if (!item.Contains("Not Equipped"))
+                        {
+                            var Label2 = new Label();
+                            Label2.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(item, true).ToString(), WeaponInfo.ObtainWeaponInfo(item, false));
+                            equipped.Children.Add(Label);
+                            equipped.Children.Add(Label2);
+                            LayoutItem.Children.Add(equipped);
+                            LayoutWeapon.Children.Add(LayoutItem);
+                            ItemsList.Children.Add(LayoutWeapon);
+                        }
+                        else
+                        {
+                            equipped.Children.Add(Label);
+                            LayoutItem.Children.Add(equipped);
+                            LayoutWeapon.Children.Add(LayoutItem);
+                            ItemsList.Children.Add(LayoutWeapon);
+                        }
                     }
+
                     else
                     {
                         Label.HorizontalTextAlignment = TextAlignment.Center;
@@ -141,7 +215,7 @@ namespace DungeonTasker.Views
                         LayoutWeapon.Children.Add(LayoutItem);
                         ItemsList.Children.Add(LayoutWeapon);
                     }
-                    
+
                     
                 }
                 Types.RemoveAt(0);
