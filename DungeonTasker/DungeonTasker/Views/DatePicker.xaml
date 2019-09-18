@@ -16,10 +16,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
-                <Button Text="5:00" Grid.Column="0" Grid.Row="0" Clicked="btn5" BackgroundColor="White"/>
-                <Button Text="10:00" Grid.Column="1" Grid.Row="0" Clicked="btn10" BackgroundColor="White"/>
-                <Button Text="15:00" Grid.Column="2" Grid.Row="0" Clicked="btn15" BackgroundColor="White"/>
+
+                <Button Text="5:00" Grid.Column="0" Grid.Row="0" Clicked="btn5" BackgroundColor="White" TextColor="#00CC33"/>
+                <Button Text="10:00" Grid.Column="1" Grid.Row="0" Clicked="btn10" BackgroundColor="White" TextColor="#FFCA28"/>
+                <Button Text="15:00" Grid.Column="2" Grid.Row="0" Clicked="btn15" BackgroundColor="White" TextColor="#F44336"/>
             </Grid>
             
             <StackLayout VerticalOptions="StartAndExpand">

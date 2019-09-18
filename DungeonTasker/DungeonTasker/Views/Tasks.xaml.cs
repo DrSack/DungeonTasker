@@ -107,7 +107,6 @@ namespace DungeonTasker.Views
 
                 truth = false; // Declare false so timers wont be added again
             }
-
         }
 
         /*
