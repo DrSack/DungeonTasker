@@ -17,16 +17,22 @@ namespace DungeonTasker
     public partial class GreetPage : ContentPage
     {
         bool begin = true;
+
         /*
          * Contructor for GreetPage, Initialize all controls. 
          * 
          */
+
         public GreetPage()
         {
             InitializeComponent();
             BindingContext = new GreetPageViewModel(this);
         }
 
+        /*
+        * On appearing method to check if the user has any files within the folder. 
+        * 
+        */
         protected override void OnAppearing()
         {
             Device.BeginInvokeOnMainThread(async () =>

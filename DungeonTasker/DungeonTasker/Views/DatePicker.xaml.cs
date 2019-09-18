@@ -66,6 +66,11 @@ namespace DungeonTasker.Views
             }
         }
 
+        /*
+         * If 5:00 is pressed display 5:00 on the timer
+         *
+         */
+
         private async void btn5(object sender, EventArgs e)
         {
             DateTime _triggerTime = DateTime.Now.AddMinutes(5);
@@ -74,25 +79,33 @@ namespace DungeonTasker.Views
             await page.Navigation.PopModalAsync();
         }
 
+        /*
+         * If 10:00 is pressed display 5:00 on the timer
+         *
+         */
         private async void btn10(object sender, EventArgs e)
         {
             DateTime _triggerTime = DateTime.Now.AddMinutes(10);
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now;
             page.Timer(_entry.Text, _triggerTime, _remainderTime);
             await page.Navigation.PopModalAsync();
         }
 
+        /*
+         * If 15:00 is pressed display 5:00 on the timer
+         *
+         */
         private async void btn15(object sender, EventArgs e)
         {
             DateTime _triggerTime = DateTime.Now.AddMinutes(15);
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
+            TimeSpan _remainderTime = _triggerTime - DateTime.Now; 
             page.Timer(_entry.Text, _triggerTime, _remainderTime);
             await page.Navigation.PopModalAsync();
         }
 
         protected override async void OnAppearing()
         {
-            if (tut)
+            if (tut)// Run this if the tutorial is active.
             {
                 await ExtraPopups.ShowMessage("This is the DatePicker tool.\nThis is where you can set tasks", "DatePicker", "Close", this, async () =>
                 {

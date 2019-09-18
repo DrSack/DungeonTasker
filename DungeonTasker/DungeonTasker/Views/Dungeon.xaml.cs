@@ -20,6 +20,7 @@ namespace DungeonTasker.Views
         public string CurrentBoss { get; set; }
         public string CurrentName { get; set; }
 
+        public bool tut { get; set; }
 
 
         public User user;
@@ -27,7 +28,19 @@ namespace DungeonTasker.Views
         public WeaponInfo weapon;
         public Stats stats;
         public Stats boss = new Stats();
-        public bool tut { get; set; }
+        
+        /*
+         * Constructor for Dungeon
+         * Encapsulates User,InventoryItems,WeaponInfo,Stats objects + the bool variable
+         * @Param 
+         * user:parse user,
+         * items: parse items,
+         * weapon: parse weapon ,
+         * stats: parse stats,
+         * tut: true of false if the tutorial display alert is wished to be displayed
+         * 
+         * Return Nothing
+         */
 
         public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats, bool tut)
         {
@@ -54,6 +67,12 @@ namespace DungeonTasker.Views
             KeysLeft.Text = keys;
         }
 
+        /*
+         * Set current boss and name to NULL, then reselect the boss hp and character.
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
         public void clearBoss()
         {
             CurrentBoss = null;
@@ -62,6 +81,12 @@ namespace DungeonTasker.Views
             selectBoss();
         }
 
+        /*
+         * Randomly select the BossHP
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
         private void selectBossHP()
         {
             Random rnd = new Random();
@@ -112,6 +137,14 @@ namespace DungeonTasker.Views
             }
         }
 
+
+        /*
+        * When the button is pressed check whenever the user has any keys available, then open the Game page.
+        * 
+        * PARAM sender, e
+        * RETURNS Nothing
+        */
+
         private async void BattleBtn(object sender, EventArgs e)
         {
             int realKeys;
@@ -130,6 +163,12 @@ namespace DungeonTasker.Views
             }
         }
 
+        /*
+        * When the page appears display the tutorial screen if the tut bool is active.
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         protected override async void OnAppearing()
         {
             if (tut)

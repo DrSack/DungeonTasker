@@ -15,8 +15,8 @@ namespace DungeonTasker.Views
 	public partial class Inventory : ContentPage
 	{
         InventoryItems items;// Store items information
-        WeaponInfo weapon;
-        List<Item> weapons = new List<Item>();
+        WeaponInfo weapon;// The current weapon
+        List<Item> weapons = new List<Item>();// Store weapon item details
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
@@ -35,7 +35,11 @@ namespace DungeonTasker.Views
         }
 
         /*
-         * create a list and run through a foreach and for loop to display all available items within the users inventory
+         * Create an array and store the weapon items in the weapons list 
+         * and run through a foreach loop to display all available items within the users inventory.
+         * With each item in the foreach loop create a stacklayout with buttons and text details about
+         * the item. These buttons allow you to sell or equip that weapon.
+         * 
          * PARAM Nothing
          * RETURNS Nothing
          */
@@ -66,7 +70,7 @@ namespace DungeonTasker.Views
                     var item = new Label();
                     var damage = new Label();
                     var equip = new Button();
-                    var sell = new Button();
+                    var sell = new Button();// Initialize
 
                     LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
                     LayoutItem.Orientation = StackOrientation.Horizontal;
@@ -107,39 +111,40 @@ namespace DungeonTasker.Views
                     {
                         int Goldvalue = WeaponInfo.ObtainWeaponValue(weaponitem.weapon);
                         int CurrentGold = Int32.Parse(User.CheckForstring(items.Invfile, "Gold:"));
-                        int TotalGold = Goldvalue + CurrentGold;
+                        int TotalGold = Goldvalue + CurrentGold;// Get your gold and add onto the gold you have recieved.
 
                         sell.Text = Goldvalue.ToString() +" G";
                         sellcount++;
-                        if(sellcount == 2)
+                        if(sellcount == 2)// If pressed twice
                         {
-                            weapons.Remove(weaponitem);
+                            weapons.Remove(weaponitem);// Remove off list
 
                             string weaponlist = "";
                             foreach (Item weapon in weapons)
                             {
                                 if (!String.IsNullOrEmpty(weapon.weapon))
                                 {
-                                    weaponlist += weapon.weapon + ",";
+                                    weaponlist += weapon.weapon + ",";// Create string for file
                                 }
                             }
-                            User.Rewrite("Weapons:", weaponlist, items.Invfile);
-                            User.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);
-                            DisplayGold();
+                            User.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
+                            User.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
+                            DisplayGold();//Display the gold
+
                             string equipped = User.CheckForstring(items.Invfile, "Equipped:");
-                            if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))
+                            if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
                             {
                                 User.Rewrite("Equipped:", "Not Equipped", items.Invfile);
-                                weapon.SetWeapon(this, "Not Equipped");
+                                weapon.SetWeapon(this, "Not Equipped");//Rewrite and Set weapon to nothing
                             }
                             DisplayEquipped();
                             await Task.Run(async () =>
                             {
                                 Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
-                            });
+                            });//Run stacklayout close animation.
 
-                            ItemsList.Children.Remove(LayoutItem);
-                            DisplayNoWep();
+                            ItemsList.Children.Remove(LayoutItem);//Remove stacklayout
+                            DisplayNoWep();//Check if stacklayout is empty and display "No Weapon"
                             
                         }
                     };
@@ -148,7 +153,7 @@ namespace DungeonTasker.Views
                     LayoutItem.Children.Add(equip);
                     LayoutItem.Children.Add(sell);
 
-                    ItemsList.Children.Add(LayoutItem);
+                    ItemsList.Children.Add(LayoutItem);// Add onto itemlist stacklayout
                     i++;
                 }
                 
@@ -156,7 +161,14 @@ namespace DungeonTasker.Views
 
             }
         }
-        
+
+
+        /*
+        * Display WepsEmpty, if its the only child left in the stacklayout
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         private void DisplayNoWep()
         {
             if(ItemsList.Children.Count == 1)
@@ -171,16 +183,38 @@ namespace DungeonTasker.Views
             }
             
         }
+
+
+        /*
+        * Display the total key value.
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         private void DisplayKey()
         {
             Keys.Text = User.CheckForstring(items.Invfile, "Keys:");
         }
 
+        /*
+        * Display the total Gold value.
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         private void DisplayGold()
         {
             Gold.Text = User.CheckForstring(items.Invfile, "Gold:");
         }
 
+
+        /*
+        * Display the currently equipped item. 
+        * If the item is 'Not Equipped' then disable the damage and display "Not Equipped on the Label"
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         private void DisplayEquipped()
         {
             string equippedWep = User.CheckForstring(items.Invfile, "Equipped:");

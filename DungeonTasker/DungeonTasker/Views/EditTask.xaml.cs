@@ -17,6 +17,16 @@ namespace DungeonTasker.Views
         List<TimerUpdatecs> ListTimers;
         User user;
         Label label;
+
+        /*
+         * Constructor for Edit Task which encapsulates TierUpdatecs, List<TimerUpdatecs>, User and the Label.
+         * Param
+         * time: Parse the current timer statistics
+         * listtime: Parse a list of all timerUpdatecs timers
+         * user: the user parsed
+         * label: the label id parsed
+         * Returns Nothing
+         */
         public EditTask(TimerUpdatecs time, List<TimerUpdatecs> listtimes, User user, Label label)
         {
             this.label = label;
@@ -26,6 +36,12 @@ namespace DungeonTasker.Views
             InitializeComponent();
         }
 
+
+        /*
+         * Edit the specific timers task name
+         * Param sender, e
+         * Returns Nothing
+         */
         private async void PopupEditing(object sender, EventArgs e)
         {
             ListTimers[ListTimers.IndexOf(timeStats)].type = TaskEditted.Text;

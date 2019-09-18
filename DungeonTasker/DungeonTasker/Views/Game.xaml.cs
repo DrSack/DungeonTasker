@@ -23,7 +23,11 @@ namespace DungeonTasker.Views
         private int highestdamage { get; set; }
         Dungeon dungeon;
         
-        
+        /*
+         * The contructor for the game class/page
+         * Param dungeon: parse the dungeon class object.
+         * Returns Nothing.
+         */
         public Game(Dungeon dungeon)
         {
             this.dungeon = dungeon;
@@ -35,6 +39,12 @@ namespace DungeonTasker.Views
             InitializeStats();
         }
 
+
+        /*
+         * Create a display alert and pop the current page if yes is chosen.
+         * Param Nothing.
+         * Returns true(Dont back) if the result is No.
+         */
         protected override bool OnBackButtonPressed()
         {
             Device.BeginInvokeOnMainThread(async () => {
@@ -45,6 +55,11 @@ namespace DungeonTasker.Views
             return true;
         }
 
+        /*
+         * Set all the Label.Text variables to its assosiated element.
+         * Param Nothing.
+         * Returns Nothing.
+         */
         private void InitializeStats()
         {
             Character.Text = dungeon.user.Character;
@@ -56,6 +71,12 @@ namespace DungeonTasker.Views
             BossHealth.Text = BossHP.ToString();
         }
 
+        /*
+         * When the page appears Sway the Boss and User Characters side to side.
+         * Initiate the Battle Sequnce.
+         * Param Nothing.
+         * Returns Nothing.
+         */
         protected override async void OnAppearing()
         {
             MoveCharBossAsync(Character, true);
@@ -64,8 +85,15 @@ namespace DungeonTasker.Views
             BossAttack();
         }
 
-            private async Task InitializeBattleSequqnce()
-        {
+        /*
+        *
+        * Create a random int which determines if the player of boss go first to attack. Then display the label.
+        * Param Nothing.
+        * Returns Nothing.
+        */
+
+        private async Task InitializeBattleSequqnce()
+            {
             ANNOUNCING = true;
             var label = new Label();
             label.Opacity = 0;
@@ -95,6 +123,13 @@ namespace DungeonTasker.Views
             ANNOUNCING = false;
         }
 
+
+        /*
+        *
+        * Display a message in the middle of the screen.
+        * Param Nothing.
+        * Returns Nothing.
+        */
         private async Task Announcer(string message, bool battlesequence)
         {
             ANNOUNCING = true;
@@ -119,7 +154,13 @@ namespace DungeonTasker.Views
             Announce.Children.Remove(label);
             ANNOUNCING = false;
         }
-
+        /*
+        *
+        * Checks whenever the Player has won or lost. If so give the appropriate Exp and give loot to the player, followed by a congrats display alert.
+        * Pop the current page back to the dungeon if display alert is closed, and rest the dungeon boss character and its HP.
+        * Param Nothing.
+        * Returns Nothing.
+        */
         private async Task CheckHP()
         {
             if (WON)
@@ -156,7 +197,12 @@ namespace DungeonTasker.Views
             await this.Navigation.PopModalAsync();
         }
 
-
+        /*
+        *
+        * Animate a Label to go from the character location to the other end of the screen
+        * Param Nothing.
+        * Returns Nothing.
+        */
         private async Task AttackPixelCharacter()
         {
             CharacterAttacking.Opacity = 100;
@@ -167,6 +213,12 @@ namespace DungeonTasker.Views
             CharacterAttacking.TranslationX -= Application.Current.MainPage.Width + 10;
         }
 
+       /*
+       *
+       * Animate a Label to go from the boss location to the other end of the screen
+       * Param Nothing.
+       * Returns Nothing.
+       */
         private async Task AttackPixelBoss()
         {
             BossAttacking.Opacity = 100;
@@ -176,6 +228,13 @@ namespace DungeonTasker.Views
             BossAttacking.TranslationY -= Application.Current.MainPage.Height - BossStats.Height - 36;
             BossAttacking.TranslationX += Application.Current.MainPage.Width - 10;
         }
+
+       /*
+       *
+       * A basic animation which moves Labels side to side
+       * Param Nothing.
+       * Returns Nothing.
+       */
 
         private async void MoveCharBossAsync(Label move, bool nice)
         {
@@ -199,6 +258,13 @@ namespace DungeonTasker.Views
 
         }
 
+       /*
+       *
+       * The boss attack sequence, this combines all animations, health checks and damage counters.
+       * Param Nothing.
+       * Returns Nothing.
+       */
+
         private async void BossAttack()
         {
             if (!battlesequence)
@@ -218,6 +284,13 @@ namespace DungeonTasker.Views
             }
             
         }
+
+        /*
+      *
+      * The Character attack sequence, this combines all animations, health checks and damage counters.
+      * Param Nothing.
+      * Returns Nothing.
+      */
 
         private async void AttackBtn(object sender, EventArgs e)
         {
