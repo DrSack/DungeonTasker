@@ -165,7 +165,7 @@ namespace DungeonTasker.Views
                 HorizontalOptions = LayoutOptions.End,
                 FontSize = 12,
                 WidthRequest = 70,
-                CornerRadius = 12
+                CornerRadius = 20
             };
 
             // Initialize labels and TimerUpdatecs object
