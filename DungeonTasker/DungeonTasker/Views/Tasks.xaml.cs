@@ -164,7 +164,7 @@ namespace DungeonTasker.Views
                 BackgroundColor = Color.FromHex("#00CC33"),
                 HorizontalOptions = LayoutOptions.End,
                 FontSize = 12,
-                WidthRequest = 70,
+                WidthRequest = 80,
                 CornerRadius = 16
             };
 
