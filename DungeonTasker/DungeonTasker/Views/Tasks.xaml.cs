@@ -155,7 +155,7 @@ namespace DungeonTasker.Views
                 FontSize = 10,
                 HorizontalOptions = LayoutOptions.EndAndExpand,
                 BackgroundColor = Color.White,
-                WidthRequest = 46
+                WidthRequest = 45
             };
 
             var countdownFinish = new Button
@@ -165,7 +165,7 @@ namespace DungeonTasker.Views
                 HorizontalOptions = LayoutOptions.End,
                 FontSize = 12,
                 WidthRequest = 70,
-                CornerRadius = 20
+                CornerRadius = 16
             };
 
             // Initialize labels and TimerUpdatecs object
@@ -275,7 +275,8 @@ namespace DungeonTasker.Views
                 BackgroundColor = Color.FromHex("#00CC33"),
                 TextColor = Color.White,
                 FontSize = 12,
-                WidthRequest = 70
+                WidthRequest = 70,
+                CornerRadius = 16
             };
 
             finishButton.Clicked += async (s, a) =>
