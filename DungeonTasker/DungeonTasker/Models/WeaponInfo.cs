@@ -13,10 +13,23 @@ namespace DungeonTasker.Models
         public string EquippedWeapon { get; set; }
         InventoryItems items;
 
+
+        /*
+         * The WeaponInfo Constructor that encapsulates the current weapon.
+         *  @Param items: the inventory items class
+         *  Returns Nothing
+         */
+
         public WeaponInfo(InventoryItems items)
         {
             this.items = items;
         }
+
+        /*
+        *  An int method that returns either the minimum or maximum damage of a given weapon.
+        *  @Param weapon: the weapon item, minimum: true or false to check for minimum or maximum damage.
+        *  Returns The minimum damage is bool minimum is true, else return total damage.
+        */
 
         public static int ObtainWeaponInfo(string weapon, bool minimum)
         {
@@ -47,6 +60,12 @@ namespace DungeonTasker.Models
             return 0;
         }
 
+
+        /*
+       *  An int method that returns the gold value of a given weapon.
+       *  @Param weapon: the weapon item
+       *  Returns The gold value.
+       */
         public static int ObtainWeaponValue(string weapon)
         {
             if (weapon.Contains("Wooden"))
@@ -67,6 +86,13 @@ namespace DungeonTasker.Models
             return 0;
         }
 
+
+     /*
+      *  A void method that sets the weapon and sets the class minimum and maximum damage.
+      *  @Param page: parse the content page to display an alert if an error has occured, weapon: the weapon item parse.
+      *  Returns Nothing.
+      */
+      
         public void SetWeapon(ContentPage page, string weapon)
         {
             int totaldmg = 0;

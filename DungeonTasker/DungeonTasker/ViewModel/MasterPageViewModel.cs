@@ -63,9 +63,7 @@ namespace DungeonTasker.ViewModel
         /*
          * If this is selected change the detailspage to the taskpage
          * 
-         * PARAM 
-         * sender: reference to the control object
-         * eventargs: object data
+         * PARAM Nothing
          * RETURNS Nothing
          */
         private void TaskNav()
@@ -77,9 +75,7 @@ namespace DungeonTasker.ViewModel
         /*
          * If this is selected change the detailspage to the storepage
          * 
-         * PARAM 
-         * sender: reference to the control object
-         * eventargs: object data
+         * PARAM Nothing
          * RETURNS Nothing
          */
         private void InventoryNav()
@@ -93,9 +89,7 @@ namespace DungeonTasker.ViewModel
         /*
         * If this is selected change the detailspage to the Dungeonpage
         * 
-        * PARAM 
-        * sender: reference to the control object
-        * eventargs: object data
+        * PARAM Nothing
         * RETURNS Nothing
         */
         private void DungeonNav()
@@ -107,6 +101,12 @@ namespace DungeonTasker.ViewModel
         }
 
 
+        /*
+       * If this is selected change the detailspage to the AboutUs page.
+       * 
+       * PARAM Nothing
+       * RETURNS Nothing
+       */
         private void AboutNav()
         {
             ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new AboutUs());
@@ -115,9 +115,7 @@ namespace DungeonTasker.ViewModel
         /*
          * If this is selected change the detailspage to the settings
          * 
-         * PARAM 
-         * sender:reference to the control object
-         * eventargs: object data
+         * PARAM Nothing
          * RETURNS Nothing
          */
         private void SettingsNav()

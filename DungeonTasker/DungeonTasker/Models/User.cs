@@ -65,7 +65,7 @@ namespace DungeonTasker.Models
 
         /*
          *This method is responsible for adding onto an already existing line.
-         *@para NONE
+         *@para command: the line that contains that specific text, truth: the text to be added, file: the file path
          * @returns Nothing
          */
         public static void AddOntoLine(string command, string truth, string file)
@@ -93,7 +93,7 @@ namespace DungeonTasker.Models
 
         /*
          *This method is responsible for rewriting all variables back into a file.
-         *@para NONE
+         *@para command: the text to start from, truth: the text to replace after the command: line, file: the file path.
          * @returns Nothing
          */
         public static void Rewrite(string command,string truth, string file)

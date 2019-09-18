@@ -14,6 +14,12 @@ namespace DungeonTasker.ViewModel
         public string FullName { get; set; }
         public Command RegisterBtn { get; set; }
         Register page;
+        /*
+         * A constructor for the RegisterViewModel
+         * 
+         * @Param page: parse the register page to display an alert page if an error occured.
+         * Returns Nothing.
+         */
         public RegisterViewModel(Register page)
         {
             this.page = page;

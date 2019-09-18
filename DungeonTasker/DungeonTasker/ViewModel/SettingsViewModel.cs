@@ -18,6 +18,14 @@ namespace DungeonTasker.ViewModel
         public Command DeleteAccountBtn { get; set; }
         public Command LogoutBtn { get; set; }
 
+        /*
+         * A constructor that encapsulates user, truth, and page. 
+         * Initialize the Commands and Buttons
+         * 
+         * @Param user: parse the user, truth: parse the truth class, page: parse the content page
+         * Returns Nothing
+         */
+
         public SettingsViewModel(User user, logged truth, ContentPage page)
         {
             CanCloseDelete = true;
@@ -51,6 +59,12 @@ namespace DungeonTasker.ViewModel
             }
 
         }
+
+        /*
+         * Delete the Current User account
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
 
         private async Task DeleteAccount()
         {

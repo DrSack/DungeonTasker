@@ -11,6 +11,8 @@ namespace DungeonTasker
         /*
          * Encapsulation class to set a boolean true and false, initialise as false
          * This is to tell all running async tasks to stop.
+         * PARAM Nothing
+         * Returns Nothing
          */
         public logged()
         {

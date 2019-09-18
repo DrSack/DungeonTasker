@@ -95,7 +95,7 @@ namespace DungeonTasker.ViewModel
          * If the login file is still logged:true then proceed to bypass login screen and go into
          * app.
          * 
-         * PARAM Nothing
+         * PARAM begin: checks whenever the user has only accessed the page once.
          * RETURNS Nothing
          */
         public static bool OnAppearing(bool begin)

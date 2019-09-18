@@ -12,18 +12,32 @@ namespace DungeonTasker.Models
         public int Level { get; set; }
         public string file { get; set; }
 
-        //Empty constructor for boss
+        /*
+        * Stats Constructor for Boss
+        * Param Nothing
+        * Returns Nothing
+        */
         public Stats()
         {
 
         }
-        //For player
+
+        /*
+         * Stats Constructor for player
+         * Param
+         * @file the file path to the Stats file.
+         * Returns Nothing
+         */
         public Stats(string file)
         {
             this.file = file;
             SetStats();
         }
 
+        /*
+         * A void method that sets the class variables to the contents of the stats file.
+         * 
+         */
         public void SetStats()
         {
            Health = Int32.Parse(User.CheckForstring(file, "HEALTH:"));
@@ -31,6 +45,14 @@ namespace DungeonTasker.Models
            Level = Int32.Parse(User.CheckForstring(file, "LEVEL:"));
         }
 
+        /*
+         * A bool method that checks if the player is eligible for a level up
+         * 
+         * Param Nothing
+         * Returns 
+         * true if equal to or over levelpass
+         * false if under levelpass
+         */
         public bool StatsCheck()
         {
             int LevelPass = (Level * 21) + 15;
@@ -49,6 +71,14 @@ namespace DungeonTasker.Models
             }
         }
 
+        /*
+         * A string method that returns LEVEL UP or the remainder exp.
+         * 
+         * Param Nothing
+         * Returns 
+         * LEVEL UP if the difference is less than 0 
+         * The amount of experience left to level up
+         */
         public string ExpLeft()
         {
             int LevelPass = (Level * 21) + 15;
@@ -60,6 +90,14 @@ namespace DungeonTasker.Models
             return left.ToString();
         }
 
+        /*
+         * A void method that adds on top of the current user experience.
+         * 
+         * Param 
+         * exp Is an integer of how much exp was gained.
+         * 
+         * Returns Nothing
+         */
         public void ExpEnter(int exp)
         {
             Experience += exp;
