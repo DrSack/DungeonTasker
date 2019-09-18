@@ -124,23 +124,38 @@ namespace DungeonTasker.Views
         {
             string TaskName = Original;
             bool TimerStop = false;
+            var rand = new Random();
 
             // Initialize Stacklayout and its properties
-            var timerlads = new StackLayout();
-            timerlads.Orientation = StackOrientation.Horizontal;
-            timerlads.BackgroundColor = Color.White;
+            var timerlads = new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                BackgroundColor = Color.White,
+                HeightRequest = 38,
+                Margin = new Thickness(0,0,6,0)
+            };
+
+            var colorTag = new Label
+            {
+                Text = "",
+                HorizontalOptions = LayoutOptions.Start,
+                WidthRequest = 8,
+            };
 
             var taskName = new Label
             {
                 Text = TaskName,
-                Margin = new Thickness(10, 15),
+                Margin = new Thickness(10, 10),
                 TextColor = Color.FromHex("#212121")
             };
 
-            var Edit = new Button
+            var editButton = new Button
             {
                 Text = "Edit",
+                FontSize = 10,
                 HorizontalOptions = LayoutOptions.EndAndExpand,
+                BackgroundColor = Color.White,
+                WidthRequest = 46
             };
 
             var countdownFinish = new Button
@@ -148,6 +163,9 @@ namespace DungeonTasker.Views
                 IsEnabled = false,
                 BackgroundColor = Color.FromHex("#00CC33"),
                 HorizontalOptions = LayoutOptions.End,
+                FontSize = 12,
+                WidthRequest = 70,
+                CornerRadius = 12
             };
 
             // Initialize labels and TimerUpdatecs object
@@ -163,7 +181,24 @@ namespace DungeonTasker.Views
             countdownFinish.Text = string.Format("{0}:{1}:{2}", time.R.TotalHours.ToString("00"),
             time.R.Minutes.ToString("00"), time.R.Seconds.ToString("00"));
 
-            Edit.Clicked += async (s, a) =>
+            // Set random color tags for tasks
+            int num = rand.Next(1, 5);
+
+            if (num == 1) {
+                colorTag.BackgroundColor = Color.Accent;
+            }
+            if (num == 2) {
+                colorTag.BackgroundColor = Color.FromHex("#F44336");
+            }
+            if (num == 3) {
+                colorTag.BackgroundColor = Color.FromHex("#212121");
+            }
+            if (num == 4) {
+                colorTag.BackgroundColor = Color.FromHex("#FFCA28");
+            }
+
+            // When the user clicks on the edit button
+            editButton.Clicked += async (s, a) =>
             {
                 EditTask EditCurrent = new EditTask(time, ListTimer, Currentuser, taskName, timerlads, timers);
                 EditCurrent.Disappearing += (s2, e2) =>
@@ -198,48 +233,52 @@ namespace DungeonTasker.Views
                     if (DateTime.Now >= Trg) // If the timer is equal to the end date or over
                     {
                         timerlads.Children.Remove(countdownFinish);
-                        DisplayRedeem(timerlads, time, taskName.Text);
+                        DisplayFinishButton(timerlads, time, taskName.Text);
                         return false; 
                     }
                     return true; // Return true to continue thread and timer operation
                 });
 
+                timerlads.Children.Add(colorTag);
                 timerlads.Children.Add(taskName);
-                timerlads.Children.Add(Edit);
+                timerlads.Children.Add(editButton);
                 timerlads.Children.Add(countdownFinish);
                 timers.Children.Add(timerlads); // Add all controls to stack layouts
             }
 
-            else // If over due display redeem button
+            else // If over due display finish button
             {
+                timerlads.Children.Add(colorTag);
                 timerlads.Children.Add(taskName);
-                timerlads.Children.Add(Edit);
+                timerlads.Children.Add(editButton);
                 timers.Children.Add(timerlads); // Add all controls to stack layouts
-                DisplayRedeem(timerlads, time, taskName.Text);
+                DisplayFinishButton(timerlads, time, taskName.Text);
             }
         }
 
         /*
-         * This method is responsible for displaying the redeem button and updating the 
+         * This method is responsible for displaying the finish button and updating the 
          * current timer file with new timer information and removing the current element from the ListTimer
          * 
          * PARAM
-         * timerlads: the stacklayout that is to be updated with the redeem button
+         * timerlads: the stacklayout that is to be updated with the finish button
          * times: the current TimerUpdatecs to be removed from the ListTimer list 
          * 
          * RETURN Nothing
          */
-        public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times, string task)
+        public void DisplayFinishButton(StackLayout timerlads, TimerUpdatecs times, string task)
         {
-            var redeembtn = new Button
+            var finishButton = new Button
             {
                 Text = "Finish",
                 HorizontalOptions = LayoutOptions.End,
                 BackgroundColor = Color.FromHex("#00CC33"),
                 TextColor = Color.White,
+                FontSize = 12,
+                WidthRequest = 70
             };
 
-            redeembtn.Clicked += async (s, a) =>
+            finishButton.Clicked += async (s, a) =>
             {
                 await Task.Run(async () =>
                 {
@@ -250,10 +289,10 @@ namespace DungeonTasker.Views
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
                 items.GiveKey(1);
-                await this.DisplayAlert("Congratulations", "You finished a task!\nHere's a key", "Receive");
+                await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };
 
-            timerlads.Children.Add(redeembtn);
+            timerlads.Children.Add(finishButton);
             timers.Children.Add(timerlads);
         }
     }

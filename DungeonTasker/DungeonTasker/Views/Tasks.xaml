@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.Views.Tasks"
-             Title="Tasks">
+             Title="Tasks"
+             BackgroundColor="White"
+             Padding="0">
 
     <ContentPage.Content>
         <Grid x:Name="Gridman">
@@ -24,8 +26,8 @@
                 </StackLayout>
 
                 <ScrollView Grid.Row="1" HeightRequest="260">
-                    <StackLayout Padding="2,2,2,2">
-                        <StackLayout x:Name="timers" MinimumHeightRequest="200"></StackLayout>
+                    <StackLayout>
+                        <StackLayout x:Name="timers"></StackLayout>
                     </StackLayout>
                 </ScrollView>
 
