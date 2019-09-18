@@ -42,15 +42,15 @@ namespace DungeonTasker.Views
             TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
             try // Try clause to detect error
             {
-                if (_triggerTime <= DateTime.Now.AddMinutes(15))
-                { // When the date selected is lower than the current date throw an exception
-                    throw new Exception("Please add a time before you can finish the task");
-                }
-
                 // If the task name entry is empty
-                if (_entry.Text == null)
+                if (string.IsNullOrEmpty(_entry.Text))
                 {
                     throw new Exception("Please enter the name of the task you need to do");
+                }
+
+                else if (_triggerTime <= DateTime.Now.AddMinutes(15))
+                { // When the date selected is lower than the current date throw an exception
+                    throw new Exception("Please add a time above 15 Minutes\nbefore you can finish the task.");
                 }
 
                 else
@@ -73,34 +73,81 @@ namespace DungeonTasker.Views
 
         private async void btn5(object sender, EventArgs e)
         {
-            DateTime _triggerTime = DateTime.Now.AddMinutes(5);
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
-            page.Timer(_entry.Text, _triggerTime, _remainderTime);
-            await page.Navigation.PopModalAsync();
+            try
+            {
+                if (!string.IsNullOrEmpty(_entry.Text))
+                {
+                    DateTime _triggerTime = DateTime.Now.AddMinutes(5);
+                    TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
+                    page.Timer(_entry.Text, _triggerTime, _remainderTime);
+                    await page.Navigation.PopModalAsync();
+                }
+                else
+                {
+                    throw new Exception("Please enter the name of the task you need to do");
+                }
+            }
+            catch (Exception es)
+            {
+                // Throw exception
+                await DisplayAlert("Error", es.Message, "Close");
+            }
+
         }
 
         /*
-         * If 10:00 is pressed display 5:00 on the timer
+         * If 10:00 is pressed display 10:00 on the timer
          *
          */
         private async void btn10(object sender, EventArgs e)
         {
-            DateTime _triggerTime = DateTime.Now.AddMinutes(10);
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now;
-            page.Timer(_entry.Text, _triggerTime, _remainderTime);
-            await page.Navigation.PopModalAsync();
+            try
+            {
+                if (!string.IsNullOrEmpty(_entry.Text))
+                {
+                    DateTime _triggerTime = DateTime.Now.AddMinutes(10);
+                    TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
+                    page.Timer(_entry.Text, _triggerTime, _remainderTime);
+                    await page.Navigation.PopModalAsync();
+                }
+                else
+                {
+                    throw new Exception("Please enter the name of the task you need to do");
+                }
+            }
+            catch (Exception es)
+            {
+                // Throw exception
+                await DisplayAlert("Error", es.Message, "Close");
+            }
+
         }
 
         /*
-         * If 15:00 is pressed display 5:00 on the timer
+         * If 15:00 is pressed display 15:00 on the timer
          *
          */
         private async void btn15(object sender, EventArgs e)
         {
-            DateTime _triggerTime = DateTime.Now.AddMinutes(15);
-            TimeSpan _remainderTime = _triggerTime - DateTime.Now; 
-            page.Timer(_entry.Text, _triggerTime, _remainderTime);
-            await page.Navigation.PopModalAsync();
+            try
+            {
+                if (!string.IsNullOrEmpty(_entry.Text))
+                {
+                    DateTime _triggerTime = DateTime.Now.AddMinutes(15);
+                    TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
+                    page.Timer(_entry.Text, _triggerTime, _remainderTime);
+                    await page.Navigation.PopModalAsync();
+                }
+                else
+                {
+                    throw new Exception("Please enter the name of the task you need to do");
+                }
+            }
+            catch (Exception es)
+            {
+                // Throw exception
+                await DisplayAlert("Error", es.Message, "Close");
+            }
         }
 
         protected override async void OnAppearing()

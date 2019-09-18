@@ -15,9 +15,12 @@ namespace DungeonTasker.Views
     {
         TimerUpdatecs timeStats;
         List<TimerUpdatecs> ListTimers;
+        StackLayout timerlads;
+        StackLayout outer;
         User user;
         Label label;
 
+        public bool Deleted { get; set; }
         /*
          * Constructor for Edit Task which encapsulates TierUpdatecs, List<TimerUpdatecs>, User and the Label.
          * Param
@@ -27,12 +30,15 @@ namespace DungeonTasker.Views
          * label: the label id parsed
          * Returns Nothing
          */
-        public EditTask(TimerUpdatecs time, List<TimerUpdatecs> listtimes, User user, Label label)
+        public EditTask(TimerUpdatecs time, List<TimerUpdatecs> listtimes, User user, Label label, StackLayout inner, StackLayout outer)
         {
+            Deleted = false;
             this.label = label;
             this.user = user;
             this.timeStats = time;
             this.ListTimers = listtimes;
+            this.timerlads = inner;
+            this.outer = outer;
             InitializeComponent();
         }
 
@@ -47,6 +53,15 @@ namespace DungeonTasker.Views
             ListTimers[ListTimers.IndexOf(timeStats)].type = TaskEditted.Text;
             user.UpdateCurrenttimes(ListTimers);
             label.Text = TaskEditted.Text;
+            await Navigation.PopModalAsync();
+        }
+
+        private async void PopupDelete(object sender, EventArgs e)
+        {
+            ListTimers.Remove(timeStats);
+            outer.Children.Remove(timerlads);
+            user.UpdateCurrenttimes(ListTimers);
+            Deleted = true;
             await Navigation.PopModalAsync();
         }
     }

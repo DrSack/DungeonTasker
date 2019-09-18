@@ -9,7 +9,7 @@
     
     <ContentPage.Content>
         <StackLayout Margin="0,20,0,0">
-            <Entry x:Name="_entry" Placeholder="Enter the task you need to do" />
+            <Entry x:Name="_entry" Placeholder="Enter the task you need to do" Text=""/>
             <Grid Margin="10,0,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

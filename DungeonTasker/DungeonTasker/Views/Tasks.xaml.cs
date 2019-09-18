@@ -164,20 +164,12 @@ namespace DungeonTasker.Views
 
             Edit.Clicked += async (s, a) =>
             {
-                await this.Navigation.PushModalAsync(new EditTask(time,ListTimer,Currentuser, taskName));
-            };
-
-            countdownFinish.Clicked += async (s, a) =>
-            {
-                await Task.Run(async () =>
+                EditTask EditCurrent = new EditTask(time, ListTimer, Currentuser, taskName, timerlads, timers);
+                EditCurrent.Disappearing += (s2, e2) =>
                 {
-                    Animations.CloseStackLayout(timerlads, "Timer", 30, 500);
-                });
-
-                TimerStop = true;
-                timers.Children.Remove(timerlads);
-                ListTimer.Remove(time);
-                Currentuser.UpdateCurrenttimes(ListTimer);
+                    TimerStop = EditCurrent.Deleted;
+                };
+                await this.Navigation.PushModalAsync(EditCurrent);
             };
 
             ListTimer.Add(time); // Add the TimerUpdatecs time variable to the ListTimer list
@@ -256,6 +248,7 @@ namespace DungeonTasker.Views
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
                 items.GiveKey(1);
+                await this.DisplayAlert("+1", "You recieved a key", "Close");
             };
 
             timerlads.Children.Add(redeembtn);

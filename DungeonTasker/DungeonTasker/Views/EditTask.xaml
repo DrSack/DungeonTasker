@@ -11,7 +11,8 @@
             <StackLayout Orientation="Vertical" HeightRequest="275" WidthRequest="300">
                 <StackLayout VerticalOptions="CenterAndExpand">
                     <Entry Placeholder="Edit the task's name" x:Name="TaskEditted"></Entry>
-                    <Button Text="Done" Clicked="PopupEditing" x:Name="PopupEditingText"></Button>
+                    <Button Text="Edit Name" Clicked="PopupEditing" x:Name="PopupEditingText"></Button>
+                    <Button Text="Delete Task" Clicked="PopupDelete" x:Name="PopupDeleteText"></Button>
                 </StackLayout>
             </StackLayout>
         </StackLayout>
