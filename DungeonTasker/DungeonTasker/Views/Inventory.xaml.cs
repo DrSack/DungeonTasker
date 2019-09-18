@@ -59,8 +59,7 @@ namespace DungeonTasker.Views
             {
                 if (!string.IsNullOrEmpty(weaponitem.weapon))
                 {
-                    bool chck = true;
-                    int nice = i;
+                    int sellcount = 0;
                     var LayoutItem = new StackLayout();
 
 
@@ -80,7 +79,10 @@ namespace DungeonTasker.Views
                     item.VerticalTextAlignment = TextAlignment.Center;
 
 
-                    damage.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, true).ToString(), WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, false));
+                    damage.Text = string.Format("Damage: {0} - {1}", 
+                    WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
+                    WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, false));
+
                     damage.FontSize = 10;
                     damage.HorizontalTextAlignment = TextAlignment.Start;
                     damage.VerticalTextAlignment = TextAlignment.Center;
@@ -103,34 +105,44 @@ namespace DungeonTasker.Views
 
                     sell.Clicked += async (s, a) =>
                     {
-                       chck = false;
-                       weapons.Remove(weaponitem);
-                        
-                        string weaponlist = "";
-                        foreach (Item weapon in weapons)
+                        int Goldvalue = WeaponInfo.ObtainWeaponValue(weaponitem.weapon);
+                        int CurrentGold = Int32.Parse(User.CheckForstring(items.Invfile, "Gold:"));
+                        int TotalGold = Goldvalue + CurrentGold;
+
+                        sell.Text = Goldvalue.ToString() +" G";
+                        sellcount++;
+                        if(sellcount == 2)
                         {
-                            if (!String.IsNullOrEmpty(weapon.weapon))
+                            weapons.Remove(weaponitem);
+
+                            string weaponlist = "";
+                            foreach (Item weapon in weapons)
                             {
-                                weaponlist += weapon.weapon + ",";
+                                if (!String.IsNullOrEmpty(weapon.weapon))
+                                {
+                                    weaponlist += weapon.weapon + ",";
+                                }
                             }
-                        }
-                        User.Rewrite("Weapons:", weaponlist, items.Invfile);
-                        string equipped = User.CheckForstring(items.Invfile, "Equipped:");
-                        if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))
-                        {
-                            User.Rewrite("Equipped:", "Not Equipped", items.Invfile);
-                            weapon.SetWeapon(this, "Not Equipped");
-                        }
-                        await Task.Run(async () =>
-                        {
-                            Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
-                        });
+                            User.Rewrite("Weapons:", weaponlist, items.Invfile);
+                            User.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);
+                            DisplayGold();
+                            string equipped = User.CheckForstring(items.Invfile, "Equipped:");
+                            if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))
+                            {
+                                User.Rewrite("Equipped:", "Not Equipped", items.Invfile);
+                                weapon.SetWeapon(this, "Not Equipped");
+                            }
+                            DisplayEquipped();
+                            await Task.Run(async () =>
+                            {
+                                Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
+                            });
 
-                        ItemsList.Children.Remove(LayoutItem);
-                        DisplayNoWep();
-                        DisplayEquipped();
+                            ItemsList.Children.Remove(LayoutItem);
+                            DisplayNoWep();
+                            
+                        }
                     };
-
                     LayoutItem.Children.Add(item);
                     LayoutItem.Children.Add(damage);
                     LayoutItem.Children.Add(equip);

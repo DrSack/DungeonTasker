@@ -34,9 +34,10 @@ namespace DungeonTasker
             this.weapon = new WeaponInfo(Inv);
             this.stats = stats;
             InitializeComponent();
+            Tasks UpdateTasks = new Tasks(user, items, truth);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
-            this.Detail = new NavigationPage(new Tasks(user, items, truth));// Set Detailspage arguments with user information and truth value.
-            this.Master = new MasterPage(Detail, user, items, weapon, stats, truth);// set the masterpage information with user, items, and truth valus.
+            this.Detail = new NavigationPage(UpdateTasks);// Set Detailspage arguments with user information and truth value.
+            this.Master = new MasterPage(UpdateTasks, user, items, weapon, stats, truth);// set the masterpage information with user, items, and truth values.
         }
     }
 }

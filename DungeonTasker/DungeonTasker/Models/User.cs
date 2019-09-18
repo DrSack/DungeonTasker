@@ -143,10 +143,10 @@ namespace DungeonTasker.Models
         public void DeleteAccount()
         {
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-            var filename = Path.Combine(documents, Username + "Login.dt");// File name is equal to the username+login.dt
-            var Items = Path.Combine(documents, Username + "Inv.dt");
-            var Stats = Path.Combine(documents, Username + "Stats.dt");
-            var Timer = Path.Combine(documents, Username + "Timer.dt");
+            var filename = Path.Combine(documents + "/Users", Username + "Login.dt");// File name is equal to the username+login.dt
+            var Items = Path.Combine(documents + "/Users", Username + "Inv.dt");
+            var Stats = Path.Combine(documents + "/Users", Username + "Stats.dt");
+            var Timer = Path.Combine(documents + "/Users", Username + "Timer.dt");
             File.Delete(filename);
             File.Delete(Items);
             File.Delete(Stats);
@@ -165,12 +165,12 @@ namespace DungeonTasker.Models
             {
                 // if the username and password are not filled in throw an exception
                 if (!checkinfo(User, Pass)) { throw new Exception("Please enter all credentials... ");}
-            string line = string.Format("ID:{0},{1},{2},\nCharacter:(ง’̀-‘́)ง\nLogged:false", User, Pass, FullName);// format file structure
+            string line = string.Format("ID:{0},{1},{2},\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True", User, Pass, FullName);// format file structure
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-            var filename = Path.Combine(documents, User+"Login.dt");// File name is equal to the username+login.dt
-            var Items = Path.Combine(documents, User+"Inv.dt");
-            var Stats = Path.Combine(documents, User+"Stats.dt");
-            var Timer = Path.Combine(documents, User+"Timer.dt");
+            var filename = Path.Combine(documents + "/Users", User+"Login.dt");// File name is equal to the username+login.dt
+            var Items = Path.Combine(documents + "/Users", User+"Inv.dt");
+            var Stats = Path.Combine(documents + "/Users", User+"Stats.dt");
+            var Timer = Path.Combine(documents + "/Users", User+"Timer.dt");
 
                 if (File.Exists(filename))// If the file already exists throw and exception
                 {

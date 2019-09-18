@@ -29,7 +29,10 @@ namespace DungeonTasker
 
         protected override void OnAppearing()
         {
-            begin = GreetPageViewModel.OnAppearing(begin);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                begin = GreetPageViewModel.OnAppearing(begin);
+            });
         }
     }
 }

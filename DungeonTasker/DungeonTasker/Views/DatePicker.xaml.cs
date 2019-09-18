@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonTasker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace DungeonTasker.Views
     public partial class DatePicker : ContentPage
     {
         Tasks page; // Initialize variables
-
+        bool tut = false;
         /*
          * Contructor for DatePicker, initialize all components
          * 
@@ -21,10 +22,11 @@ namespace DungeonTasker.Views
          * page: obtain and store variable page to be used within the class
          * RETURN Nothing
          */
-        public DatePicker(Tasks page)
+        public DatePicker(Tasks page, bool tut)
         {
             // Initialize the componenets and add the content page.
             this.page = page;
+            this.tut = tut;
             InitializeComponent();
             _timePicker.Time = DateTime.Now.AddMinutes(15).TimeOfDay; // Set the default date for _timerpicked to the current time.
         }
@@ -49,7 +51,12 @@ namespace DungeonTasker.Views
                 if (_entry.Text == null)
                 {
                     throw new Exception("Please enter the name of the task you need to do");
-                }          
+                }
+
+                else
+                {
+                    page.Timer(_entry.Text, _triggerTime, _remainderTime);
+                }
             }
 
             catch (Exception es)
@@ -81,6 +88,18 @@ namespace DungeonTasker.Views
             TimeSpan _remainderTime = _triggerTime - DateTime.Now; // Take the date of the time and the trigger time to be left with the remainder time
             page.Timer(_entry.Text, _triggerTime, _remainderTime);
             await page.Navigation.PopModalAsync();
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (tut)
+            {
+                await ExtraPopups.ShowMessage("This is the DatePicker tool.\nThis is where you can set tasks", "DatePicker", "Close", this, async () =>
+                {
+                    await this.Navigation.PopModalAsync();
+                 });
+
+            }
         }
     }
 }

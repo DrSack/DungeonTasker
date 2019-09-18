@@ -47,6 +47,26 @@ namespace DungeonTasker.Models
             return 0;
         }
 
+        public static int ObtainWeaponValue(string weapon)
+        {
+            if (weapon.Contains("Wooden"))
+            {
+                if (weapon.Contains("Spoon")) {  return 1; }
+                if (weapon.Contains("Bow")) { return 2; }
+            }
+            if (weapon.Contains("Iron"))
+            {
+                if (weapon.Contains("Dagger")) { return 4; }
+                if (weapon.Contains("Bow")) {  return 5; }
+                if (weapon.Contains("Sword")) { return 7; }
+            }
+            if (weapon.Contains("Steel"))
+            {
+                if (weapon.Contains("Sword")) { return 11; }
+            }
+            return 0;
+        }
+
         public void SetWeapon(ContentPage page, string weapon)
         {
             int totaldmg = 0;

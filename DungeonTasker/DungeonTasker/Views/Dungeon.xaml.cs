@@ -27,13 +27,15 @@ namespace DungeonTasker.Views
         public WeaponInfo weapon;
         public Stats stats;
         public Stats boss = new Stats();
+        public bool tut { get; set; }
 
-        public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats)
+        public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats, bool tut)
         {
             this.user = user;
             this.items = items;
             this.weapon = weapon;
             this.stats = stats;
+            this.tut = tut;
             InitializeComponent();
             selectBoss();
             selectBossHP();
@@ -76,7 +78,7 @@ namespace DungeonTasker.Views
 
         private void selectBoss()
         {
-            if(CurrentBoss == null && CurrentName == null)
+            if (CurrentBoss == null && CurrentName == null)
             {
                 int num;
                 string Boss;
@@ -116,7 +118,7 @@ namespace DungeonTasker.Views
             string keys = User.CheckForstring(items.Invfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
-            if(realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
+            if (realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
             {
                 await this.Navigation.PushModalAsync(new Game(this));
                 items.GiveKey(0);
@@ -125,6 +127,18 @@ namespace DungeonTasker.Views
             else
             {
                 await DisplayAlert("Error", "Not enough keys to battle", "cancel");
+            }
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (tut)
+            {
+
+                    await ExtraPopups.ShowMessage("This is Dungeon Menu\nThis is where you can see the boss you are about to Battle!\n", "Dungeon", "Close", this, async () =>
+                    {
+                        await this.Navigation.PopModalAsync();
+                    });
             }
         }
     }

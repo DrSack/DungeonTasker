@@ -46,7 +46,8 @@ namespace DungeonTasker.ViewModel
             try
             {
                 string[] line;
-                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
+                
                 var files = Directory.GetFiles(documents);
                 bool hit = false;
                 foreach (var file in files)
@@ -101,8 +102,11 @@ namespace DungeonTasker.ViewModel
         {
             string[] line;
             string all;
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var files = System.IO.Directory.GetFiles(documents);
+
+           var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
+           Directory.CreateDirectory(documents+"/Users");
+            
+            var files = Directory.GetFiles(documents+"/Users");
 
             foreach (var file in files)
             {
@@ -115,9 +119,9 @@ namespace DungeonTasker.ViewModel
                 string logged = User.CheckForstring(file, "Logged:");
                 if (all.Contains("Logged:true"))
                 {
-                    var Timer = Path.Combine(documents, line[0] + "Timer.dt");
-                    var Items = Path.Combine(documents, line[0] + "Inv.dt");
-                    var Stats = Path.Combine(documents, line[0] + "Stats.dt");
+                    var Timer = Path.Combine(documents + "/Users", line[0] + "Timer.dt");
+                    var Items = Path.Combine(documents + "/Users", line[0] + "Inv.dt");
+                    var Stats = Path.Combine(documents+  "/Users", line[0] + "Stats.dt");
                     User user = new User(line[0], line[1],line[2], character, logged, file, Timer);
                     InventoryItems items = new InventoryItems(Items);
                     Stats stat = new Stats(Stats);
