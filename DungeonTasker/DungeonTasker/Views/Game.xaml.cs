@@ -39,10 +39,9 @@ namespace DungeonTasker.Views
             InitializeStats();
         }
 
-
         /*
-         * Create a display alert and pop the current page if yes is chosen.
-         * Param Nothing.
+         * Create a display alert and pop the current page if yes is chosen
+         * Param Nothing
          * Returns true(Dont back) if the result is No.
          */
         protected override bool OnBackButtonPressed()
@@ -87,11 +86,11 @@ namespace DungeonTasker.Views
 
         /*
         *
-        * Create a random int which determines if the player of boss go first to attack. Then display the label.
-        * Param Nothing.
-        * Returns Nothing.
+        * Create a random int which determines if the player of boss go first to attack. Then display the label
+        * 
+        * PARAM Nothing
+        * RETURN Nothing
         */
-
         private async Task InitializeBattleSequqnce()
             {
             ANNOUNCING = true;
@@ -123,12 +122,12 @@ namespace DungeonTasker.Views
             ANNOUNCING = false;
         }
 
-
         /*
         *
-        * Display a message in the middle of the screen.
-        * Param Nothing.
-        * Returns Nothing.
+        * Display a message in the middle of the screen
+        * 
+        * PARAM Nothing
+        * RETURN Nothing
         */
         private async Task Announcer(string message, bool battlesequence)
         {
@@ -235,20 +234,18 @@ namespace DungeonTasker.Views
        * Param Nothing.
        * Returns Nothing.
        */
-
         private async void MoveCharBossAsync(Label move, bool nice)
         {
             await Task.Run(async () =>
             {
                 while (CharacterHP >= 0 || BossHP >= 0)
                 {
-                    if (nice)
-                    {
+                    if (nice) {
                         await move.TranslateTo(5, 0, 500);
                         await move.TranslateTo(-5, 0, 500);
                     }
-                    else
-                    {
+
+                    else {
                         await move.TranslateTo(-5, 0, 500);
                         await move.TranslateTo(5, 0, 500);
                     }
@@ -300,7 +297,7 @@ namespace DungeonTasker.Views
                 Random rand = new Random();
                 int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
                 await Announcer(string.Format("PLAYER Dealt {0} Damage",damage),true);
-                BossHP -= 1000;
+                BossHP -= damage;
                 await AttackPixelCharacter();
                 BossHealth.RelRotateTo(360, 500);
                 await BossHealth.ScaleTo(5, 300);

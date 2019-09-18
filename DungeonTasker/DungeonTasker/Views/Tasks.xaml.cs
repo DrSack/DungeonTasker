@@ -22,10 +22,12 @@ namespace DungeonTasker.Views
         bool truth = true; // Initialize all variables
 
         /*
-         * Contructor for DetailsPage to encapsulate current user information and truth value.
+         * Contructor for DetailsPage to encapsulate current user information and truth value
+         * 
          * PARAM
          * user: parse the user to be used within this class
          * truth: parse truth to notify Device.StartTimer to stop whenever truthtime is off
+         * 
          * RETURN Nothing
          */
         public Tasks(User user, InventoryItems items, logged truth)
@@ -40,10 +42,12 @@ namespace DungeonTasker.Views
 
         /*
          * Simple button even to open another page for selecting a date and time for a new task
+         * 
          * PARAM 
          * sender: reference to the control object
          * eventargs: object data
-         * RETURNS Nothing
+         * 
+         * RETURN Nothing
          */
         public async void Add_Time(object sender, EventArgs e)
         {
@@ -57,7 +61,7 @@ namespace DungeonTasker.Views
          * its corresponding name is taken and parsed through the Timer method to display each 
          * current operating timers still active according to the timer file
          * 
-         * PARAM void.
+         * PARAM void
          * RETURN Nothing
          */
         protected override void OnAppearing()
@@ -67,23 +71,22 @@ namespace DungeonTasker.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await ExtraPopups.ShowMessage(string.Format("Welcome to DungeonTasker {0}\nStart adding Tasks with the (+) button below\nGain Keys by completing Tasks!", Currentuser.Username), "Welcome!", "Close", this, async () =>
-                {
-                    DatePicker Tutorial = new DatePicker(this, true);
-                    Tutorial.Disappearing += async (s, e) =>
                     {
-                        dungeon.Disappearing += (s2, e2) =>
+                        DatePicker Tutorial = new DatePicker(this, true);
+                        Tutorial.Disappearing += async (s, e) =>
                         {
+                            dungeon.Disappearing += (s2, e2) =>
+                            {
+                                User.Rewrite("Tutorial:", "False", Currentuser.file);
+                                DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                            };
 
-                            User.Rewrite("Tutorial:", "False", Currentuser.file);
-                            DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                            dungeon.tut = true;
+                            await Navigation.PushModalAsync(dungeon);
+                            dungeon.tut = false;
                         };
-                        dungeon.tut = true;
-                        await Navigation.PushModalAsync(dungeon);
-                        dungeon.tut = false;
-                    };
-                    await Navigation.PushModalAsync(Tutorial);
-
-                });
+                        await Navigation.PushModalAsync(Tutorial);
+                    });
                 });
             }
 
@@ -103,7 +106,6 @@ namespace DungeonTasker.Views
                 }
 
                 truth = false; // Declare false so timers wont be added again
-
             }
 
         }
@@ -117,7 +119,7 @@ namespace DungeonTasker.Views
          * Trg: The end date of the task 
          * Rem: The leftover time remaining
          * 
-         * RETURNS Nothing
+         * RETURN Nothing
          */
         public void Timer(string Original, DateTime Trg, TimeSpan Rem)
         {
@@ -225,7 +227,8 @@ namespace DungeonTasker.Views
          * PARAM
          * timerlads: the stacklayout that is to be updated with the redeem button
          * times: the current TimerUpdatecs to be removed from the ListTimer list 
-         * RETURNS Nothing
+         * 
+         * RETURN Nothing
          */
         public void DisplayRedeem(StackLayout timerlads, TimerUpdatecs times, string task)
         {
@@ -248,7 +251,7 @@ namespace DungeonTasker.Views
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
                 items.GiveKey(1);
-                await this.DisplayAlert("+1", "You recieved a key", "Close");
+                await this.DisplayAlert("Congratulations", "You finished a task!\nHere's a key", "Receive");
             };
 
             timerlads.Children.Add(redeembtn);

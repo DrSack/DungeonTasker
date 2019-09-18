@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,16 +12,14 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Dungeon : ContentPage
     {
-        private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "BattleMage", "Death Robot" };
-        private string[] Currentears = { "<>", "||", "!!" };
-        private string Currenteyes = "0^#@.Xx";
-        private string Currentnose = ".*@:!";
+        private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "Battle Mage", "Death Robot", "Ogre" };
+        private string[] Currentears = { "<>", "||", "!!", "~~", "^^", "{}", "[]", "++" };
+        private string Currenteyes = "0^#@.Xx-";
+        private string Currentnose = ".*@:!O0IVvXxw";
         public string CurrentBoss { get; set; }
         public string CurrentName { get; set; }
 
         public bool tut { get; set; }
-
-
         public User user;
         public InventoryItems items;
         public WeaponInfo weapon;
@@ -32,16 +29,16 @@ namespace DungeonTasker.Views
         /*
          * Constructor for Dungeon
          * Encapsulates User,InventoryItems,WeaponInfo,Stats objects + the bool variable
-         * @Param 
+         * 
+         * PARAM
          * user:parse user,
          * items: parse items,
          * weapon: parse weapon ,
          * stats: parse stats,
          * tut: true of false if the tutorial display alert is wished to be displayed
          * 
-         * Return Nothing
+         * RETURN Nothing
          */
-
         public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats, bool tut)
         {
             this.user = user;
@@ -57,9 +54,8 @@ namespace DungeonTasker.Views
          * Obtains how keys there are within the Invfile and display it on the KetsLeft label text
          * 
          * PARAM Nothing
-         * RETURNS Nothing
+         * RETURN Nothing
          */
-
         public void selectKey()
         {
             string keys = User.CheckForstring(items.Invfile, "Keys:");
@@ -71,7 +67,7 @@ namespace DungeonTasker.Views
          * Set current boss and name to NULL, then reselect the boss hp and character.
          * 
          * PARAM Nothing
-         * RETURNS Nothing
+         * RETURN Nothing
          */
         public void clearBoss()
         {
@@ -85,7 +81,7 @@ namespace DungeonTasker.Views
          * Randomly select the BossHP
          * 
          * PARAM Nothing
-         * RETURNS Nothing
+         * RETURN Nothing
          */
         private void selectBossHP()
         {
@@ -98,7 +94,7 @@ namespace DungeonTasker.Views
          * Randomly selects the features of what the boss character will look like
          * 
          * PARAM Nothing
-         * RETURNS Nothing
+         * RETURN Nothing
          */
 
         private void selectBoss()
@@ -137,47 +133,44 @@ namespace DungeonTasker.Views
             }
         }
 
-
         /*
-        * When the button is pressed check whenever the user has any keys available, then open the Game page.
+        * When the button is pressed check whenever the user has any keys available, then open the Game page
         * 
         * PARAM sender, e
-        * RETURNS Nothing
+        * RETURN Nothing
         */
-
         private async void BattleBtn(object sender, EventArgs e)
         {
             int realKeys;
             string keys = User.CheckForstring(items.Invfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
-            if (realKeys >= 0)// Made this = 0 for debugging purposes, didnt want to wait for a key cause lazy 
-            {
+
+            if (realKeys > 0) {
                 await this.Navigation.PushModalAsync(new Game(this));
-                items.GiveKey(0);
+                items.GiveKey(-1);
                 selectKey();
             }
-            else
-            {
+
+            else {
                 await DisplayAlert("Error", "Not enough keys to battle", "cancel");
             }
         }
 
         /*
-        * When the page appears display the tutorial screen if the tut bool is active.
+        * When the page appears display the tutorial screen if the tut bool is active
         * 
         * PARAM Nothing
-        * RETURNS Nothing
+        * RETURN Nothing
         */
         protected override async void OnAppearing()
         {
             if (tut)
             {
-
-                    await ExtraPopups.ShowMessage("This is Dungeon Menu\nThis is where you can see the boss you are about to Battle!\n", "Dungeon", "Close", this, async () =>
-                    {
-                        await this.Navigation.PopModalAsync();
-                    });
+                await ExtraPopups.ShowMessage("This is Dungeon Menu\nThis is where you can see the boss you are about to Battle!\n", "Dungeon", "Close", this, async () =>
+                {
+                    await this.Navigation.PopModalAsync();
+                });
             }
         }
     }
