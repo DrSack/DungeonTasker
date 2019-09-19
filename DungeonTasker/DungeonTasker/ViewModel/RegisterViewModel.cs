@@ -13,14 +13,14 @@ namespace DungeonTasker.ViewModel
         public string Password { get; set; }
         public string FullName { get; set; }
         public Command RegisterBtn { get; set; }
-        Register page;
+        RegisterView page;
         /*
          * A constructor for the RegisterViewModel
          * 
          * @Param page: parse the register page to display an alert page if an error occured.
          * Returns Nothing.
          */
-        public RegisterViewModel(Register page)
+        public RegisterViewModel(RegisterView page)
         {
             this.page = page;
             Username = "";
@@ -43,7 +43,7 @@ namespace DungeonTasker.ViewModel
             {
                 if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username and password fields are filled
                 {
-                    User.StoreInfo(Username, Password, FullName, page);// store and create new files based on the information given
+                    UserModel.StoreInfo(Username, Password, FullName, page);// store and create new files based on the information given
                 }
                 else
                 {

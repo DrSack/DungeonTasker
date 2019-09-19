@@ -14,52 +14,76 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\AboutUs.xaml.cs">
-      <DependentUpon>AboutUs.xaml</DependentUpon>
+    <Compile Update="Views\AboutUsView.xaml.cs">
+      <DependentUpon>AboutUsView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\DatePicker.xaml.cs">
-      <DependentUpon>DatePicker.xaml</DependentUpon>
+    <Compile Update="Views\AddView.xaml.cs">
+      <DependentUpon>AddView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tasks.xaml.cs">
-      <DependentUpon>Tasks.xaml</DependentUpon>
+    <Compile Update="Views\DatePickerView.xaml.cs">
+      <DependentUpon>DatePickerView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Register.xaml.cs">
-      <DependentUpon>Register.xaml</DependentUpon>
+    <Compile Update="Views\DungeonView.xaml.cs">
+      <DependentUpon>DungeonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EditTaskView.xaml.cs">
+      <DependentUpon>EditTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GreetPageView.xaml.cs">
+      <DependentUpon>GreetPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventoryView.xaml.cs">
+      <DependentUpon>InventoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MasterPageView.xaml.cs">
+      <DependentUpon>MasterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TasksView.xaml.cs">
+      <DependentUpon>TasksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\Add.xaml">
+    <EmbeddedResource Update="Views\AddView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DatePicker.xaml">
+    <EmbeddedResource Update="Views\DatePickerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Dungeon.xaml">
+    <EmbeddedResource Update="Views\DungeonView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\EditTask.xaml">
+    <EmbeddedResource Update="Views\EditTaskView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Game.xaml">
+    <EmbeddedResource Update="Views\GameView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\GreetPage.xaml">
+    <EmbeddedResource Update="Views\GreetPageView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Register.xaml">
+    <EmbeddedResource Update="Views\RegisterView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Settings.xaml">
+    <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tasks.xaml">
+    <EmbeddedResource Update="Views\TasksView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Inventory.xaml">
+    <EmbeddedResource Update="Views\InventoryView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MasterPage.xaml">
+    <EmbeddedResource Update="Views\MasterPageView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

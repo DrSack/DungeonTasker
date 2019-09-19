@@ -14,7 +14,7 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MasterPage : ContentPage
+	public partial class MasterPageView : ContentPage
 	{
         /*
          * Contructor for Masterpage, initialize all components and BindingContext 
@@ -29,9 +29,9 @@ namespace DungeonTasker.Views
          * RETURNS Nothing
          */
 
-        public MasterPage (Tasks page, User user, InventoryItems items, WeaponInfo weapon, Stats stats,  logged truth)
+        public MasterPageView (TasksView page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats,  logged truth)
 		{
-			InitializeComponent ();
+			InitializeComponent();
             BindingContext = new MasterPageViewModel(page,user,items,weapon,stats,truth,this,this);
         }
     }

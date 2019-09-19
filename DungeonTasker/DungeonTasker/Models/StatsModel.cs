@@ -5,7 +5,7 @@ using System.Text;
 namespace DungeonTasker.Models
 {
     
-    public class Stats
+    public class StatsModel
     {
         public int Health { get; set; }
         public int Experience { get; set; }
@@ -17,7 +17,7 @@ namespace DungeonTasker.Models
         * Param Nothing
         * Returns Nothing
         */
-        public Stats()
+        public StatsModel()
         {
 
         }
@@ -28,7 +28,7 @@ namespace DungeonTasker.Models
          * @file the file path to the Stats file.
          * Returns Nothing
          */
-        public Stats(string file)
+        public StatsModel(string file)
         {
             this.file = file;
             SetStats();
@@ -40,9 +40,9 @@ namespace DungeonTasker.Models
          */
         public void SetStats()
         {
-           Health = Int32.Parse(User.CheckForstring(file, "HEALTH:"));
-           Experience = Int32.Parse(User.CheckForstring(file, "EXP:"));
-           Level = Int32.Parse(User.CheckForstring(file, "LEVEL:"));
+           Health = Int32.Parse(UserModel.CheckForstring(file, "HEALTH:"));
+           Experience = Int32.Parse(UserModel.CheckForstring(file, "EXP:"));
+           Level = Int32.Parse(UserModel.CheckForstring(file, "LEVEL:"));
         }
 
         /*
@@ -60,8 +60,8 @@ namespace DungeonTasker.Models
             {
                 Level++;
                 Health += 20;
-                User.Rewrite("HEALTH:", Health.ToString(), file);
-                User.Rewrite("LEVEL:", Level.ToString(), file);
+                UserModel.Rewrite("HEALTH:", Health.ToString(), file);
+                UserModel.Rewrite("LEVEL:", Level.ToString(), file);
                 return true;
             }
 
@@ -91,7 +91,7 @@ namespace DungeonTasker.Models
         }
 
         /*
-         * A void method that adds on top of the current user experience.
+         * A void method that adds on top of the current UserModel experience.
          * 
          * Param 
          * exp Is an integer of how much exp was gained.
@@ -101,7 +101,7 @@ namespace DungeonTasker.Models
         public void ExpEnter(int exp)
         {
             Experience += exp;
-            User.Rewrite("EXP:", Experience.ToString(), file);
+            UserModel.Rewrite("EXP:", Experience.ToString(), file);
         }
     }
 }

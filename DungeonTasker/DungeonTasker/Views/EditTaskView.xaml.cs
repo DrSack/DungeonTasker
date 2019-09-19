@@ -11,13 +11,13 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class EditTask : ContentPage
+    public partial class EditTaskView : ContentPage
     {
         TimerUpdatecs timeStats;
         List<TimerUpdatecs> ListTimers;
         StackLayout timerlads;
         StackLayout outer;
-        User user;
+        UserModel user;
         Label label;
 
         public bool Deleted { get; set; }
@@ -30,7 +30,7 @@ namespace DungeonTasker.Views
          * label: the label id parsed
          * Returns Nothing
          */
-        public EditTask(TimerUpdatecs time, List<TimerUpdatecs> listtimes, User user, Label label, StackLayout inner, StackLayout outer)
+        public EditTaskView(TimerUpdatecs time, List<TimerUpdatecs> listtimes, UserModel user, Label label, StackLayout inner, StackLayout outer)
         {
             Deleted = false;
             this.label = label;

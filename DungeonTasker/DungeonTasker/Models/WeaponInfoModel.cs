@@ -6,12 +6,12 @@ using Xamarin.Forms;
 
 namespace DungeonTasker.Models
 {
-    public class WeaponInfo
+    public class WeaponInfoModel
     {
         public int Minimum { get; set; }
         public int Maximum { get; set; }
         public string EquippedWeapon { get; set; }
-        InventoryItems items;
+        InventoryItemsModel items;
 
 
         /*
@@ -20,7 +20,7 @@ namespace DungeonTasker.Models
          *  Returns Nothing
          */
 
-        public WeaponInfo(InventoryItems items)
+        public WeaponInfoModel(InventoryItemsModel items)
         {
             this.items = items;
         }
@@ -136,7 +136,7 @@ namespace DungeonTasker.Models
             Maximum = totaldmg;
             Minimum = minimum;
             EquippedWeapon = weapon;
-            User.Rewrite("Equipped:", EquippedWeapon, items.Invfile);
+            UserModel.Rewrite("Equipped:", EquippedWeapon, items.Invfile);
         }
     }
 }

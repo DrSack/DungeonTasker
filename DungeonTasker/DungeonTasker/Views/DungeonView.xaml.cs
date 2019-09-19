@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Dungeon : ContentPage
+    public partial class DungeonView : ContentPage
     {
         private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "Battle Mage", "Death Robot", "Ogre" };
         private string[] Currentears = { "<>", "||", "!!", "~~", "^^", "{}", "[]", "++" };
@@ -20,18 +20,18 @@ namespace DungeonTasker.Views
         public string CurrentName { get; set; }
 
         public bool tut { get; set; }
-        public User user;
-        public InventoryItems items;
-        public WeaponInfo weapon;
-        public Stats stats;
-        public Stats boss = new Stats();
+        public UserModel user;
+        public InventoryItemsModel items;
+        public WeaponInfoModel weapon;
+        public StatsModel stats;
+        public StatsModel boss = new StatsModel();
         
         /*
          * Constructor for Dungeon
-         * Encapsulates User,InventoryItems,WeaponInfo,Stats objects + the bool variable
+         * Encapsulates UserModel,InventoryItems,WeaponInfo,Stats objects + the bool variable
          * 
          * PARAM
-         * user:parse user,
+         * UserModel:parse UserModel,
          * items: parse items,
          * weapon: parse weapon ,
          * stats: parse stats,
@@ -39,7 +39,7 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public Dungeon(User user, InventoryItems items, WeaponInfo weapon, Stats stats, bool tut)
+        public DungeonView(UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats, bool tut)
         {
             this.user = user;
             this.items = items;
@@ -58,7 +58,7 @@ namespace DungeonTasker.Views
          */
         public void selectKey()
         {
-            string keys = User.CheckForstring(items.Invfile, "Keys:");
+            string keys = UserModel.CheckForstring(items.Invfile, "Keys:");
             keys = keys.Replace(",", "");
             KeysLeft.Text = keys;
         }
@@ -134,7 +134,7 @@ namespace DungeonTasker.Views
         }
 
         /*
-        * When the button is pressed check whenever the user has any keys available, then open the Game page
+        * When the button is pressed check whenever the UserModel has any keys available, then open the Game page
         * 
         * PARAM sender, e
         * RETURN Nothing
@@ -142,12 +142,12 @@ namespace DungeonTasker.Views
         private async void BattleBtn(object sender, EventArgs e)
         {
             int realKeys;
-            string keys = User.CheckForstring(items.Invfile, "Keys:");
+            string keys = UserModel.CheckForstring(items.Invfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
 
             if (realKeys > 0) {
-                await this.Navigation.PushModalAsync(new Game(this));
+                await this.Navigation.PushModalAsync(new GameView(this));
                 items.GiveKey(-1);
                 selectKey();
             }
@@ -167,7 +167,7 @@ namespace DungeonTasker.Views
         {
             if (tut)
             {
-                await ExtraPopups.ShowMessage("This is Dungeon Menu\nThis is where you can see the boss you are about to Battle!\n", "Dungeon", "Close", this, async () =>
+                await UserModel.ShowMessage("This is Dungeon Menu\nThis is where you can see the boss you are about to Battle!\n", "Dungeon", "Close", this, async () =>
                 {
                     await this.Navigation.PopModalAsync();
                 });

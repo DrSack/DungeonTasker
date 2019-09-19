@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage Title="Don't DO IT"  xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DungeonTasker.GreetPage"
+             x:Class="DungeonTasker.GreetPageView"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="#212121">
+             BackgroundColor="#212121" Opacity="{Binding FadeOut}">
 
-    <StackLayout Orientation="Vertical" x:Name="NeinStack">
+    <StackLayout Orientation="Vertical">
         <StackLayout Margin="0,90,0,0" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
             <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
         </StackLayout>
 
         <StackLayout VerticalOptions="CenterAndExpand" Margin="30,60,30,30">
-            <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
-            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding Password}" TextColor="White" 
+            <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding _UserModel.Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
+            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding _UserModel.Password}" TextColor="White" 
                    PlaceholderColor="#BDBDBD" IsPassword="True"/>
 
             <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>

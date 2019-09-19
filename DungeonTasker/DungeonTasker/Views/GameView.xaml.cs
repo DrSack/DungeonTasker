@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Game : ContentPage
+    public partial class GameView : ContentPage
     {
         private bool battlesequence { get; set; }
         private bool WON { get; set; }
@@ -21,14 +21,14 @@ namespace DungeonTasker.Views
 
         private int lowestdamage { get; set; }
         private int highestdamage { get; set; }
-        Dungeon dungeon;
+        DungeonView dungeon;
         
         /*
          * The contructor for the game class/page
          * Param dungeon: parse the dungeon class object.
          * Returns Nothing.
          */
-        public Game(Dungeon dungeon)
+        public GameView(DungeonView dungeon)
         {
             this.dungeon = dungeon;
             this.BossHP = this.dungeon.boss.Health;
@@ -169,12 +169,12 @@ namespace DungeonTasker.Views
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .3);
                 string[] loot = { "SteelSword", "IronSword", "WoodenSpoon" };
                 string currentloot = loot[lootindx];
-                User.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
+                UserModel.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
                 dungeon.stats.ExpEnter(expgained);
                 await DisplayAlert("YOU WIN", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
                 if (dungeon.stats.StatsCheck())
                 {
-                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", User.CheckForstring(dungeon.stats.file, "LEVEL:"), User.CheckForstring(dungeon.stats.file, "HEALTH:")), "Close");
+                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file, "LEVEL:"), UserModel.CheckForstring(dungeon.stats.file, "HEALTH:")), "Close");
                 }
             }
             else
@@ -184,12 +184,12 @@ namespace DungeonTasker.Views
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .1);
                 string[] loot = { "WoodenSpoon", "WoodenBow"};
                 string currentloot = loot[lootindx];
-                User.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
+                UserModel.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
                 dungeon.stats.ExpEnter(expgained);
                 await DisplayAlert("YOU LOSE", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot,expgained, dungeon.stats.ExpLeft()), "Close");
                 if (dungeon.stats.StatsCheck())
                 {
-                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", User.CheckForstring(dungeon.stats.file,"LEVEL:"), User.CheckForstring(dungeon.stats.file,"HEALTH:")), "Close");
+                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file,"LEVEL:"), UserModel.CheckForstring(dungeon.stats.file,"HEALTH:")), "Close");
                 }
             }
             dungeon.clearBoss();

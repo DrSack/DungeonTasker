@@ -12,13 +12,13 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Tasks : ContentPage
+    public partial class TasksView : ContentPage
     {
         List<TimerUpdatecs> ListTimer = new List<TimerUpdatecs>();
-        User Currentuser;
-        InventoryItems items;
+        UserModel Currentuser;
+        InventoryItemsModel items;
         logged truthtime;
-        public Dungeon dungeon;
+        public DungeonView dungeon;
         bool truth = true; // Initialize all variables
 
         /*
@@ -30,7 +30,7 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public Tasks(User user, InventoryItems items, logged truth)
+        public TasksView(UserModel user, InventoryItemsModel items, logged truth)
         {
             InitializeComponent();
             this.Currentuser = user;
@@ -51,7 +51,7 @@ namespace DungeonTasker.Views
          */
         public async void Add_Time(object sender, EventArgs e)
         {
-            await this.Navigation.PushModalAsync(new DatePicker(this,false)); // Open DatePicker
+            await this.Navigation.PushModalAsync(new DatePickerView(this,false)); // Open DatePicker
         }
 
         /*
@@ -66,18 +66,18 @@ namespace DungeonTasker.Views
          */
         protected override void OnAppearing()
         {
-            if (User.CheckForstring(Currentuser.file, "Tutorial:").Contains("True"))// This is the tutorial.
+            if (UserModel.CheckForstring(Currentuser.file, "Tutorial:").Contains("True"))// This is the tutorial.
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await ExtraPopups.ShowMessage(string.Format("Welcome to DungeonTasker {0}\nStart adding Tasks with the (+) button below\nGain Keys by completing Tasks!", Currentuser.Username), "Welcome!", "Close", this, async () =>
+                    await UserModel.ShowMessage(string.Format("Welcome to DungeonTasker {0}\nStart adding Tasks with the (+) button below\nGain Keys by completing Tasks!", Currentuser.Username), "Welcome!", "Close", this, async () =>
                     {
-                        DatePicker Tutorial = new DatePicker(this, true);
+                        DatePickerView Tutorial = new DatePickerView(this, true);
                         Tutorial.Disappearing += async (s, e) =>
                         {
                             dungeon.Disappearing += (s2, e2) =>
                             {
-                                User.Rewrite("Tutorial:", "False", Currentuser.file);
+                                UserModel.Rewrite("Tutorial:", "False", Currentuser.file);
                                 DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
                             };
 
@@ -200,7 +200,7 @@ namespace DungeonTasker.Views
             // When the user clicks on the edit button
             editButton.Clicked += async (s, a) =>
             {
-                EditTask EditCurrent = new EditTask(time, ListTimer, Currentuser, taskName, timerlads, timers);
+                EditTaskView EditCurrent = new EditTaskView(time, ListTimer, Currentuser, taskName, timerlads, timers);
                 EditCurrent.Disappearing += (s2, e2) =>
                 {
                     TimerStop = EditCurrent.Deleted;

@@ -12,12 +12,9 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Add : MasterDetailPage
+	public partial class AddView : MasterDetailPage
 	{
-        User nice;//Initialize and store information of corresponding variables
-        InventoryItems Inv;
-        WeaponInfo weapon;
-        Stats stats;
+        WeaponInfoModel weapon;
         logged truth = new logged();// Used for telling threads of the application to stop running whenever this is false
       
         /*
@@ -27,17 +24,25 @@ namespace DungeonTasker
          * items: the items data
          * RETURNS Nothing
          */
-        public Add(User user, InventoryItems items, Stats stats)
+        public AddView(UserModel user, InventoryItemsModel items, StatsModel stats)
 		{
-            this.nice = user;
-            this.Inv = items;
-            this.weapon = new WeaponInfo(Inv);
-            this.stats = stats;
             InitializeComponent();
-            Tasks UpdateTasks = new Tasks(user, items, truth);
+            this.weapon = new WeaponInfoModel(items);
+            TasksView UpdateTasks = new TasksView(user, items, truth);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             this.Detail = new NavigationPage(UpdateTasks);// Set Detailspage arguments with user information and truth value.
-            this.Master = new MasterPage(UpdateTasks, user, items, weapon, stats, truth);// set the masterpage information with user, items, and truth values.
+            this.Master = new MasterPageView(UpdateTasks, user, items, weapon, stats, truth);// set the masterpage information with user, items, and truth values.
+            
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () => {
+                var result = await this.DisplayAlert("Alert!", "Do you really want to exit?", "No", "Yes");
+                if (!result) System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow(); // or anything else
+            });
+
+            return true;
         }
     }
 }

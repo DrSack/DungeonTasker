@@ -14,13 +14,13 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Register : ContentPage
+	public partial class RegisterView : ContentPage
 	{
         /*
          * This is the Contructor, Initialize all controls
          * 
          */
-		public Register()
+		public RegisterView()
 		{
 			InitializeComponent();
             BindingContext = new RegisterViewModel(this);

@@ -12,12 +12,14 @@ namespace DungeonTasker.ViewModel
     {
         public bool CanCloseDelete { get; set; }
         public bool CanCloseLogout { get; set; }
-        User user;
+
+        UserModel user;
         logged truth;
         ContentPage page;
         public Command DeleteAccountBtn { get; set; }
         public Command LogoutBtn { get; set; }
 
+        public event PropertyChangingEventHandler PropertyChanged;
         /*
          * A constructor that encapsulates user, truth, and page. 
          * Initialize the Commands and Buttons
@@ -26,7 +28,7 @@ namespace DungeonTasker.ViewModel
          * Returns Nothing
          */
 
-        public SettingsViewModel(User user, logged truth, ContentPage page)
+        public SettingsViewModel(UserModel user, logged truth, ContentPage page)
         {
             CanCloseDelete = true;
             CanCloseLogout = true;
@@ -49,9 +51,9 @@ namespace DungeonTasker.ViewModel
         {
             CanCloseLogout = false;
             user.Logged = "false";
-            User.Rewrite("Logged:", "false", user.file);
+            UserModel.Rewrite("Logged:", "false", user.file);
             truth.TasksRun = false;
-            if (User.CheckForstring(user.file, "Logged:") == "false")
+            if (UserModel.CheckForstring(user.file, "Logged:") == "false")
             {
                 File.WriteAllText(user.file, File.ReadAllText(user.file));
                 await page.FadeTo(0, 600);

@@ -7,12 +7,12 @@ using Xamarin.Forms;
 
 namespace DungeonTasker
 {
-    public partial class AboutUs : ContentPage
+    public partial class AboutUsView : ContentPage
     {
         String[] SS = new string[] { "This", "Is", "A", "Test" };
         int i = 1;
 
-        public AboutUs()
+        public AboutUsView()
         {
             InitializeComponent();
             NewSlideBoi.Value = 1;

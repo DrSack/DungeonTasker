@@ -11,15 +11,27 @@ using DungeonTasker.Views;
 
 namespace DungeonTasker.Models
 {
-    public class User
+    public class UserModel
     {
         public string Username { get; set; } 
-        public string Password { private get; set; }
+        public string Password { get; set; }
         public string FullName { get; set; }
         public string Character { get; set; }
         public string Logged { get; set; }
         public string file {get; set;}
         public string timer { get; set; }// Intialize all variables
+
+        /*
+         * An empty User constructor 
+         * @para Nothing 
+         * @returns Nothing
+         */
+        public UserModel()
+        {
+            Username = "";
+            Password = "";
+        }
+
 
         /*
          * The User constructor 
@@ -30,7 +42,7 @@ namespace DungeonTasker.Models
          * string Logged: sets if logged in, 
          * string file: set the file path.
          */
-        public User(string Username, string Password, string FullName, string Character, string Logged, string file, string timer)
+        public UserModel(string Username, string Password, string FullName, string Character, string Logged, string file, string timer)
         {
             this.Username = Username;
             this.Password = Password;
@@ -40,12 +52,34 @@ namespace DungeonTasker.Models
             this.file = file;
             this.timer = timer;
         }
+
+
+        /*
+         *  Creates a display alert that has await assigned to it such that the user must close this before any action is taken afterwards
+         *  PARAM
+         *  message: message of the display alert
+         *  title: the title for the display alert
+         *  buttonText: the string for the button
+         *  page: the current contentpage
+         *  afterHideCallback: action to be take
+         *  Returns Nothing
+         */
+        public static async Task ShowMessage(string message, string title, string buttonText, ContentPage page, Action afterHideCallback)
+        {
+            await page.DisplayAlert(title, message, buttonText);
+            afterHideCallback?.Invoke();
+        }
+
+
+
         /*
          * Update the current operating timers on to the timer file 
          * 
          * PARAM timer a list that uses the TimerUpdatecs object class
          * RETURNS Nothing
          */
+
+
 
         public void UpdateCurrenttimes(List<TimerUpdatecs> timer)
         {
@@ -62,6 +96,34 @@ namespace DungeonTasker.Models
             File.Move(tempFile, this.timer);//Replace the timer with the temporary file with the updated information
         }
 
+
+        /*
+         * A static method when called intializes all strings and 
+         * content pages to be parsed through the User class to be used 
+         * throughout the entire program once logged in.
+         * 
+         * PARAM
+         * page: the Greetpage content page
+         * file: the user file that contains all user information
+         * times: the timer file that contains current running timers that are still operational or havent been closed
+         * items: the items file contains all of the items that the user currently has
+         * line: this array contains the user information to be parsed within the initial User class
+         * 
+         * RETURNS Nothing
+         */
+        public static async Task LoginWriteAsync(INavigation Navigate, string file, string times, string items, string stats, string[] line)
+        {
+            UserModel.Rewrite("Logged:", "true", file);
+            string character = UserModel.CheckForstring(file, "Character:");
+            string logged = UserModel.CheckForstring(file, "Logged:");//obtain file information
+
+            UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, times);
+            InventoryItemsModel item = new InventoryItemsModel(items);
+            StatsModel stat = new StatsModel(stats);
+            AddView Mainpage = new AddView(user, item, stat);
+            await Navigate.PushAsync(Mainpage);
+
+        }
 
         /*
          *This method is responsible for adding onto an already existing line.
@@ -159,7 +221,7 @@ namespace DungeonTasker.Models
          *  @returns is Void
          *  
          */
-        public static async void StoreInfo(string User, string Pass, string FullName, Register Rego)
+        public static async void StoreInfo(string User, string Pass, string FullName, RegisterView Rego)
         {
             try
             {
@@ -184,7 +246,7 @@ namespace DungeonTasker.Models
                     File.WriteAllText(Stats, "HEALTH:100\nLEVEL:1\nEXP:0");
                     File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.
-                    await ExtraPopups.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
+                    await UserModel.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
                     {
                         await Rego.Navigation.PopModalAsync();
                     });

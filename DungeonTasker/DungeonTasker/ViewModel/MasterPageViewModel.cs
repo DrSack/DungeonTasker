@@ -16,14 +16,14 @@ namespace DungeonTasker.ViewModel
         public Command Settings_Clicked { get; set; }
         public Command About_Clicked { get; set; }
 
-        Tasks page;// This is the tasks page set to be binded to the Tasks_clicked command
-        User user;
-        InventoryItems items;
-        public Dungeon dungeon;
-        WeaponInfo weapon;
-        Stats stats;
+        TasksView page;// This is the tasks page set to be binded to the Tasks_clicked command
+        UserModel user;
+        InventoryItemsModel items;
+        public DungeonView dungeon;
+        WeaponInfoModel weapon;
+        StatsModel stats;
         logged truth;
-        MasterPage mainpage;
+        MasterPageView mainpage;
         ContentPage display;
 
         /*
@@ -40,7 +40,7 @@ namespace DungeonTasker.ViewModel
          * 
          * RETURNS Nothing
          */
-        public MasterPageViewModel(Tasks page, User user, InventoryItems items, WeaponInfo weapon, Stats stats, logged truth, MasterPage mainpage, ContentPage display)
+        public MasterPageViewModel(TasksView page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats, logged truth, MasterPageView mainpage, ContentPage display)
         {
             this.page = page;
             this.user = user;
@@ -50,8 +50,8 @@ namespace DungeonTasker.ViewModel
             this.stats = stats;
             this.mainpage = mainpage;
             this.display = display;
-            weapon.SetWeapon(display, User.CheckForstring(items.Invfile, "Equipped:"));
-            dungeon = new Dungeon(this.user, this.items, this.weapon, this.stats, false);
+            weapon.SetWeapon(display, UserModel.CheckForstring(items.Invfile, "Equipped:"));
+            dungeon = new DungeonView(this.user, this.items, this.weapon, this.stats, false);
             page.dungeon = dungeon;
             Tasks_Clicked = new Command(() => TaskNav());
             Inventory_Clicked = new Command(() => InventoryNav());
@@ -81,7 +81,7 @@ namespace DungeonTasker.ViewModel
         private void InventoryNav()
         {
 
-            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new Inventory(items, this.weapon));
+            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new InventoryView(items, this.weapon));
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
 
         }
@@ -109,7 +109,7 @@ namespace DungeonTasker.ViewModel
        */
         private void AboutNav()
         {
-            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new AboutUs());
+            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new AboutUsView());
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
         }
         /*
@@ -121,7 +121,7 @@ namespace DungeonTasker.ViewModel
         private void SettingsNav()
         {
 
-            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new Settings(user, truth));
+            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new SettingsView(user, truth));
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
         }
     }

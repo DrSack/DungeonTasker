@@ -31,7 +31,7 @@ namespace DungeonTasker
             base.OnAppearing();
             await this.FadeTo(1, 1500);
             await this.FadeTo(0, 1500);
-            Application.Current.MainPage = new NavigationPage(new GreetPage());
+            Application.Current.MainPage = new NavigationPage(new GreetPageView());
         }
 
         /*

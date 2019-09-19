@@ -12,17 +12,17 @@ using System.IO;
 namespace DungeonTasker.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Inventory : ContentPage
+	public partial class InventoryView : ContentPage
 	{
-        InventoryItems items;// Store items information
-        WeaponInfo weapon;// The current weapon
-        List<Item> weapons = new List<Item>();// Store weapon item details
+        InventoryItemsModel items;// Store items information
+        WeaponInfoModel weapon;// The current weapon
+        List<ItemModel> weapons = new List<ItemModel>();// Store weapon item details
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
          * RETURNS Nothing
          */
-		public Inventory(InventoryItems items, WeaponInfo weapon)
+		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon)
 		{
             this.items = items;
             this.weapon = weapon;
@@ -36,7 +36,7 @@ namespace DungeonTasker.Views
 
         /*
          * Create an array and store the weapon items in the weapons list 
-         * and run through a foreach loop to display all available items within the users inventory.
+         * and run through a foreach loop to display all available items within the UserModels inventory.
          * With each item in the foreach loop create a stacklayout with buttons and text details about
          * the item. These buttons allow you to sell or equip that weapon.
          * 
@@ -47,19 +47,19 @@ namespace DungeonTasker.Views
         {
             string line;
             string[] cool;
-            line = User.CheckForstring(items.Invfile, "Weapons:");
+            line = UserModel.CheckForstring(items.Invfile, "Weapons:");
             cool = line.Split(',');
 
             foreach(string item in cool)
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    weapons.Add(new Item(item));
+                    weapons.Add(new ItemModel(item));
                 }
             }
 
             int i = 0;
-            foreach(Item weaponitem in weapons)
+            foreach(ItemModel weaponitem in weapons)
             {
                 if (!string.IsNullOrEmpty(weaponitem.weapon))
                 {
@@ -83,9 +83,9 @@ namespace DungeonTasker.Views
                     item.VerticalTextAlignment = TextAlignment.Center;
 
 
-                    damage.Text = string.Format("Damage: {0} - {1}", 
-                    WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
-                    WeaponInfo.ObtainWeaponInfo(weaponitem.weapon, false));
+                    damage.Text = string.Format("Damage: {0} - {1}",
+                    WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
+                    WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
 
                     damage.FontSize = 10;
                     damage.HorizontalTextAlignment = TextAlignment.Start;
@@ -109,8 +109,8 @@ namespace DungeonTasker.Views
 
                     sell.Clicked += async (s, a) =>
                     {
-                        int Goldvalue = WeaponInfo.ObtainWeaponValue(weaponitem.weapon);
-                        int CurrentGold = Int32.Parse(User.CheckForstring(items.Invfile, "Gold:"));
+                        int Goldvalue = WeaponInfoModel.ObtainWeaponValue(weaponitem.weapon);
+                        int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
                         int TotalGold = Goldvalue + CurrentGold;// Get your gold and add onto the gold you have recieved.
 
                         sell.Text = Goldvalue.ToString() +" G";
@@ -120,21 +120,21 @@ namespace DungeonTasker.Views
                             weapons.Remove(weaponitem);// Remove off list
 
                             string weaponlist = "";
-                            foreach (Item weapon in weapons)
+                            foreach (ItemModel weapon in weapons)
                             {
                                 if (!String.IsNullOrEmpty(weapon.weapon))
                                 {
                                     weaponlist += weapon.weapon + ",";// Create string for file
                                 }
                             }
-                            User.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
-                            User.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
+                            UserModel.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
+                            UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
                             DisplayGold();//Display the gold
 
-                            string equipped = User.CheckForstring(items.Invfile, "Equipped:");
-                            if (!User.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
+                            string equipped = UserModel.CheckForstring(items.Invfile, "Equipped:");
+                            if (!UserModel.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
                             {
-                                User.Rewrite("Equipped:", "Not Equipped", items.Invfile);
+                                UserModel.Rewrite("Equipped:", "Not Equipped", items.Invfile);
                                 weapon.SetWeapon(this, "Not Equipped");//Rewrite and Set weapon to nothing
                             }
                             DisplayEquipped();
@@ -193,7 +193,7 @@ namespace DungeonTasker.Views
         */
         private void DisplayKey()
         {
-            Keys.Text = User.CheckForstring(items.Invfile, "Keys:");
+            Keys.Text = UserModel.CheckForstring(items.Invfile, "Keys:");
         }
 
         /*
@@ -204,7 +204,7 @@ namespace DungeonTasker.Views
         */
         private void DisplayGold()
         {
-            Gold.Text = User.CheckForstring(items.Invfile, "Gold:");
+            Gold.Text = UserModel.CheckForstring(items.Invfile, "Gold:");
         }
 
 
@@ -217,17 +217,17 @@ namespace DungeonTasker.Views
         */
         private void DisplayEquipped()
         {
-            string equippedWep = User.CheckForstring(items.Invfile, "Equipped:");
+            string equippedWep = UserModel.CheckForstring(items.Invfile, "Equipped:");
             if (equippedWep.Contains("Not Equipped"))
             {
-                EquippedLabel.Text = User.CheckForstring(items.Invfile, "Equipped:");
+                EquippedLabel.Text = UserModel.CheckForstring(items.Invfile, "Equipped:");
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
             else
             {
-                EquippedLabel.Text = User.CheckForstring(items.Invfile, "Equipped:");
-                Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfo.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfo.ObtainWeaponInfo(equippedWep, false));
+                EquippedLabel.Text = UserModel.CheckForstring(items.Invfile, "Equipped:");
+                Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfoModel.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfoModel.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;
             }

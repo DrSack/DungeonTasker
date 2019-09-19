@@ -14,7 +14,7 @@ namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 
-    public partial class Settings : ContentPage
+    public partial class SettingsView : ContentPage
     {
         /*
          * Constructor for Settings Class
@@ -24,7 +24,7 @@ namespace DungeonTasker.Views
          * 
          * @RETURNS Nothing
          */
-        public Settings(User user, logged truth)
+        public SettingsView(UserModel user, logged truth)
         {
             InitializeComponent();
             BindingContext = new SettingsViewModel(user,truth,this);

@@ -7,7 +7,7 @@ namespace DungeonTasker.Models
 {
     
 
-    public class InventoryItems
+    public class InventoryItemsModel
     {
         public string Invfile { get; set; }//Initialize variables 
 
@@ -17,7 +17,7 @@ namespace DungeonTasker.Models
          * file: the file of the inventory items.
          * RETURNS Nothing
          */
-        public InventoryItems(string file)
+        public InventoryItemsModel(string file)
         {
             this.Invfile = file;
         }
@@ -30,11 +30,11 @@ namespace DungeonTasker.Models
          */
         public void GiveKey(int key)
         {
-            string keys = User.CheckForstring(Invfile, "Keys:");
+            string keys = UserModel.CheckForstring(Invfile, "Keys:");
             keys = keys.Replace(",", "");
             int realkey = Int32.Parse(keys);
             realkey += key;
-            User.Rewrite("Keys:", realkey.ToString(), Invfile);
+            UserModel.Rewrite("Keys:", realkey.ToString(), Invfile);
         }
 
     }

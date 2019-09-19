@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DungeonTasker.Models
 {
-    public class Item
+    public class ItemModel
     {
         public string weapon { get; set; }
         /*
@@ -13,7 +13,7 @@ namespace DungeonTasker.Models
          * @weapon is the weapon string parsed
          * Returns Nothing
          */
-        public Item(string weapon)
+        public ItemModel(string weapon)
         {
             this.weapon = weapon;
         }

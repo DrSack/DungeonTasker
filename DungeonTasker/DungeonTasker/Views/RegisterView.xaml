@@ -2,7 +2,7 @@
 <ContentPage Title="Create Account"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DungeonTasker.Register"
+             x:Class="DungeonTasker.RegisterView"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="#212121">
 

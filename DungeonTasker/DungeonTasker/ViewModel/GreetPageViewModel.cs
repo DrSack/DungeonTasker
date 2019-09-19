@@ -2,6 +2,7 @@
 using DungeonTasker.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,34 +11,33 @@ using Xamarin.Forms;
 
 namespace DungeonTasker.ViewModel
 {
-    class GreetPageViewModel
+    public class GreetPageViewModel
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-
+        public INavigation Navigation;
+        public UserModel _UserModel { get; set; }
+        public double FadeOut { get; set; }
         public Command Login { get; set; }
         public Command RegisterCommand { get; set; }
 
-        private GreetPage page;
-
-
+        AddView main;
         /*
         * Contructor forGreetPageViewModel. 
         * 
         */
-        public GreetPageViewModel(GreetPage page)
+
+        public GreetPageViewModel()
         {
-            Username = "";
-            Password = "";
             Login = new Command(async () => await LoginCommand());
-            RegisterCommand = new Command(async () => await page.Navigation.PushModalAsync(new Register()));
-            this.page = page;
-            
-            
+            RegisterCommand = new Command(async () => await Navigation.PushModalAsync(new RegisterView()));
+            _UserModel = new UserModel();
+            FadeOut = 100;
+            MessagingCenter.Subscribe<GreetPageView>(this, "Done", async (sender) => {
+                await Navigation.PushAsync(main);
+            });
         }
 
         /*
-        * The login algorithm that decides whenver the user trying to login is genuine
+        * The login algorithm that decides whenver the UserModel trying to login is genuine
         * PARAM Nothing
         * RETURNS Nothing
         */
@@ -56,37 +56,47 @@ namespace DungeonTasker.ViewModel
                     using (StreamReader sr = new StreamReader(file)) { nice2 = sr.ReadToEnd(); }
                     line = nice2.Split(',');
 
-                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }// obtain username and password information
+                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }// obtain UserModelname and password information
 
-                    if (Username == line[0] && Password == line[1])// checks if entrytext is the same as file information
+                    if (_UserModel.Username == line[0] && _UserModel.Password == line[1])// checks if entrytext is the same as file information
                     {
                         hit = true;
-                        var Timers = Path.Combine(documents, line[0] + "Timer.dt");
+                        var Timers = Path.Combine(documents,line[0] + "Timer.dt");
                         var Items = Path.Combine(documents, line[0] + "Inv.dt");
                         var Stats = Path.Combine(documents, line[0] + "Stats.dt");
-                        ExtraPopups.LoginWrite(page, file, Timers, Items, Stats, line);
 
+                        UserModel.Rewrite("Logged:", "true", file);
+                        string character = UserModel.CheckForstring(file, "Character:");
+                        string logged = UserModel.CheckForstring(file, "Logged:");//obtain file information
+                        
+                        UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, Timers);
+                        InventoryItemsModel item = new InventoryItemsModel(Items);
+                        StatsModel stat = new StatsModel(Stats);
+                        main = new AddView(user, item, stat);
+                        
+                        MessagingCenter.Send(this, "Animation");
                     }
-                    else if (Username == line[0] && Password != line[1])// if the password is incorrect
+
+                    else if (_UserModel.Username == line[0] && _UserModel.Password != line[1])// if the password is incorrect
                     {
                         hit = true;
                         throw new Exception("Incorrect Password");
                     }
                 }
-                if (!User.checkinfo(Username, Password))// if both entry's are empty
+                if (!UserModel.checkinfo(_UserModel.Password, _UserModel.Password))// if both entry's are empty
                 {
-                    throw new Exception("Please enter both username and password");
+                    throw new Exception("Please enter both Username and password");
                 }
-                else if (!hit)// if entrytext found no accounts corresponding to that username.
+                else if (!hit)// if entrytext found no accounts corresponding to that UserModelname.
                 {
                     throw new Exception("Account not found");
                 }
             }
             catch (Exception es)//catch exception
             {
-                if (es.GetType().FullName == "System.IndexOutOfRangeException") { await page.DisplayAlert("Error", "Please enter both username and password", "Close"); }
-                else if (es != null) { await page.DisplayAlert("Error", es.Message, "Close"); }
-                else { await page.DisplayAlert("Error", "Account not found", "Close"); }
+                if (es.GetType().FullName == "System.IndexOutOfRangeException") { await Application.Current.MainPage.DisplayAlert("Error", "Please enter both Username and password", "Close"); }
+                else if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); }
+                else { await Application.Current.MainPage.DisplayAlert("Error", "Account not found", "Close"); }
             }
         }
 
@@ -95,7 +105,7 @@ namespace DungeonTasker.ViewModel
          * If the login file is still logged:true then proceed to bypass login screen and go into
          * app.
          * 
-         * PARAM begin: checks whenever the user has only accessed the page once.
+         * PARAM begin: checks whenever the UserModel has only accessed the page once.
          * RETURNS Nothing
          */
         public static bool OnAppearing(bool begin)
@@ -104,9 +114,9 @@ namespace DungeonTasker.ViewModel
             string all;
 
            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-           Directory.CreateDirectory(documents+"/Users");
+           Directory.CreateDirectory(documents+ "/Users");
             
-            var files = Directory.GetFiles(documents+"/Users");
+            var files = Directory.GetFiles(documents+ "/Users");
 
             foreach (var file in files)
             {
@@ -115,22 +125,22 @@ namespace DungeonTasker.ViewModel
                 using (StreamReader sr = new StreamReader(file)) { all = sr.ReadToEnd(); }
                 if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }
 
-                string character = User.CheckForstring(file, "Character:");
-                string logged = User.CheckForstring(file, "Logged:");
+                string character = UserModel.CheckForstring(file, "Character:");
+                string logged = UserModel.CheckForstring(file, "Logged:");
                 if (all.Contains("Logged:true"))
                 {
                     var Timer = Path.Combine(documents + "/Users", line[0] + "Timer.dt");
                     var Items = Path.Combine(documents + "/Users", line[0] + "Inv.dt");
-                    var Stats = Path.Combine(documents+  "/Users", line[0] + "Stats.dt");
-                    User user = new User(line[0], line[1],line[2], character, logged, file, Timer);
-                    InventoryItems items = new InventoryItems(Items);
-                    Stats stat = new Stats(Stats);
-                    Application.Current.MainPage = new NavigationPage(new Add(user, items, stat));
+                    var Stats = Path.Combine(documents+ "/Users", line[0] + "Stats.dt");
+                    UserModel UserModel = new UserModel(line[0], line[1],line[2], character, logged, file, Timer);
+                    InventoryItemsModel items = new InventoryItemsModel(Items);
+                    StatsModel stat = new StatsModel(Stats);
+                    Application.Current.MainPage = new NavigationPage(new AddView(UserModel, items, stat));
                 }
             }
             if (begin && !CheckAccounts(files))
             {
-                Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new user", "close");
+                Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new User", "close");
                 return false;
             }
             return false;

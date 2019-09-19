@@ -11,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace DungeonTasker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DatePicker : ContentPage
+    public partial class DatePickerView : ContentPage
     {
-        Tasks page; // Initialize variables
+        TasksView page; // Initialize variables
         bool tut = false;
 
         /*
@@ -24,7 +24,7 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public DatePicker(Tasks page, bool tut)
+        public DatePickerView(TasksView page, bool tut)
         {
             // Initialize the componenets and add the content page.
             this.page = page;
@@ -146,7 +146,7 @@ namespace DungeonTasker.Views
         {
             if (tut) // Run this if the tutorial is active.
             {
-                await ExtraPopups.ShowMessage("This is the DatePicker tool.\nThis is where you can set tasks", "DatePicker", "Close", this, async () =>
+                await UserModel.ShowMessage("This is the DatePicker tool.\nThis is where you can set tasks", "DatePicker", "Close", this, async () =>
                 {
                     await this.Navigation.PopModalAsync();
                 });
