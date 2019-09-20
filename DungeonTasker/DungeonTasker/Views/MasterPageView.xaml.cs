@@ -29,10 +29,10 @@ namespace DungeonTasker.Views
          * RETURNS Nothing
          */
 
-        public MasterPageView (TasksView page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats,  logged truth)
+        public MasterPageView (Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats,  logged truth, DungeonView dungeon)
 		{
 			InitializeComponent();
-            BindingContext = new MasterPageViewModel(page,user,items,weapon,stats,truth,this,this);
+            BindingContext = new MasterPageViewModel(page,user,items,weapon,stats,truth,this,this, dungeon);
         }
     }
 }

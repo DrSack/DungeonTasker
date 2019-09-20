@@ -20,11 +20,11 @@ namespace DungeonTasker.ViewModel
         public Command RegisterCommand { get; set; }
 
         AddView main;
+
         /*
         * Contructor forGreetPageViewModel. 
         * 
         */
-
         public GreetPageViewModel()
         {
             Login = new Command(async () => await LoginCommand());
@@ -32,6 +32,7 @@ namespace DungeonTasker.ViewModel
             _UserModel = new UserModel();
             FadeOut = 100;
             MessagingCenter.Subscribe<GreetPageView>(this, "Done", async (sender) => {
+                MessagingCenter.Unsubscribe<GreetPageView>(this, "Done");
                 await Navigation.PushAsync(main);
             });
         }

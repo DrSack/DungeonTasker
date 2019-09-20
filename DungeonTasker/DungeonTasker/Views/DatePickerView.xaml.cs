@@ -1,4 +1,5 @@
 ﻿using DungeonTasker.Models;
+using DungeonTasker.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,12 @@ namespace DungeonTasker.Views
         TasksView page; // Initialize variables
         bool tut = false;
 
+
+        public DatePickerView()
+        {
+            this.tut = true;
+            InitializeComponent();
+        }
         /*
          * Contructor for DatePicker, initialize all components
          * 
@@ -56,6 +63,7 @@ namespace DungeonTasker.Views
                 }
 
                 else {
+                    
                     page.Timer(_entry.Text, _triggerTime, _remainderTime);
                     await this.Navigation.PopModalAsync();
                 }

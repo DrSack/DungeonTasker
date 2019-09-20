@@ -16,7 +16,7 @@ namespace DungeonTasker.ViewModel
         public Command Settings_Clicked { get; set; }
         public Command About_Clicked { get; set; }
 
-        TasksView page;// This is the tasks page set to be binded to the Tasks_clicked command
+        Page page;// This is the tasks page set to be binded to the Tasks_clicked command
         UserModel user;
         InventoryItemsModel items;
         public DungeonView dungeon;
@@ -40,7 +40,7 @@ namespace DungeonTasker.ViewModel
          * 
          * RETURNS Nothing
          */
-        public MasterPageViewModel(TasksView page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats, logged truth, MasterPageView mainpage, ContentPage display)
+        public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats, logged truth, MasterPageView mainpage, ContentPage display, DungeonView dungeon)
         {
             this.page = page;
             this.user = user;
@@ -50,9 +50,8 @@ namespace DungeonTasker.ViewModel
             this.stats = stats;
             this.mainpage = mainpage;
             this.display = display;
+            this.dungeon = dungeon;
             weapon.SetWeapon(display, UserModel.CheckForstring(items.Invfile, "Equipped:"));
-            dungeon = new DungeonView(this.user, this.items, this.weapon, this.stats, false);
-            page.dungeon = dungeon;
             Tasks_Clicked = new Command(() => TaskNav());
             Inventory_Clicked = new Command(() => InventoryNav());
             Dungeon_Clicked = new Command(() => DungeonNav());
@@ -68,7 +67,7 @@ namespace DungeonTasker.ViewModel
          */
         private void TaskNav()
         {
-            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(page);
+            ((MasterDetailPage)mainpage.Parent).Detail = page;
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;   
         }
 

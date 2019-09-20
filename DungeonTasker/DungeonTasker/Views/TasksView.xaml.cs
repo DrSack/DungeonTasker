@@ -1,4 +1,5 @@
 ﻿using DungeonTasker.Models;
+using DungeonTasker.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,29 +31,20 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public TasksView(UserModel user, InventoryItemsModel items, logged truth)
+        public TasksView(UserModel user, InventoryItemsModel items, logged truth, DungeonView dungeon)
         {
-            InitializeComponent();
             this.Currentuser = user;
-            this.truthtime = truth;
             this.items = items;
-            // Name.Text = Currentuser.Username;
-            Character.Text = Currentuser.Character; // Initialize all components
+            this.truthtime = truth;
+            this.dungeon = dungeon;
+            TasksViewModel VM = new TasksViewModel(user,this)
+            {
+                Navigation = Navigation
+            };
+            BindingContext = VM;
+            InitializeComponent();
         }
 
-        /*
-         * Simple button even to open another page for selecting a date and time for a new task
-         * 
-         * PARAM 
-         * sender: reference to the control object
-         * eventargs: object data
-         * 
-         * RETURN Nothing
-         */
-        public async void Add_Time(object sender, EventArgs e)
-        {
-            await this.Navigation.PushModalAsync(new DatePickerView(this,false)); // Open DatePicker
-        }
 
         /*
          * A method that is called whenever this page appears and 
@@ -72,13 +64,13 @@ namespace DungeonTasker.Views
                 {
                     await UserModel.ShowMessage(string.Format("Welcome to DungeonTasker {0}\nStart adding Tasks with the (+) button below\nGain Keys by completing Tasks!", Currentuser.Username), "Welcome!", "Close", this, async () =>
                     {
-                        DatePickerView Tutorial = new DatePickerView(this, true);
+                        DatePickerView Tutorial = new DatePickerView();
                         Tutorial.Disappearing += async (s, e) =>
                         {
                             dungeon.Disappearing += (s2, e2) =>
                             {
                                 UserModel.Rewrite("Tutorial:", "False", Currentuser.file);
-                                DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                                this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
                             };
 
                             dungeon.tut = true;
@@ -132,7 +124,7 @@ namespace DungeonTasker.Views
                 Orientation = StackOrientation.Horizontal,
                 BackgroundColor = Color.White,
                 HeightRequest = 38,
-                Margin = new Thickness(0,0,6,0)
+                Margin = new Thickness(0, 0, 6, 0)
             };
 
             var colorTag = new Label
@@ -174,7 +166,7 @@ namespace DungeonTasker.Views
 
             // If the current time is overdue then time remainging is 00:00:00
             if (DateTime.Now >= time.T)
-            { 
+            {
                 time.R = DateTime.Now - DateTime.Now;
             }
 
@@ -184,16 +176,20 @@ namespace DungeonTasker.Views
             // Set random color tags for tasks
             int num = rand.Next(1, 5);
 
-            if (num == 1) {
+            if (num == 1)
+            {
                 colorTag.BackgroundColor = Color.Accent;
             }
-            if (num == 2) {
+            if (num == 2)
+            {
                 colorTag.BackgroundColor = Color.FromHex("#F44336");
             }
-            if (num == 3) {
+            if (num == 3)
+            {
                 colorTag.BackgroundColor = Color.FromHex("#212121");
             }
-            if (num == 4) {
+            if (num == 4)
+            {
                 colorTag.BackgroundColor = Color.FromHex("#FFCA28");
             }
 
@@ -234,7 +230,7 @@ namespace DungeonTasker.Views
                     {
                         timerlads.Children.Remove(countdownFinish);
                         DisplayFinishButton(timerlads, time, taskName.Text);
-                        return false; 
+                        return false;
                     }
                     return true; // Return true to continue thread and timer operation
                 });

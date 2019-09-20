@@ -64,7 +64,7 @@ namespace DungeonTasker.Models
          *  afterHideCallback: action to be take
          *  Returns Nothing
          */
-        public static async Task ShowMessage(string message, string title, string buttonText, ContentPage page, Action afterHideCallback)
+        public static async Task ShowMessage(string message, string title, string buttonText, Page page, Action afterHideCallback)
         {
             await page.DisplayAlert(title, message, buttonText);
             afterHideCallback?.Invoke();
