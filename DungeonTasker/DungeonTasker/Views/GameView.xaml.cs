@@ -22,7 +22,7 @@ namespace DungeonTasker.Views
         private int lowestdamage { get; set; }
         private int highestdamage { get; set; }
         DungeonView dungeon;
-        
+
         /*
          * The contructor for the game class/page
          * Param dungeon: parse the dungeon class object.
@@ -46,7 +46,8 @@ namespace DungeonTasker.Views
          */
         protected override bool OnBackButtonPressed()
         {
-            Device.BeginInvokeOnMainThread(async () => {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
                 var result = await this.DisplayAlert("Alert!", "Do you really want to exit?(Lose keys)", "No", "Yes");
                 if (!result) await this.Navigation.PopModalAsync(); // or anything else
             });
@@ -92,7 +93,7 @@ namespace DungeonTasker.Views
         * RETURN Nothing
         */
         private async Task InitializeBattleSequqnce()
-            {
+        {
             ANNOUNCING = true;
             var label = new Label();
             label.Opacity = 0;
@@ -137,7 +138,7 @@ namespace DungeonTasker.Views
             {
                 label.TextColor = Color.FromHex("#F44336");
             }
-            else if(battlesequence == true)
+            else if (battlesequence == true)
             {
                 label.TextColor = Color.Accent;
             }
@@ -169,7 +170,7 @@ namespace DungeonTasker.Views
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .3);
                 string[] loot = { "SteelSword", "IronSword", "WoodenSpoon" };
                 string currentloot = loot[lootindx];
-                UserModel.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
+                UserModel.AddOntoLine("Weapons:", currentloot + ",", dungeon.items.Invfile);
                 dungeon.stats.ExpEnter(expgained);
                 await DisplayAlert("YOU WIN", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
                 if (dungeon.stats.StatsCheck())
@@ -182,14 +183,14 @@ namespace DungeonTasker.Views
                 Random rnd = new Random();
                 int lootindx = rnd.Next(0, 1);
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .1);
-                string[] loot = { "WoodenSpoon", "WoodenBow"};
+                string[] loot = { "WoodenSpoon", "WoodenBow" };
                 string currentloot = loot[lootindx];
-                UserModel.AddOntoLine("Weapons:", currentloot+",", dungeon.items.Invfile);
+                UserModel.AddOntoLine("Weapons:", currentloot + ",", dungeon.items.Invfile);
                 dungeon.stats.ExpEnter(expgained);
-                await DisplayAlert("YOU LOSE", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot,expgained, dungeon.stats.ExpLeft()), "Close");
+                await DisplayAlert("YOU LOSE", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
                 if (dungeon.stats.StatsCheck())
                 {
-                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file,"LEVEL:"), UserModel.CheckForstring(dungeon.stats.file,"HEALTH:")), "Close");
+                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file, "LEVEL:"), UserModel.CheckForstring(dungeon.stats.file, "HEALTH:")), "Close");
                 }
             }
             dungeon.clearBoss();
@@ -212,12 +213,12 @@ namespace DungeonTasker.Views
             CharacterAttacking.TranslationX -= Application.Current.MainPage.Width + 10;
         }
 
-       /*
-       *
-       * Animate a Label to go from the boss location to the other end of the screen
-       * Param Nothing.
-       * Returns Nothing.
-       */
+        /*
+        *
+        * Animate a Label to go from the boss location to the other end of the screen
+        * Param Nothing.
+        * Returns Nothing.
+        */
         private async Task AttackPixelBoss()
         {
             BossAttacking.Opacity = 100;
@@ -228,24 +229,26 @@ namespace DungeonTasker.Views
             BossAttacking.TranslationX += Application.Current.MainPage.Width - 10;
         }
 
-       /*
-       *
-       * A basic animation which moves Labels side to side
-       * Param Nothing.
-       * Returns Nothing.
-       */
+        /*
+        *
+        * A basic animation which moves Labels side to side
+        * Param Nothing.
+        * Returns Nothing.
+        */
         private async void MoveCharBossAsync(Label move, bool nice)
         {
             await Task.Run(async () =>
             {
                 while (CharacterHP >= 0 || BossHP >= 0)
                 {
-                    if (nice) {
+                    if (nice)
+                    {
                         await move.TranslateTo(5, 0, 500);
                         await move.TranslateTo(-5, 0, 500);
                     }
 
-                    else {
+                    else
+                    {
                         await move.TranslateTo(-5, 0, 500);
                         await move.TranslateTo(5, 0, 500);
                     }
@@ -255,12 +258,12 @@ namespace DungeonTasker.Views
 
         }
 
-       /*
-       *
-       * The boss attack sequence, this combines all animations, health checks and damage counters.
-       * Param Nothing.
-       * Returns Nothing.
-       */
+        /*
+        *
+        * The boss attack sequence, this combines all animations, health checks and damage counters.
+        * Param Nothing.
+        * Returns Nothing.
+        */
 
         private async void BossAttack()
         {
@@ -268,7 +271,7 @@ namespace DungeonTasker.Views
             {
                 Random rand = new Random();
                 int damage = rand.Next(lowestdamage, highestdamage);
-                await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()),false);
+                await Announcer(string.Format("BOSS Dealt {0} Damage", damage.ToString()), false);
                 CharacterHP -= damage;
                 await AttackPixelBoss();
                 CharacterHealth.RelRotateTo(360, 500);
@@ -279,7 +282,7 @@ namespace DungeonTasker.Views
                 await Announcer("PLAYER TURN", true);
                 battlesequence = true;
             }
-            
+
         }
 
         /*
@@ -295,8 +298,8 @@ namespace DungeonTasker.Views
             {
                 battlesequence = false;
                 Random rand = new Random();
-                int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum+1);
-                await Announcer(string.Format("PLAYER Dealt {0} Damage",damage),true);
+                int damage = rand.Next(dungeon.weapon.Minimum, dungeon.weapon.Maximum + 1);
+                await Announcer(string.Format("PLAYER Dealt {0} Damage", damage), true);
                 BossHP -= damage;
                 await AttackPixelCharacter();
                 BossHealth.RelRotateTo(360, 500);
@@ -308,5 +311,40 @@ namespace DungeonTasker.Views
                 BossAttack();
             }
         }
+
+        /*
+         * The dodge sequence, this combines all animations, health checks and damage counters.
+         *  Param Nothing
+         *  Returns Nothing.
+         */
+
+        private async void dodgeBtn(object sender, EventArgs e)
+        {
+            if (battlesequence && !ANNOUNCING)
+            {
+                battlesequence = false;
+                var rand = new Random();
+                int dodge = rand.Next(0, 10);
+                await Announcer(string.Format("Dodging..."), true);
+                if (dodge >= 5)
+                {
+                    await AttackPixelBoss();
+                    await Announcer(string.Format("Player Dodge Success"), true);
+
+
+                }
+                else
+                {
+                    await Announcer(string.Format("Player Dodge failure"), false);
+                    BossAttack();
+
+                }
+
+                if (CharacterHP <= 0) { WON = false; await CheckHP(); }
+                battlesequence = true;
+            }
+
+        }
     }
+
 }
