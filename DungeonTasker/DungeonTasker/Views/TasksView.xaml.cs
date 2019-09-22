@@ -58,6 +58,7 @@ namespace DungeonTasker.Views
          */
         protected override void OnAppearing()
         {
+            bool dungeonEND = true;
             if (UserModel.CheckForstring(Currentuser.file, "Tutorial:").Contains("True"))// This is the tutorial.
             {
                 Device.BeginInvokeOnMainThread(async () =>
@@ -69,10 +70,13 @@ namespace DungeonTasker.Views
                         {
                             dungeon.Disappearing += (s2, e2) =>
                             {
-                                UserModel.Rewrite("Tutorial:", "False", Currentuser.file);
-                                this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                                if (dungeonEND)
+                                {
+                                    UserModel.Rewrite("Tutorial:", "False", Currentuser.file);
+                                    this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                                    dungeonEND = false;
+                                }
                             };
-
                             dungeon.tut = true;
                             await Navigation.PushModalAsync(dungeon);
                             dungeon.tut = false;
