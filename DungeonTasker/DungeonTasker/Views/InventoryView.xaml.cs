@@ -17,21 +17,24 @@ namespace DungeonTasker.Views
         InventoryItemsModel items;// Store items information
         WeaponInfoModel weapon;// The current weapon
         List<ItemModel> weapons = new List<ItemModel>();// Store weapon item details
+        UserModel User;
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
          * RETURNS Nothing
          */
-		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon)
+		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon, UserModel user)
 		{
             this.items = items;
             this.weapon = weapon;
+            this.User = user;
             InitializeComponent ();
             DisplayWeapons();
             DisplayKey();
             DisplayGold();
             DisplayEquipped();
             DisplayNoWep();
+            Character.Text = User.Character;
         }
 
         /*
@@ -58,118 +61,123 @@ namespace DungeonTasker.Views
                 }
             }
 
-            int i = 0;
             foreach(ItemModel weaponitem in weapons)
             {
                 if (!string.IsNullOrEmpty(weaponitem.weapon))
                 {
-                    int sellcount = 0;
-                    var LayoutItem = new StackLayout();
-
-
-                    var item = new Label();
-                    var damage = new Label();
-                    var equip = new Button();
-                    var sell = new Button();// Initialize
-
-                    LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
-                    LayoutItem.Orientation = StackOrientation.Horizontal;
-                    LayoutItem.BackgroundColor = Color.White;
-
-                    item.Margin = new Thickness(5, 0, 0, 0);
-                    item.Text = weaponitem.weapon;
-                    item.FontAttributes = FontAttributes.Bold;
-                    item.HorizontalTextAlignment = TextAlignment.Start;
-                    item.VerticalTextAlignment = TextAlignment.Center;
-
-
-                    damage.Text = string.Format("Damage: {0} - {1}",
-                    WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
-                    WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
-
-                    damage.FontSize = 10;
-                    damage.HorizontalTextAlignment = TextAlignment.Start;
-                    damage.VerticalTextAlignment = TextAlignment.Center;
-
-                    equip.Text = "equip";
-                    equip.HorizontalOptions = LayoutOptions.EndAndExpand;
-                    equip.WidthRequest = 70;
-                    equip.HeightRequest = 50;
-
-                    sell.Text = "sell";
-                    sell.HorizontalOptions = LayoutOptions.End;
-                    sell.WidthRequest = 60;
-                    sell.HeightRequest = 50;
-
-                    equip.Clicked += (s, a) =>
-                    {
-                        weapon.SetWeapon(this, weaponitem.weapon);
-                        DisplayEquipped();
-                    };
-
-                    sell.Clicked += async (s, a) =>
-                    {
-                        int Goldvalue = WeaponInfoModel.ObtainWeaponValue(weaponitem.weapon);
-                        int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
-                        int TotalGold = Goldvalue + CurrentGold;// Get your gold and add onto the gold you have recieved.
-
-                        sell.Text = Goldvalue.ToString() +" G";
-                        sellcount++;
-                        if(sellcount == 2)// If pressed twice
-                        {
-                            weapons.Remove(weaponitem);// Remove off list
-
-                            string weaponlist = "";
-                            foreach (ItemModel weapon in weapons)
-                            {
-                                if (!String.IsNullOrEmpty(weapon.weapon))
-                                {
-                                    weaponlist += weapon.weapon + ",";// Create string for file
-                                }
-                            }
-                            UserModel.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
-                            UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
-                            DisplayGold();//Display the gold
-
-                            string equipped = UserModel.CheckForstring(items.Invfile, "Equipped:");
-                            if (!UserModel.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
-                            {
-                                UserModel.Rewrite("Equipped:", "Not Equipped", items.Invfile);
-                                weapon.SetWeapon(this, "Not Equipped");//Rewrite and Set weapon to nothing
-                            }
-                            DisplayEquipped();
-                            await Task.Run(async () =>
-                            {
-                                Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
-                            });//Run stacklayout close animation.
-
-                            ItemsList.Children.Remove(LayoutItem);//Remove stacklayout
-                            DisplayNoWep();//Check if stacklayout is empty and display "No Weapon"
-                            
-                        }
-                    };
-                    LayoutItem.Children.Add(item);
-                    LayoutItem.Children.Add(damage);
-                    LayoutItem.Children.Add(equip);
-                    LayoutItem.Children.Add(sell);
-
-                    ItemsList.Children.Add(LayoutItem);// Add onto itemlist stacklayout
-                    i++;
+                    CreateDisplayWep(weaponitem);
                 }
-                
-                
-
             }
         }
 
+        private void CreateDisplayWep(ItemModel weaponitem)
+        {
+            int sellcount = 0;
+            var LayoutItem = new StackLayout();
 
-        /*
-        * Display WepsEmpty, if its the only child left in the stacklayout
-        * 
-        * PARAM Nothing
-        * RETURNS Nothing
-        */
-        private void DisplayNoWep()
+
+            var item = new Label();
+            var damage = new Label();
+            var equip = new Button();
+            var sell = new Button();// Initialize
+
+            LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
+            LayoutItem.Orientation = StackOrientation.Horizontal;
+            LayoutItem.BackgroundColor = Color.White;
+
+            item.Margin = new Thickness(5, 0, 0, 0);
+            item.Text = weaponitem.weapon;
+            item.FontAttributes = FontAttributes.Bold;
+            item.HorizontalTextAlignment = TextAlignment.Start;
+            item.VerticalTextAlignment = TextAlignment.Center;
+
+
+            damage.Text = string.Format("Damage: {0} - {1}",
+            WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
+            WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
+
+            damage.FontSize = 10;
+            damage.HorizontalTextAlignment = TextAlignment.Start;
+            damage.VerticalTextAlignment = TextAlignment.Center;
+
+            equip.Text = "equip";
+            equip.HorizontalOptions = LayoutOptions.EndAndExpand;
+            equip.WidthRequest = 70;
+            equip.HeightRequest = 50;
+
+            sell.Text = "sell";
+            sell.HorizontalOptions = LayoutOptions.End;
+            sell.WidthRequest = 60;
+            sell.HeightRequest = 50;
+
+            equip.Clicked += (s, a) =>
+            {
+                weapon.SetWeapon(this, weaponitem.weapon);
+                DisplayEquipped();
+            };
+
+            sell.Clicked += async (s, a) =>
+            {
+                int Goldvalue = WeaponInfoModel.ObtainWeaponValue(weaponitem.weapon);
+                int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
+                int TotalGold = Goldvalue + CurrentGold;// Get your gold and add onto the gold you have recieved.
+
+                sell.Text = Goldvalue.ToString() + " G";
+                sellcount++;
+                if (sellcount == 2)// If pressed twice
+                {
+                    weapons.Remove(weaponitem);// Remove off list
+
+                    string weaponlist = "";
+                    foreach (ItemModel weapon in weapons)
+                    {
+                        if (!String.IsNullOrEmpty(weapon.weapon))
+                        {
+                            weaponlist += weapon.weapon + ",";// Create string for file
+                        }
+                    }
+                    UserModel.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
+                    UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
+                    DisplayGold();//Display the gold
+
+                    string equipped = UserModel.CheckForstring(items.Invfile, "Equipped:");
+                    if (!UserModel.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
+                    {
+                        UserModel.Rewrite("Equipped:", "Not Equipped", items.Invfile);
+                        weapon.SetWeapon(this, "Not Equipped");//Rewrite and Set weapon to nothing
+                    }
+                    DisplayEquipped();
+                    await Task.Run(async () =>
+                    {
+                        Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
+                    });//Run stacklayout close animation.
+
+                    ItemsList.Children.Remove(LayoutItem);//Remove stacklayout
+                    DisplayNoWep();//Check if stacklayout is empty and display "No Weapon"
+
+                }
+            };
+            LayoutItem.Children.Add(item);
+            LayoutItem.Children.Add(damage);
+            LayoutItem.Children.Add(equip);
+            LayoutItem.Children.Add(sell);
+
+            ItemsList.Children.Add(LayoutItem);// Add onto itemlist stacklayout
+        }
+
+        protected override void OnAppearing()
+        {
+
+        }
+
+
+            /*
+            * Display WepsEmpty, if its the only child left in the stacklayout
+            * 
+            * PARAM Nothing
+            * RETURNS Nothing
+            */
+            private void DisplayNoWep()
         {
             if(ItemsList.Children.Count == 1)
             {

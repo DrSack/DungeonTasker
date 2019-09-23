@@ -80,7 +80,7 @@ namespace DungeonTasker.ViewModel
         private void InventoryNav()
         {
 
-            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new InventoryView(items, this.weapon));
+            ((MasterDetailPage)mainpage.Parent).Detail = new NavigationPage(new InventoryView(items, this.weapon, user));
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
 
         }

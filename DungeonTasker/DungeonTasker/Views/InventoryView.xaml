@@ -4,9 +4,17 @@
              x:Class="DungeonTasker.Views.InventoryView"
              Title="Inventory">
     <ContentPage.Content>
+ 
         <StackLayout>
-            <ScrollView>
-                <StackLayout Margin="20,20,20,20">
+            <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="130">
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            <ScrollView Margin="0,0,0,20">
+                <StackLayout Margin="20,5,20,20">
                     <Label x:Name="WeaponsTitle" Text="Weapons" FontSize="30" HorizontalTextAlignment="Center"/>
                     <StackLayout x:Name="ItemsList" Padding="2, 2, 2, 2" BackgroundColor="Black" Spacing="2">
                         <StackLayout BackgroundColor="White" IsEnabled="False" IsVisible="False" x:Name="WepsEmpty">
@@ -45,5 +53,6 @@
                 </StackLayout>
             </ScrollView>
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>
