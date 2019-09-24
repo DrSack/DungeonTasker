@@ -73,8 +73,8 @@ namespace DungeonTasker.Views
         private void CreateDisplayWep(ItemModel weaponitem)
         {
             int sellcount = 0;
+            var frame = new Frame();
             var LayoutItem = new StackLayout();
-
 
             var item = new Label();
             var damage = new Label();
@@ -114,6 +114,7 @@ namespace DungeonTasker.Views
             {
                 weapon.SetWeapon(this, weaponitem.weapon);
                 DisplayEquipped();
+                DisplayAlert("Equipped", string.Format("You have equipped: {0}", weaponitem.weapon), "Close");
             };
 
             sell.Clicked += async (s, a) =>
@@ -151,10 +152,10 @@ namespace DungeonTasker.Views
                     {
                         Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
                     });//Run stacklayout close animation.
-
-                    ItemsList.Children.Remove(LayoutItem);//Remove stacklayout
+                    
+                    ItemsList.Children.Remove(frame);//Remove stacklayout
                     DisplayNoWep();//Check if stacklayout is empty and display "No Weapon"
-
+                    await DisplayAlert("Sold", string.Format("You gained {0} gold", Goldvalue.ToString()), "Close");
                 }
             };
             LayoutItem.Children.Add(item);
@@ -162,7 +163,7 @@ namespace DungeonTasker.Views
             LayoutItem.Children.Add(equip);
             LayoutItem.Children.Add(sell);
 
-            var frame = new Frame();
+            
             frame.Padding = 3;
             frame.BorderColor = Color.Black;
             frame.Content = LayoutItem;
