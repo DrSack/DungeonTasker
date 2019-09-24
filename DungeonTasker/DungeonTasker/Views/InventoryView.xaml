@@ -5,7 +5,7 @@
              Title="Inventory">
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130">
+            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                         <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
                     </StackLayout>

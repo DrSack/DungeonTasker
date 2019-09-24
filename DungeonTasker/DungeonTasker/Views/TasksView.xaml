@@ -13,7 +13,7 @@
             </Grid.RowDefinitions>
             
             <StackLayout Grid.Column="0" Grid.Row="0">
-                <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130">
+                <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                     <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="{Binding Character}"></Label>
                 </Frame>
 

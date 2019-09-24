@@ -9,7 +9,7 @@
     
     <ContentPage.Content>
         <StackLayout x:Name="MainStacklayout" BackgroundColor="White">
-            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130">
+            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                 <Label Text="" FontSize="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character" TextColor="#F44336"></Label>
             </Frame>
 
