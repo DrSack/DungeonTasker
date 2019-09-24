@@ -8,14 +8,10 @@
              Title="Dungeon">
     
     <ContentPage.Content>
-        <StackLayout x:Name="MainStacklayout">
-            <StackLayout VerticalOptions="Start" HeightRequest="180">
-                <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                        <Label Text="" FontSize="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character" TextColor="#F44336"></Label>
-                    </StackLayout>
-                </StackLayout>
-            </StackLayout>
+        <StackLayout x:Name="MainStacklayout" BackgroundColor="White">
+            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130">
+                <Label Text="" FontSize="50" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character" TextColor="#F44336"></Label>
+            </Frame>
 
             <Label HorizontalTextAlignment="Center" Margin="0,15,0,15">
                 <Label.FormattedText>
@@ -27,17 +23,15 @@
                 </Label.FormattedText>
             </Label>
 
-            <StackLayout VerticalOptions="Start" HeightRequest="200" Margin="10,0,10,0">
-                <StackLayout BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="InnerStackKey">
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                        <Label FontSize="30" HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="O==I\" TextColor="#FFCA28" FontAttributes="Bold"/>
-                        <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to battle" TextColor="#212121"/>
-                    </StackLayout>
+            <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BorderColor="Black" Margin="5,0,5,0">
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Label FontSize="30" HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="O==I\" TextColor="#FFCA28" FontAttributes="Bold"/>
+                    <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to battle" TextColor="#212121"/>
                 </StackLayout>
-            </StackLayout>
+            </Frame>
 
-            <StackLayout VerticalOptions="Start">
-                <Label HorizontalTextAlignment="Center" Margin="0,10">
+            <StackLayout VerticalOptions="Start" Margin="0,0,0,10">
+                <Label HorizontalTextAlignment="Center" Margin="0,5">
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="Keys (" TextColor="#212121"/>
@@ -46,8 +40,9 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336"/>
+                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336" Margin="0,5"/>
             </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

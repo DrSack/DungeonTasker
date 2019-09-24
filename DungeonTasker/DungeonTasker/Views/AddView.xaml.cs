@@ -27,11 +27,11 @@ namespace DungeonTasker
         public AddView(UserModel user, InventoryItemsModel items, StatsModel stats)
 		{
             InitializeComponent();
-            this.weapon = new WeaponInfoModel(items);
+            WeaponInfoModel weapon = new WeaponInfoModel(items);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             DungeonView dungeon = new DungeonView(user, items, this.weapon, stats, false);
             this.Detail = new NavigationPage(new TasksView(user, items, truth, dungeon));// Set Detailspage arguments with user information and truth value.
-            this.Master = new MasterPageView(Detail, user, items, weapon, stats, truth, dungeon);// set the masterpage information with user, items, and truth values.
+            this.Master = new MasterPageView(Detail, user, items, weapon, truth, dungeon);// set the masterpage information with user, items, and truth values.
             
         }
 

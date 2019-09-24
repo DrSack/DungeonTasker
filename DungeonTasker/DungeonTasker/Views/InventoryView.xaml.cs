@@ -162,12 +162,11 @@ namespace DungeonTasker.Views
             LayoutItem.Children.Add(equip);
             LayoutItem.Children.Add(sell);
 
-            ItemsList.Children.Add(LayoutItem);// Add onto itemlist stacklayout
-        }
-
-        protected override void OnAppearing()
-        {
-
+            var frame = new Frame();
+            frame.Padding = 3;
+            frame.BorderColor = Color.Black;
+            frame.Content = LayoutItem;
+            ItemsList.Children.Add(frame);// Add onto itemlist stacklayout
         }
 
 
@@ -181,13 +180,13 @@ namespace DungeonTasker.Views
         {
             if(ItemsList.Children.Count == 1)
             {
-                WepsEmpty.IsEnabled = true;
-                WepsEmpty.IsVisible = true;
+                NoWeps.IsEnabled = true;
+                NoWeps.IsVisible = true;
             }
             else
             {
-                WepsEmpty.IsEnabled = false;
-                WepsEmpty.IsVisible = false;
+                NoWeps.IsEnabled = false;
+                NoWeps.IsVisible = false;
             }
             
         }

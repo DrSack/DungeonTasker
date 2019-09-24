@@ -26,6 +26,8 @@
     <item name="windowActionModeOverlay">true</item>
 
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+    <!--default page color - avoid flicker here !!!-->
+    <item name="android:windowBackground">@color/colorDefault</item>
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">

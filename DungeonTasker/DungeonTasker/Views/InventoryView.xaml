@@ -4,52 +4,46 @@
              x:Class="DungeonTasker.Views.InventoryView"
              Title="Inventory">
     <ContentPage.Content>
- 
         <StackLayout>
-            <StackLayout BackgroundColor="#212121" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" HeightRequest="130">
-                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="bordered">
-                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130">
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                         <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
                     </StackLayout>
-                </StackLayout>
-            </StackLayout>
-            <ScrollView Margin="0,0,0,20">
-                <StackLayout Margin="20,5,20,20">
+            </Frame>
+       
+            <ScrollView Margin="0,0,0,5">
+                <StackLayout Margin="20,0,20,20">
                     <Label x:Name="WeaponsTitle" Text="Weapons" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <StackLayout x:Name="ItemsList" Padding="2, 2, 2, 2" BackgroundColor="Black" Spacing="2">
-                        <StackLayout BackgroundColor="White" IsEnabled="False" IsVisible="False" x:Name="WepsEmpty">
-                        <Label Text="No Weapons" HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+                    <StackLayout x:Name="ItemsList" BackgroundColor="White" Spacing="2">
+                        <Label Text="No Weapons" HorizontalTextAlignment="Center" x:Name="NoWeps"/>
                     </StackLayout>
 
                     <Label x:Name="KeysTitle" Text="Keys" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <StackLayout x:Name="KeysList" BackgroundColor="Black" Padding="2, 2, 2, 2">
+                    <Frame BorderColor="Black" Margin="0,3,0,3">
                         <StackLayout BackgroundColor="White">
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label HorizontalTextAlignment="Center" x:Name="Keys"/>
                             </StackLayout>
                         </StackLayout>
-                </StackLayout>
+                    </Frame>
 
                     <Label x:Name="GoldTitle" Text="Gold" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <StackLayout x:Name="GoldList" BackgroundColor="Black" Padding="2, 2, 2, 2">
+                    <Frame BorderColor="Black" Margin="0,3,0,3">
                         <StackLayout BackgroundColor="White">
                             <StackLayout HorizontalOptions="CenterAndExpand">
                                 <Label HorizontalTextAlignment="Center" x:Name="Gold"/>
                             </StackLayout>
                         </StackLayout>
-                    </StackLayout>
+                    </Frame>
 
                     <Label x:Name="EquippedTitle" Text="Equipped" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <StackLayout BackgroundColor="Black" Padding="2, 2, 2, 2">
-                        <StackLayout x:Name="Equipped" Orientation="Horizontal" BackgroundColor="White">
-                            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
-                                <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center"/>
-                                <Label IsEnabled="False" IsVisible="False" x:Name="Damage"/>
-                            </StackLayout>
+                    <Frame BorderColor="Black" Margin="0,3,0,3">
+                        <StackLayout x:Name="Equipped" Orientation="Horizontal" BackgroundColor="White" HorizontalOptions="CenterAndExpand">
+                            <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                            <Label IsEnabled="False" IsVisible="False" x:Name="Damage"/>
                         </StackLayout>
-                    </StackLayout>
-                    
+                    </Frame>
+
                 </StackLayout>
             </ScrollView>
         </StackLayout>
