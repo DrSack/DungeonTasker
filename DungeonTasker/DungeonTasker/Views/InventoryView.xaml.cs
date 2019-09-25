@@ -95,6 +95,7 @@ namespace DungeonTasker.Views
             damage.Text = string.Format("Damage: {0} - {1}",
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
+            damage.TextColor = Color.Red;
 
             damage.FontSize = 10;
             damage.HorizontalTextAlignment = TextAlignment.Start;
@@ -104,11 +105,15 @@ namespace DungeonTasker.Views
             equip.HorizontalOptions = LayoutOptions.EndAndExpand;
             equip.WidthRequest = 70;
             equip.HeightRequest = 50;
+            equip.BackgroundColor = Color.Green;
+            equip.TextColor = Color.White;
 
             sell.Text = "sell";
             sell.HorizontalOptions = LayoutOptions.End;
             sell.WidthRequest = 60;
             sell.HeightRequest = 50;
+            sell.BackgroundColor = Color.Gold;
+            sell.TextColor = Color.White;
 
             equip.Clicked += (s, a) =>
             {
@@ -202,6 +207,7 @@ namespace DungeonTasker.Views
         private void DisplayKey()
         {
             Keys.Text = UserModel.CheckForstring(items.Invfile, "Keys:");
+            Keys.TextColor = Color.Gold;
         }
 
         /*
@@ -213,6 +219,7 @@ namespace DungeonTasker.Views
         private void DisplayGold()
         {
             Gold.Text = UserModel.CheckForstring(items.Invfile, "Gold:");
+            Gold.TextColor = Color.Gold;
         }
 
 
@@ -229,6 +236,7 @@ namespace DungeonTasker.Views
             if (equippedWep.Contains("Not Equipped"))
             {
                 EquippedLabel.Text = UserModel.CheckForstring(items.Invfile, "Equipped:");
+                EquippedLabel.TextColor = Color.Green;
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
