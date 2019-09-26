@@ -31,10 +31,6 @@ namespace DungeonTasker.ViewModel
             RegisterCommand = new Command(async () => await Navigation.PushModalAsync(new RegisterView()));
             _UserModel = new UserModel();
             FadeOut = 100;
-            MessagingCenter.Subscribe<GreetPageView>(this, "Done", async (sender) => {
-                MessagingCenter.Unsubscribe<GreetPageView>(this, "Done");
-                await Navigation.PushAsync(main);
-            });
         }
 
         /*
@@ -73,7 +69,7 @@ namespace DungeonTasker.ViewModel
                         UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, Timers);
                         InventoryItemsModel item = new InventoryItemsModel(Items);
                         StatsModel stat = new StatsModel(Stats);
-                        main = new AddView(user, item, stat);
+                        Application.Current.MainPage = new NavigationPage(new AddView(user, item, stat));
                         
                         MessagingCenter.Send(this, "Animation");
                     }

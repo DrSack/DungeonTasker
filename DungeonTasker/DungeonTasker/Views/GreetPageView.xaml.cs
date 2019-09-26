@@ -33,8 +33,6 @@ namespace DungeonTasker
             MessagingCenter.Subscribe<GreetPageViewModel>(this, "Animation", async (sender) =>{
                 await this.FadeTo(1, 300);
                 await this.FadeTo(0, 300);
-                MessagingCenter.Send(this, "Done");
-                MessagingCenter.Unsubscribe<GreetPageViewModel>(this, "Animation");
             });
             InitializeComponent();
         }
