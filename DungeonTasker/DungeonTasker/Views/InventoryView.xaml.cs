@@ -70,6 +70,16 @@ namespace DungeonTasker.Views
             }
         }
 
+        /*
+        * 
+        * This Method is responsible for taking the 
+        * current selected ItemModel that contains a 
+        * weapon and creates and displays details of 
+        * that specific item. You can also equip and sell the weapon.
+        * 
+        * PARAM Nothing
+        * RETURNS Nothing
+        */
         private void CreateDisplayWep(ItemModel weaponitem)
         {
             int sellcount = 0;
@@ -117,9 +127,11 @@ namespace DungeonTasker.Views
 
             equip.Clicked += (s, a) =>
             {
-                weapon.SetWeapon(this, weaponitem.weapon);
+                if(weapon.SetWeapon(this, weaponitem.weapon))// If the weapon is not already equipped
+                {
+                    DisplayAlert("Equipped", string.Format("You have equipped: {0}", weaponitem.weapon), "Close");
+                }
                 DisplayEquipped();
-                DisplayAlert("Equipped", string.Format("You have equipped: {0}", weaponitem.weapon), "Close");
             };
 
             sell.Clicked += async (s, a) =>

@@ -93,7 +93,7 @@ namespace DungeonTasker.Models
       *  Returns Nothing.
       */
       
-        public void SetWeapon(ContentPage page, string weapon)
+        public bool SetWeapon(ContentPage page, string weapon)
         {
             int totaldmg = 0;
             int minimum = 0;
@@ -123,10 +123,12 @@ namespace DungeonTasker.Models
                     minimum = totaldmg;
                     if (weapon.Contains("Sword")) { totaldmg += 7; confirmWeapon(totaldmg, minimum + 1, weapon);}
                 }
+                return true;
             }
             catch(Exception e)
             {
                 page.DisplayAlert("Error", e.Message, "Close");
+                return false;
             }
             
         }

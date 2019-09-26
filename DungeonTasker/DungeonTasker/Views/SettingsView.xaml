@@ -8,9 +8,9 @@
              x:Name="Content">
     
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand">
-            <Button Text="Delete Account" x:Name="DeleteBtn" HorizontalOptions="Center" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" BackgroundColor="Red" TextColor="White"/>
-            <Button Text="Logout" HorizontalOptions="Center" VerticalOptions="Center" BorderRadius ="5" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="Red" TextColor="White" WidthRequest="140.5" />
+        <StackLayout VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+            <Button Text="Delete Account" x:Name="DeleteBtn" HorizontalOptions="Center" BorderRadius ="20" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" BackgroundColor="Red" TextColor="White"/>
+            <Button Text="Logout" HorizontalOptions="Center" VerticalOptions="Center" BorderRadius ="20" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="Red" TextColor="White" WidthRequest="140.5" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

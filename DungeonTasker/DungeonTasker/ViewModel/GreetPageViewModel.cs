@@ -19,8 +19,6 @@ namespace DungeonTasker.ViewModel
         public Command Login { get; set; }
         public Command RegisterCommand { get; set; }
 
-        AddView main;
-
         /*
         * Contructor forGreetPageViewModel. 
         * 
@@ -69,9 +67,11 @@ namespace DungeonTasker.ViewModel
                         UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, Timers);
                         InventoryItemsModel item = new InventoryItemsModel(Items);
                         StatsModel stat = new StatsModel(Stats);
-                        Application.Current.MainPage = new NavigationPage(new AddView(user, item, stat));
+                        
                         
                         MessagingCenter.Send(this, "Animation");
+                        await Task.Delay(600);
+                        Application.Current.MainPage = new NavigationPage(new AddView(user, item, stat));
                     }
 
                     else if (_UserModel.Username == line[0] && _UserModel.Password != line[1])// if the password is incorrect
