@@ -14,7 +14,8 @@
         <Button Text="Tasks" BackgroundColor="White" Command="{Binding Tasks_Clicked}"></Button>
         <Button Text="Inventory" BackgroundColor="White" Command="{Binding Inventory_Clicked}"></Button>
         <Button Text="Dungeon" BackgroundColor="White" Command="{Binding Dungeon_Clicked}" TextColor="#F44336"></Button>
-
+        <Button Text="Stats" BackgroundColor="White"></Button>
+        
         <StackLayout VerticalOptions="EndAndExpand" Margin="0,15">
             <Button Text="About Us" BackgroundColor="White" Command="{Binding About_Clicked}"></Button>
             <Button Text="Settings" BackgroundColor="White" Command="{Binding Settings_Clicked}"></Button>

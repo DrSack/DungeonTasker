@@ -3,17 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:DungeonTasker"
              x:Class="DungeonTasker.AboutUsView"
-             Title="About Us">
+             Title="About Us"
+             BackgroundColor="#212121">
+
 
     <StackLayout Orientation="Vertical">
-        <Button Text="Next" Clicked="Button_Clicked"></Button>
-        <Slider x:Name="NewSlideBoi" ValueChanged="NewSlideBoi_ValueChanged"/>
-        <BoxView MinimumHeightRequest="-150" HeightRequest="150" HorizontalOptions="FillAndExpand"/>
-        <Label x:Name="Quotes" Text="Welcome to the Club" 
-               VerticalOptions="Center"
-           HorizontalOptions="Center"
-           />
-        <Label x:Name="FontSize" HorizontalOptions="Center"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" VerticalOptions="CenterAndExpand" Margin="0,30,0,0">
+                <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a;Tasker" FontFamily="norwester.otf#Norwester-Regular" HorizontalTextAlignment="Center"/>
+                <Label FontSize="15" TextColor="White" Text="We are a happy group of developers from QUT! Being unmotivated 24/7 we needed something that would help us achieve our goals throughout the day. So, we created Dungeon Tasker." VerticalOptions="Center" HorizontalOptions="Center" Margin="40,20,30,0"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="1" VerticalOptions="CenterAndExpand" Margin="0,0,0,15">
+                <Label TextColor="#E63917" Text="Developers" FontAttributes="Bold" FontSize="37" HorizontalTextAlignment="Center"/>
+                <StackLayout HorizontalOptions="Center" WidthRequest="200" Spacing="2">
+                    <Label TextColor="White" Text="Morgan Wallish" HorizontalTextAlignment="Start" FontSize="15" FontAttributes="Bold" TextDecorations="Underline"/>
+                    <Label TextColor="White" Text="Front-End" HorizontalTextAlignment="Start" FontSize="10"/>
+                    <Label TextColor="White" Text="Minh Bao Vu" HorizontalTextAlignment="Start" FontSize="15" Margin="0,15,0,0" FontAttributes="Bold" TextDecorations="Underline"/>
+                    <Label TextColor="White" Text="Front-End" HorizontalTextAlignment="Start" FontSize="10"/>
+                    <Label TextColor="White" Text="Leuk Travis Mangila" HorizontalTextAlignment="Start" FontSize="15" Margin="0,15,0,0" FontAttributes="Bold" TextDecorations="Underline"/>
+                    <Label TextColor="White" Text="Back-End" HorizontalTextAlignment="Start" FontSize="10"/>
+                    <Label TextColor="White" Text="Simon Han" HorizontalTextAlignment="Start" FontSize="15" Margin="0,15,0,0" FontAttributes="Bold" TextDecorations="Underline"/>
+                    <Label TextColor="White" Text="Front-End" HorizontalTextAlignment="Start" FontSize="10"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
     </StackLayout>
 
 
