@@ -5,12 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.SettingsView"
-             x:Name="Content">
+             x:Name="Content"
+             Title="Settings">
     
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
-            <Button Text="Delete Account" x:Name="DeleteBtn" HorizontalOptions="Center" BorderRadius ="20" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" BackgroundColor="Red" TextColor="White"/>
-            <Button Text="Logout" HorizontalOptions="Center" VerticalOptions="Center" BorderRadius ="20" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="Red" TextColor="White" WidthRequest="140.5" />
+        <StackLayout VerticalOptions="Start" Margin="0,5,0,0">
+            <Button Text="Delete Account" x:Name="DeleteBtn" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" BackgroundColor="#F44336" TextColor="White"/>
+            <Button Text="Logout" VerticalOptions="Center" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="Accent" TextColor="Black"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

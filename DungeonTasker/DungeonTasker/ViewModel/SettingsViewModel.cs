@@ -19,7 +19,6 @@ namespace DungeonTasker.ViewModel
         public Command DeleteAccountBtn { get; set; }
         public Command LogoutBtn { get; set; }
 
-        public event PropertyChangingEventHandler PropertyChanged;
         /*
          * A constructor that encapsulates user, truth, and page. 
          * Initialize the Commands and Buttons
