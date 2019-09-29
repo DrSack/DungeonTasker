@@ -12,6 +12,10 @@ namespace DungeonTasker.Models
         public bool AboutUs { get; set; }
         public bool Settings { get; set; } 
 
+        /*
+         * Constructor for PageOpenModel, this is an encapsulation boolean class
+         * 
+         */
         public PageOpenModel()
         {
             Tasks = false;
@@ -21,6 +25,11 @@ namespace DungeonTasker.Models
             Settings = false;
         }
 
+        /*
+         * A void method that is responsible for resetting all values to false.
+         * 
+         * 
+         */
         public void ResetAll()
         {
             Tasks = false;

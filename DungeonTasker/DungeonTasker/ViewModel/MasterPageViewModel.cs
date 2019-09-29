@@ -143,6 +143,12 @@ namespace DungeonTasker.ViewModel
             }
         }
 
+        /*
+         * Smooth transition animation whenever a user opens a new page.
+         * 
+         * PARAM Nothing
+         * RETURNS Nothing
+         */
         private async Task SetPageAsync(Page page)
         {
             ((MasterDetailPage)mainpage.Parent).Detail.FadeTo(0, 100);
