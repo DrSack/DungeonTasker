@@ -134,6 +134,11 @@ namespace DungeonTasker.Views
                 Margin = new Thickness(0, 0, 6, 0)
             };
 
+            var buttons = new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.Start,
+            };
+
             var colorTag = new Label
             {
                 Text = "",
@@ -158,15 +163,16 @@ namespace DungeonTasker.Views
                 WidthRequest = 45
             };
 
-            var countdownFinish = new Button
-            {
-                IsEnabled = false,
-                BackgroundColor = Color.FromHex("#00CC33"),
-                HorizontalOptions = LayoutOptions.End,
-                FontSize = 12,
-                WidthRequest = 80,
-                CornerRadius = 16
-            };
+        var countdownFinish = new Button
+        {
+            IsEnabled = false,
+            BackgroundColor = Color.FromHex("#00CC33"),
+            VerticalOptions = LayoutOptions.CenterAndExpand,
+            HeightRequest = 40,
+            FontSize = 12,
+            WidthRequest = 80,
+            CornerRadius = 16,
+        };
 
             // Initialize labels and TimerUpdatecs object
             TimerUpdatecs time = new TimerUpdatecs(Trg, Rem, TaskName);
@@ -236,17 +242,18 @@ namespace DungeonTasker.Views
 
                     if (DateTime.Now >= Trg) // If the timer is equal to the end date or over
                     {
-                        timerlads.Children.Remove(countdownFinish);
-                        DisplayFinishButton(timerlads, time, taskName.Text);
+                        timerlads.Children.Remove(buttons);
+                        DisplayFinishButton(timerlads, time, buttons);
                         return false;
                     }
                     return true; // Return true to continue thread and timer operation
                 });
 
+                buttons.Children.Add(countdownFinish);
                 timerlads.Children.Add(colorTag);
                 timerlads.Children.Add(taskName);
                 timerlads.Children.Add(editButton);
-                timerlads.Children.Add(countdownFinish);
+                timerlads.Children.Add(buttons);
                 timers.Children.Add(timerlads); // Add all controls to stack layouts
             }
 
@@ -256,7 +263,7 @@ namespace DungeonTasker.Views
                 timerlads.Children.Add(taskName);
                 timerlads.Children.Add(editButton);
                 timers.Children.Add(timerlads); // Add all controls to stack layouts
-                DisplayFinishButton(timerlads, time, taskName.Text);
+                DisplayFinishButton(timerlads, time, buttons);
             }
         }
 
@@ -270,17 +277,18 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public void DisplayFinishButton(StackLayout timerlads, TimerUpdatecs times, string task)
+        public void DisplayFinishButton(StackLayout timerlads, TimerUpdatecs times, StackLayout buttons)
         {
             var finishButton = new Button
             {
                 Text = "Finish",
-                HorizontalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HeightRequest = 40,
                 BackgroundColor = Color.FromHex("#00CC33"),
                 TextColor = Color.White,
                 FontSize = 12,
-                WidthRequest = 70,
-                CornerRadius = 16
+                WidthRequest = 80,
+                CornerRadius = 16,
             };
 
             finishButton.Clicked += async (s, a) =>
@@ -297,7 +305,9 @@ namespace DungeonTasker.Views
                 await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };
 
-            timerlads.Children.Add(finishButton);
+            buttons.Children.Clear();
+            buttons.Children.Add(finishButton);
+            timerlads.Children.Add(buttons);
             timers.Children.Add(timerlads);
         }
     }
