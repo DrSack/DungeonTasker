@@ -12,7 +12,8 @@
             <StackLayout Orientation="Vertical" HeightRequest="275" WidthRequest="300">
                 <StackLayout VerticalOptions="CenterAndExpand">
                     <Entry Placeholder="Edit the task's name" x:Name="TaskEditted"></Entry>
-                    <Button Margin="0,50,0,0" Text="Edit Name" Clicked="PopupEditing" x:Name="PopupEditingText" BackgroundColor="#00CC33" TextColor="White"></Button>
+                    <Button Margin="0,50,0,0" Text="Edit Name" Clicked="PopupEditing" x:Name="PopupEditingText" 
+                            BackgroundColor="#00CC33" TextColor="White"></Button>
                     <Button Text="Delete Task" Clicked="PopupDelete" x:Name="PopupDeleteText" 
                             BackgroundColor="#F44336" TextColor="White"></Button>
                 </StackLayout>

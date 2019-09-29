@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -91,13 +92,15 @@ namespace DungeonTasker.Views
                 using (var sr = new StreamReader(Currentuser.timer))
                 {
                     string line;
-                    string[] split;
                     while (!string.IsNullOrEmpty(line = sr.ReadLine()))
                     {
-                        split = line.Split(',');
-                        DateTime nice = Convert.ToDateTime(split[1]);
+                        Regex Name = new Regex("Name:(.*?)Time:");
+                        string Taskname = Name.Match(line).Groups[1].Value;
+
+                        string ace = Regex.Replace(line,".*Time:","");
+                        DateTime nice = Convert.ToDateTime(ace);
                         TimeSpan Rem = nice - DateTime.Now; // Store information into variables
-                        Timer(split[0], nice, Rem); // Call Timer and parse variables
+                        Timer(Taskname, nice, Rem); // Call Timer and parse variables
                     }
                 }
 

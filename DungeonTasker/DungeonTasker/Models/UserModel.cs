@@ -89,7 +89,7 @@ namespace DungeonTasker.Models
             {
                 foreach(TimerUpdatecs timeboi in timer)// for each timer within the timer list
                 {
-                    sw.WriteLine(string.Format("{0},{1}",timeboi.type, timeboi.T.ToString()));// write onto the temporary file the name and time information 
+                    sw.WriteLine(string.Format("Name:{0}Time:{1}",timeboi.type, timeboi.T.ToString()));// write onto the temporary file the name and time information 
                 }
             }
             File.Delete(this.timer);//Delete the current timer file
@@ -202,6 +202,12 @@ namespace DungeonTasker.Models
             }
         }
 
+        /*
+         * This method is responsible for deleting the account of the user
+         * 
+         * @para nothing
+         * @return nothing
+         */
         public void DeleteAccount()
         {
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
