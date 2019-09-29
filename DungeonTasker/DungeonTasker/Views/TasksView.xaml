@@ -20,8 +20,8 @@
                 </Frame>
 
                 <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,10,0,10">
-                    <Label HorizontalTextAlignment="Center" Text="{Binding Tasks}" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
-                </StackLayout>
+                        <Label HorizontalTextAlignment="Center" Text="{Binding Tasks}" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
+                    </StackLayout>
 
                     <ScrollView Grid.Row="1">
                         <StackLayout x:Name="timers"></StackLayout>

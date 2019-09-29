@@ -127,7 +127,7 @@ namespace DungeonTasker.Views
             {
                 Orientation = StackOrientation.Horizontal,
                 BackgroundColor = Color.White,
-                HeightRequest = 38,
+                MinimumHeightRequest = 38,
                 Margin = new Thickness(0, 0, 6, 0)
             };
 
@@ -142,7 +142,8 @@ namespace DungeonTasker.Views
             {
                 Text = TaskName,
                 Margin = new Thickness(10, 10),
-                TextColor = Color.FromHex("#212121")
+                TextColor = Color.FromHex("#212121"),
+                LineBreakMode = LineBreakMode.WordWrap,
             };
 
             var editButton = new Button
