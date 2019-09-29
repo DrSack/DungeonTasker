@@ -14,10 +14,11 @@ namespace DungeonTasker.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InventoryView : ContentPage
 	{
-        InventoryItemsModel items;// Store items information
-        WeaponInfoModel weapon;// The current weapon
-        List<ItemModel> weapons = new List<ItemModel>();// Store weapon item details
+        InventoryItemsModel items; // Store items information
+        WeaponInfoModel weapon;  // The current weapon
+        List<ItemModel> weapons = new List<ItemModel>(); // Store weapon item details
         UserModel User;
+
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
@@ -101,7 +102,6 @@ namespace DungeonTasker.Views
             item.HorizontalTextAlignment = TextAlignment.Start;
             item.VerticalTextAlignment = TextAlignment.Center;
 
-
             damage.Text = string.Format("Damage: {0} - {1}",
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
@@ -175,28 +175,27 @@ namespace DungeonTasker.Views
                     await DisplayAlert("Sold", string.Format("You gained {0} gold", Goldvalue.ToString()), "Close");
                 }
             };
+
             LayoutItem.Children.Add(item);
             LayoutItem.Children.Add(damage);
             LayoutItem.Children.Add(equip);
             LayoutItem.Children.Add(sell);
 
-            
             frame.Padding = 3;
             frame.BorderColor = Color.Black;
             frame.Content = LayoutItem;
-            ItemsList.Children.Add(frame);// Add onto itemlist stacklayout
+            ItemsList.Children.Add(frame); // Add onto itemlist stacklayout
         }
 
-
-            /*
-            * Display WepsEmpty, if its the only child left in the stacklayout
-            * 
-            * PARAM Nothing
-            * RETURNS Nothing
-            */
-            private void DisplayNoWep()
+        /*
+        * Display WepsEmpty, if its the only child left in the stacklayout
+        * 
+        * PARAM Nothing
+`       * RETURNS Nothing
+        */
+        private void DisplayNoWep()
         {
-            if(ItemsList.Children.Count == 1)
+            if (ItemsList.Children.Count == 1)
             {
                 NoWeps.IsEnabled = true;
                 NoWeps.IsVisible = true;
@@ -205,10 +204,8 @@ namespace DungeonTasker.Views
             {
                 NoWeps.IsEnabled = false;
                 NoWeps.IsVisible = false;
-            }
-            
+            }  
         }
-
 
         /*
         * Display the total key value.
@@ -234,7 +231,6 @@ namespace DungeonTasker.Views
             Gold.TextColor = Color.Gold;
         }
 
-
         /*
         * Display the currently equipped item. 
         * If the item is 'Not Equipped' then disable the damage and display "Not Equipped on the Label"
@@ -252,15 +248,13 @@ namespace DungeonTasker.Views
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
-            else
-            {
+
+            else {
                 EquippedLabel.Text = UserModel.CheckForstring(items.Invfile, "Equipped:");
                 Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfoModel.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfoModel.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;
-            }
-            
+            }         
         }
-
 	}
 }

@@ -8,8 +8,9 @@
              BackgroundColor="White">
     
     <ContentPage.Content>
-        <StackLayout Margin="0,20,0,0">
-            <Entry x:Name="_entry" Placeholder="Enter the task you need to do" Text=""/>
+        <StackLayout Margin="0,50,0,0">
+            <Label HorizontalOptions="Center" Text="New Task" TextColor="#212121" FontSize="Large" FontAttributes="Bold"></Label>
+            <Entry Margin="20,30,20,0" x:Name="_entry" Placeholder="Enter the task you need to do" Text=""/>
             <Grid Margin="10,0,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -22,13 +23,13 @@
                 <Button Text="15:00" Grid.Column="2" Grid.Row="0" Clicked="btn15" BackgroundColor="White" TextColor="#F44336"/>
             </Grid>
             
-            <StackLayout VerticalOptions="StartAndExpand">
-                <Label Text="Select custom time for 15+ minutes" HorizontalTextAlignment="Center"/>
-                <Label Text="Date:" />
-                <DatePicker x:Name="_datePicker" Format="D" />
-                <Label Text="Time:" />
-                <TimePicker x:Name="_timePicker" Format="T"/>
-                <Button Text="Add" x:Name="_switch" Clicked="_switch_Clicked"/>
+            <StackLayout VerticalOptions="StartAndExpand" Margin="0,30">
+                <Label Text="Select custom time for 15+ minutes" HorizontalTextAlignment="Center" TextColor="#212121" FontSize="Medium"/>
+                <Label Text="Date:" TextColor="#212121" Margin="20,20,0,0"/>
+                <DatePicker x:Name="_datePicker" Format="D" Margin="20,0"/>
+                <Label Text="Time:" TextColor="#212121" Margin="20,10,0,0"/>
+                <TimePicker x:Name="_timePicker" Format="T" Margin="20,0"/>
+                <Button Text="Add" x:Name="_switch" Clicked="_switch_Clicked" Margin="30" BackgroundColor="#00CC33" TextColor="White"/>
                 </StackLayout>
         </StackLayout>
     </ContentPage.Content>

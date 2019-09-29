@@ -46,7 +46,6 @@ namespace DungeonTasker.Views
             InitializeComponent();
         }
 
-
         /*
          * A method that is called whenever this page appears and 
          * systematically scans through each singleline of the timer file within the user class 
@@ -131,7 +130,7 @@ namespace DungeonTasker.Views
                 Orientation = StackOrientation.Horizontal,
                 BackgroundColor = Color.White,
                 MinimumHeightRequest = 38,
-                Margin = new Thickness(0, 0, 6, 0)
+                Margin = new Thickness(0,0,6,0)
             };
 
             var buttons = new StackLayout
@@ -149,7 +148,7 @@ namespace DungeonTasker.Views
             var taskName = new Label
             {
                 Text = TaskName,
-                Margin = new Thickness(10, 10),
+                Margin = new Thickness(8,14),
                 TextColor = Color.FromHex("#212121"),
                 LineBreakMode = LineBreakMode.WordWrap,
             };

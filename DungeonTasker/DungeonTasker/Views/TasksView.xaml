@@ -14,12 +14,12 @@
 
             <AbsoluteLayout>
                 <StackLayout Grid.Column="0" Grid.Row="0" AbsoluteLayout.LayoutFlags="All"  
-               AbsoluteLayout.LayoutBounds="0,0,1,1">
+                AbsoluteLayout.LayoutBounds="0,0,1,1">
                 <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                     <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="{Binding Character}"></Label>
                 </Frame>
 
-                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,10,0,10">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="0,10">
                         <Label HorizontalTextAlignment="Center" Text="{Binding Tasks}" FontSize="Large" TextColor="#212121" FontAttributes="Bold"></Label>
                     </StackLayout>
 
@@ -28,7 +28,7 @@
                     </ScrollView>
                 </StackLayout>
                 
-                <Button Grid.Row="1" Margin="10,0,10,10" Text="+" TextColor="Accent" 
+                <Button Grid.Row="1" Margin="10,10,10,0" Text="+" TextColor="Accent" 
                         FontSize="Large" HorizontalOptions="EndAndExpand" 
                         VerticalOptions="EndAndExpand" BackgroundColor="#212121" 
                         AbsoluteLayout.LayoutFlags="PositionProportional"  

@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.DungeonView"
+             BackgroundColor="White"
              Title="Dungeon">
     
     <ContentPage.Content>
@@ -23,14 +24,14 @@
                 </Label.FormattedText>
             </Label>
 
-            <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BorderColor="Black" Margin="5,0,5,0">
+            <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                     <Label FontSize="30" HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="O==I\" TextColor="#FFCA28" FontAttributes="Bold"/>
                     <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to battle" TextColor="#212121"/>
                 </StackLayout>
             </Frame>
 
-            <StackLayout VerticalOptions="Start" Margin="0,0,0,10">
+            <StackLayout VerticalOptions="Start">
                 <Label HorizontalTextAlignment="Center" Margin="0,5">
                     <Label.FormattedText>
                         <FormattedString>
@@ -40,9 +41,9 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336" Margin="0,5"/>
+
+                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336" Margin="30"/>
             </StackLayout>
-            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,12 +6,13 @@
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.SettingsView"
              x:Name="Content"
+             BackgroundColor="#212121"
              Title="Settings">
     
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Start" Margin="0,5,0,0">
+        <StackLayout VerticalOptions="Center" Margin="30,0">
             <Button Text="Delete Account" x:Name="DeleteBtn" Command="{Binding DeleteAccountBtn}" IsEnabled="{Binding CanCloseDelete}" BackgroundColor="#F44336" TextColor="White"/>
-            <Button Text="Logout" VerticalOptions="Center" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="Accent" TextColor="Black"/>
+            <Button Text="Logout" VerticalOptions="Center" Command="{Binding LogoutBtn}" IsEnabled="{Binding CanCloseLogout}" BackgroundColor="White" TextColor="#212121"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

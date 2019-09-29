@@ -19,7 +19,7 @@
             </StackLayout>
 
             <StackLayout Grid.Row="1" VerticalOptions="CenterAndExpand" Margin="0,0,0,15">
-                <Label TextColor="#E63917" Text="Developers" FontAttributes="Bold" FontSize="37" HorizontalTextAlignment="Center"/>
+                <Label TextColor="#FFCA28" Text="Developers" FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Center" Margin="0,10"/>
                 <StackLayout HorizontalOptions="Center" WidthRequest="200" Spacing="2">
                     <Label TextColor="White" Text="Morgan Wallish" HorizontalTextAlignment="Start" FontSize="15" FontAttributes="Bold" TextDecorations="Underline"/>
                     <Label TextColor="White" Text="Front-End" HorizontalTextAlignment="Start" FontSize="10"/>

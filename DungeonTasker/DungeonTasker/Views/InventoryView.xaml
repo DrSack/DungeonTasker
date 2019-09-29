@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.Views.InventoryView"
              Title="Inventory">
+    
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                        <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
-                    </StackLayout>
+                    <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+                </StackLayout>
             </Frame>
-       
+
             <ScrollView Margin="0,0,0,5">
                 <StackLayout Margin="20,0,20,20">
                     <Label x:Name="WeaponsTitle" Text="Weapons" FontSize="30" HorizontalTextAlignment="Center"/>
@@ -43,10 +44,8 @@
                             <Label IsEnabled="False" IsVisible="False" x:Name="Damage"/>
                         </StackLayout>
                     </Frame>
-
                 </StackLayout>
             </ScrollView>
         </StackLayout>
-        
     </ContentPage.Content>
 </ContentPage>
