@@ -2,48 +2,51 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.Views.InventoryView"
+             BackgroundColor="White"
              Title="Inventory">
     
     <ContentPage.Content>
         <StackLayout>
             <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
-                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                    <Label FontSize="38" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" x:Name="Character"></Label>
+                <StackLayout>
+                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="End">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Keys: " TextColor="Accent"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Keys"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label HorizontalOptions="End">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Gold: " TextColor="Accent"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Gold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" x:Name="Character" Margin="60,0,0,60"></Label>
                 </StackLayout>
             </Frame>
 
-            <ScrollView Margin="0,0,0,5">
-                <StackLayout Margin="20,0,20,20">
-                    <Label x:Name="WeaponsTitle" Text="Weapons" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <StackLayout x:Name="ItemsList" BackgroundColor="White" Spacing="2">
-                        <Label Text="No Weapons" HorizontalTextAlignment="Center" x:Name="NoWeps"/>
-                    </StackLayout>
-
-                    <Label x:Name="KeysTitle" Text="Keys" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <Frame BorderColor="Black" Margin="0,3,0,3">
-                        <StackLayout BackgroundColor="White">
-                            <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label HorizontalTextAlignment="Center" x:Name="Keys"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-
-                    <Label x:Name="GoldTitle" Text="Gold" FontSize="30" HorizontalTextAlignment="Center"/>
-                    <Frame BorderColor="Black" Margin="0,3,0,3">
-                        <StackLayout BackgroundColor="White">
-                            <StackLayout HorizontalOptions="CenterAndExpand">
-                                <Label HorizontalTextAlignment="Center" x:Name="Gold"/>
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-
-                    <Label x:Name="EquippedTitle" Text="Equipped" FontSize="30" HorizontalTextAlignment="Center"/>
+            <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="20,0">
+                    <Label x:Name="EquippedTitle" Text="Equipped" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
                     <Frame BorderColor="Black" Margin="0,3,0,3">
                         <StackLayout x:Name="Equipped" Orientation="Horizontal" BackgroundColor="White" HorizontalOptions="CenterAndExpand">
-                            <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
-                            <Label IsEnabled="False" IsVisible="False" x:Name="Damage"/>
+                            <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#212121"/>
+                            <Label IsEnabled="False" IsVisible="False" x:Name="Damage" TextColor="Red"/>
                         </StackLayout>
                     </Frame>
+                    
+                    <Label x:Name="WeaponsTitle" Text="Weapons" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
+                    <StackLayout x:Name="ItemsList">
+                        <Label Text="No Weapons" HorizontalTextAlignment="Center" x:Name="NoWeps"/>
+                    </StackLayout>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

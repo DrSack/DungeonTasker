@@ -27,7 +27,7 @@
             <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                     <Label FontSize="30" HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="O==I\" TextColor="#FFCA28" FontAttributes="Bold"/>
-                    <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to battle" TextColor="#212121"/>
+                    <Label  HorizontalOptions="CenterAndExpand"  VerticalOptions="CenterAndExpand" Text="Use 1 Key to Battle" TextColor="#212121"/>
                 </StackLayout>
             </Frame>
 

@@ -90,7 +90,7 @@ namespace DungeonTasker.Views
             var item = new Label();
             var damage = new Label();
             var equip = new Button();
-            var sell = new Button();// Initialize
+            var sell = new Button(); // Initialize
 
             LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
             LayoutItem.Orientation = StackOrientation.Horizontal;
@@ -101,33 +101,33 @@ namespace DungeonTasker.Views
             item.FontAttributes = FontAttributes.Bold;
             item.HorizontalTextAlignment = TextAlignment.Start;
             item.VerticalTextAlignment = TextAlignment.Center;
+            item.TextColor = Color.FromHex("#212121");
 
             damage.Text = string.Format("Damage: {0} - {1}",
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, true).ToString(),
             WeaponInfoModel.ObtainWeaponInfo(weaponitem.weapon, false));
             damage.TextColor = Color.Red;
-
-            damage.FontSize = 10;
             damage.HorizontalTextAlignment = TextAlignment.Start;
             damage.VerticalTextAlignment = TextAlignment.Center;
 
+            sell.Text = "sell";
+            sell.HorizontalOptions = LayoutOptions.EndAndExpand;
+            sell.FontSize = 10;
+            sell.WidthRequest = 50;
+            sell.HeightRequest = 50;
+            sell.BackgroundColor = Color.White;
+            sell.TextColor = Color.Gold;
+
             equip.Text = "equip";
-            equip.HorizontalOptions = LayoutOptions.EndAndExpand;
+            equip.HorizontalOptions = LayoutOptions.End;
             equip.WidthRequest = 70;
             equip.HeightRequest = 50;
-            equip.BackgroundColor = Color.Green;
+            equip.BackgroundColor = Color.FromHex("#00CC33");
             equip.TextColor = Color.White;
-
-            sell.Text = "sell";
-            sell.HorizontalOptions = LayoutOptions.End;
-            sell.WidthRequest = 60;
-            sell.HeightRequest = 50;
-            sell.BackgroundColor = Color.Gold;
-            sell.TextColor = Color.White;
 
             equip.Clicked += (s, a) =>
             {
-                if(weapon.SetWeapon(this, weaponitem.weapon))// If the weapon is not already equipped
+                if(weapon.SetWeapon(this, weaponitem.weapon)) // If the weapon is not already equipped
                 {
                     DisplayAlert("Equipped", string.Format("You have equipped: {0}", weaponitem.weapon), "Close");
                 }
@@ -138,48 +138,48 @@ namespace DungeonTasker.Views
             {
                 int Goldvalue = WeaponInfoModel.ObtainWeaponValue(weaponitem.weapon);
                 int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
-                int TotalGold = Goldvalue + CurrentGold;// Get your gold and add onto the gold you have recieved.
+                int TotalGold = Goldvalue + CurrentGold; // Get your gold and add onto the gold you have recieved.
 
                 sell.Text = Goldvalue.ToString() + " G";
                 sellcount++;
-                if (sellcount == 2)// If pressed twice
+                if (sellcount == 2) // If pressed twice
                 {
-                    weapons.Remove(weaponitem);// Remove off list
+                    weapons.Remove(weaponitem); // Remove off list
 
                     string weaponlist = "";
                     foreach (ItemModel weapon in weapons)
                     {
                         if (!String.IsNullOrEmpty(weapon.weapon))
                         {
-                            weaponlist += weapon.weapon + ",";// Create string for file
+                            weaponlist += weapon.weapon + ","; // Create string for file
                         }
                     }
-                    UserModel.Rewrite("Weapons:", weaponlist, items.Invfile);// Replace the number of weapons if the remaining weapons set by the weapons list.
-                    UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile);//Rewrite the gold values
-                    DisplayGold();//Display the gold
+                    UserModel.Rewrite("Weapons:", weaponlist, items.Invfile); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                    UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile); //Rewrite the gold values
+                    DisplayGold(); //Display the gold
 
                     string equipped = UserModel.CheckForstring(items.Invfile, "Equipped:");
-                    if (!UserModel.CheckForstring(items.Invfile, "Weapons:").Contains(equipped))//If the Weapons: section is empty replace with "Not Equipped"
+                    if (!UserModel.CheckForstring(items.Invfile, "Weapons:").Contains(equipped)) //If the Weapons: section is empty replace with "Not Equipped"
                     {
                         UserModel.Rewrite("Equipped:", "Not Equipped", items.Invfile);
-                        weapon.SetWeapon(this, "Not Equipped");//Rewrite and Set weapon to nothing
+                        weapon.SetWeapon(this, "Not Equipped"); //Rewrite and Set weapon to nothing
                     }
                     DisplayEquipped();
                     await Task.Run(async () =>
                     {
                         Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
-                    });//Run stacklayout close animation.
+                    }); //Run stacklayout close animation.
                     
-                    ItemsList.Children.Remove(frame);//Remove stacklayout
-                    DisplayNoWep();//Check if stacklayout is empty and display "No Weapon"
+                    ItemsList.Children.Remove(frame); //Remove stacklayout
+                    DisplayNoWep(); // Check if stacklayout is empty and display "No Weapon"
                     await DisplayAlert("Sold", string.Format("You gained {0} gold", Goldvalue.ToString()), "Close");
                 }
             };
 
             LayoutItem.Children.Add(item);
             LayoutItem.Children.Add(damage);
-            LayoutItem.Children.Add(equip);
             LayoutItem.Children.Add(sell);
+            LayoutItem.Children.Add(equip);         
 
             frame.Padding = 3;
             frame.BorderColor = Color.Black;
@@ -244,7 +244,7 @@ namespace DungeonTasker.Views
             if (equippedWep.Contains("Not Equipped"))
             {
                 EquippedLabel.Text = UserModel.CheckForstring(items.Invfile, "Equipped:");
-                EquippedLabel.TextColor = Color.Green;
+                EquippedLabel.TextColor = Color.Red;
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
