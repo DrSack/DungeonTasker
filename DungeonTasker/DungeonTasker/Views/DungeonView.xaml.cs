@@ -126,10 +126,13 @@ namespace DungeonTasker.Views
 
                 Boss = string.Format("{0}{1}{2}{3}{4}", leftear, Eyes, Nose, Eyes, rightear);
                 Character.Text = Boss;
+                Character.HorizontalTextAlignment = TextAlignment.Center;
+
                 CharName.Text = Name;
 
                 CurrentBoss = Boss;
                 CurrentName = Name;
+                
             }
         }
 
