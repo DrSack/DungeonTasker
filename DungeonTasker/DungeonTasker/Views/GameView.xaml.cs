@@ -235,13 +235,13 @@ namespace DungeonTasker.Views
         * Param Nothing.
         * Returns Nothing.
         */
-        private async void MoveCharBossAsync(Label move, bool nice)
+        private async void MoveCharBossAsync(Label move, bool truth)
         {
             await Task.Run(async () =>
             {
                 while (CharacterHP >= 0 || BossHP >= 0)
                 {
-                    if (nice)
+                    if (truth)
                     {
                         await move.TranslateTo(5, 0, 500);
                         await move.TranslateTo(-5, 0, 500);

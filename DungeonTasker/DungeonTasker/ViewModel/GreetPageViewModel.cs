@@ -47,9 +47,9 @@ namespace DungeonTasker.ViewModel
                 bool hit = false;
                 foreach (var file in files)
                 {
-                    string nice2;
-                    using (StreamReader sr = new StreamReader(file)) { nice2 = sr.ReadToEnd(); }
-                    line = nice2.Split(',');
+                    string crnt;
+                    using (StreamReader sr = new StreamReader(file)) { crnt = sr.ReadToEnd(); }
+                    line = crnt.Split(',');
 
                     if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }// obtain UserModelname and password information
 

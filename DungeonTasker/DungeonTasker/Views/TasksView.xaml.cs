@@ -29,6 +29,8 @@ namespace DungeonTasker.Views
          * PARAM
          * user: parse the user to be used within this class
          * truth: parse truth to notify Device.StartTimer to stop whenever truthtime is off
+         * items: parse items model
+         * dungeon: parse dungeon object to open tutorial page.
          * 
          * RETURN Nothing
          */
@@ -97,9 +99,9 @@ namespace DungeonTasker.Views
                         string Taskname = Name.Match(line).Groups[1].Value;
 
                         string ace = Regex.Replace(line,".*Time:","");
-                        DateTime nice = Convert.ToDateTime(ace);
-                        TimeSpan Rem = nice - DateTime.Now; // Store information into variables
-                        Timer(Taskname, nice, Rem); // Call Timer and parse variables
+                        DateTime crnt = Convert.ToDateTime(ace);
+                        TimeSpan Rem = crnt - DateTime.Now; // Store information into variables
+                        Timer(Taskname, crnt, Rem); // Call Timer and parse variables
                     }
                 }
 

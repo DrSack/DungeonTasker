@@ -31,7 +31,7 @@
                 </StackLayout>
             </Frame>
 
-            <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand">
+            <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand" Margin="0,0,0,5">
                 <StackLayout Margin="20,0">
                     <Label x:Name="EquippedTitle" Text="Equipped" FontSize="Medium" HorizontalTextAlignment="Center" 
                            FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
