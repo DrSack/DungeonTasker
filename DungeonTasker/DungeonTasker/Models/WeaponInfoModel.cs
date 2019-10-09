@@ -8,8 +8,8 @@ namespace DungeonTasker.Models
 {
     public class WeaponInfoModel
     {
-        public int Minimum { get; set; }
-        public int Maximum { get; set; }
+        public int Minimumdmg { get; set; }
+        public int Maximumdmg { get; set; }
         public string EquippedWeapon { get; set; }
         InventoryItemsModel items;
 
@@ -54,12 +54,20 @@ namespace DungeonTasker.Models
             {
                 totaldmg += 4;
                 if (minimum && weapon.Contains("Sword")) { totaldmg++; }
+                if (minimum && weapon.Contains("Axe")) { totaldmg+=2; }
                 if (minimum) { return totaldmg; }
                 if (weapon.Contains("Sword")) { totaldmg += 7; return totaldmg;}
+                if (weapon.Contains("Axe")) { totaldmg += 8; return totaldmg; }
+            }
+            if (weapon.Contains("Diamond"))
+            {
+                totaldmg += 6;
+                if (minimum && weapon.Contains("Bow")) { totaldmg += 4; }
+                if (minimum) { return totaldmg; }
+                if (weapon.Contains("Bow")) { totaldmg += 9; return totaldmg; }
             }
             return 0;
         }
-
 
         /*
        *  An int method that returns the gold value of a given weapon.
@@ -82,6 +90,11 @@ namespace DungeonTasker.Models
             if (weapon.Contains("Steel"))
             {
                 if (weapon.Contains("Sword")) { return 11; }
+                if (weapon.Contains("Axe")) { return 14; }
+            }
+            if (weapon.Contains("Diamond"))
+            {
+                if (weapon.Contains("Bow")) { return 19; }
             }
             return 0;
         }
@@ -122,6 +135,13 @@ namespace DungeonTasker.Models
                     totaldmg += 4;
                     minimum = totaldmg;
                     if (weapon.Contains("Sword")) { totaldmg += 7; confirmWeapon(totaldmg, minimum + 1, weapon);}
+                    if (weapon.Contains("Axe")) { totaldmg += 8; confirmWeapon(totaldmg, minimum + 2, weapon); }
+                }
+                if (weapon.Contains("Diamond"))
+                {
+                    totaldmg += 6;
+                    minimum = totaldmg;
+                    if (weapon.Contains("Bow")) { totaldmg += 9; confirmWeapon(totaldmg, minimum+4, weapon); }
                 }
                 return true;
             }
@@ -135,8 +155,8 @@ namespace DungeonTasker.Models
 
         private void confirmWeapon(int totaldmg, int minimum, string weapon)
         {
-            Maximum = totaldmg;
-            Minimum = minimum;
+            Maximumdmg = totaldmg;
+            Minimumdmg = minimum;
             EquippedWeapon = weapon;
             UserModel.Rewrite("Equipped:", EquippedWeapon, items.Invfile);
         }

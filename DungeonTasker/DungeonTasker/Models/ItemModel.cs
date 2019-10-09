@@ -6,7 +6,7 @@ namespace DungeonTasker.Models
 {
     public class ItemModel
     {
-        public string weapon { get; set; }
+        public string item { get; set; }
         /*
          * Encapsulation class for Weapon items
          * Param
@@ -15,7 +15,7 @@ namespace DungeonTasker.Models
          */
         public ItemModel(string weapon)
         {
-            this.weapon = weapon;
+            this.item = weapon;
         }
     }
 }

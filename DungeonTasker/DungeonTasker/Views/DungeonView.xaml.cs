@@ -23,6 +23,7 @@ namespace DungeonTasker.Views
         public UserModel user;
         public InventoryItemsModel items;
         public WeaponInfoModel weapon;
+        public ItemInfoModel itemInv;
         public StatsModel stats;
         public StatsModel boss = new StatsModel();
         
@@ -39,13 +40,14 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public DungeonView(UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, StatsModel stats, bool tut)
+        public DungeonView(UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, ItemInfoModel itemInv, StatsModel stats, bool tut)
         {
             this.user = user;
             this.items = items;
             this.weapon = weapon;
             this.stats = stats;
             this.tut = tut;
+            this.itemInv = itemInv;
             InitializeComponent();
             selectBoss();
             selectBossHP();

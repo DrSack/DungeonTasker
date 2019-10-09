@@ -15,12 +15,15 @@ namespace DungeonTasker.ViewModel
         public Command Dungeon_Clicked { get; set; }
         public Command Settings_Clicked { get; set; }
         public Command About_Clicked { get; set; }
+        public Command Stats_Clicked { get; set; }
+        public Command Shop_Clicked { get; set; }
 
         Page page;
         UserModel user;
         InventoryItemsModel items;
         public DungeonView dungeon;
         WeaponInfoModel weapon;
+        ItemInfoModel ItemInv;
         logged truth;
         MasterPageView mainpage;
         PageOpenModel PageOn;
@@ -38,13 +41,14 @@ namespace DungeonTasker.ViewModel
          * 
          * RETURNS Nothing
          */
-        public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, MasterPageView mainpage, ContentPage display, DungeonView dungeon)
+        public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv)
         {
             this.page = page;
             this.user = user;
             this.items = items;
             this.truth = truth;
             this.weapon = weapon;
+            this.ItemInv = ItemInv;
             this.mainpage = mainpage;
             this.dungeon = dungeon;
             weapon.SetWeapon(display, UserModel.CheckForstring(items.Invfile, "Equipped:"));
@@ -53,6 +57,8 @@ namespace DungeonTasker.ViewModel
             Dungeon_Clicked = new Command(async () => await DungeonNavAsync());
             About_Clicked = new Command(async () => await AboutNavAsync());
             Settings_Clicked = new Command(async () => await SettingsNavAsync());
+            Stats_Clicked = new Command(async () => await StatsNavAsync());
+            Shop_Clicked = new Command(async () => await ShopNavAsync());
             PageOn = new PageOpenModel();
             PageOn.Tasks = true;
         }
@@ -87,7 +93,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Inventory = true;
-                await SetPageAsync(new NavigationPage(new InventoryView(items, this.weapon, user)));
+                await SetPageAsync(new NavigationPage(new InventoryView(items, this.weapon, user, ItemInv)));
             }
         }
 
@@ -109,6 +115,39 @@ namespace DungeonTasker.ViewModel
             }
         }
 
+        /*
+       * If this is selected change the detailspage to the AboutUs page.
+       * 
+       * PARAM Nothing
+       * RETURNS Nothing
+       */
+        private async Task StatsNavAsync()
+        {
+            ((MasterDetailPage)mainpage.Parent).IsPresented = false;
+            if (!PageOn.Stats)
+            {
+                PageOn.ResetAll();
+                PageOn.Stats = true;
+                await SetPageAsync(new NavigationPage(new StatsView()));
+            }
+        }
+
+        /*
+      * If this is selected change the detailspage to the AboutUs page.
+      * 
+      * PARAM Nothing
+      * RETURNS Nothing
+      */
+        private async Task ShopNavAsync()
+        {
+            ((MasterDetailPage)mainpage.Parent).IsPresented = false;
+            if (!PageOn.Shop)
+            {
+                PageOn.ResetAll();
+                PageOn.Shop = true;
+                await SetPageAsync(new NavigationPage(new ShopView(items, user, ItemInv)));
+            }
+        }
 
         /*
        * If this is selected change the detailspage to the AboutUs page.

@@ -9,6 +9,10 @@ namespace DungeonTasker.Models
         public bool Tasks { get; set; }
         public bool Inventory { get; set; }
         public bool Dungeon { get; set; }
+
+        public bool Shop { get; set; }
+
+        public bool Stats { get; set; }
         public bool AboutUs { get; set; }
         public bool Settings { get; set; } 
 
@@ -21,6 +25,8 @@ namespace DungeonTasker.Models
             Tasks = false;
             Inventory = false;
             Dungeon = false;
+            Shop = false;
+            Stats = false;
             AboutUs = false;
             Settings = false;
         }
@@ -35,6 +41,8 @@ namespace DungeonTasker.Models
             Tasks = false;
             Inventory = false;
             Dungeon = false;
+            Shop = false;
+            Stats = false;
             AboutUs = false;
             Settings = false;
         }
