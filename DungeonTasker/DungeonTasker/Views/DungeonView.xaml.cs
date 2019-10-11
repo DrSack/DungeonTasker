@@ -151,9 +151,9 @@ namespace DungeonTasker.Views
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
 
-            if (realKeys >= 0) {
+            if (realKeys > 0) {
                 await this.Navigation.PushModalAsync(new GameView(this));
-                items.GiveKey(0);
+                items.GiveKey(-1);
                 selectKey();
             }
 
