@@ -11,6 +11,8 @@ namespace DungeonTasker.Models
         public int Minimumdmg { get; set; }
         public int Maximumdmg { get; set; }
         public string EquippedWeapon { get; set; }
+        public List<ItemModel> weapons = new List<ItemModel>();
+
         InventoryItemsModel items;
 
 
@@ -23,7 +25,27 @@ namespace DungeonTasker.Models
         public WeaponInfoModel(InventoryItemsModel items)
         {
             this.items = items;
+            Rebuild();
         }
+
+
+        public void Rebuild()
+        {
+            weapons.Clear();
+            string weaponsInv;
+            string[] split;
+            weaponsInv = UserModel.CheckForstring(items.Invfile, "Weapons:");
+            split = weaponsInv.Split(',');
+            foreach (string item in split)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    weapons.Add(new ItemModel(item));
+                }
+            }
+        }
+
+
 
         /*
         *  An int method that returns either the minimum or maximum damage of a given weapon.
@@ -112,7 +134,7 @@ namespace DungeonTasker.Models
             int minimum = 0;
             try
             {
-                if(weapon.Contains("Nothing Equipped")) { confirmWeapon(totaldmg+2, minimum+0, weapon); }
+                if(weapon.Contains("Not Equipped")) { confirmWeapon(totaldmg+2, minimum+0, weapon); return true;}
                 if (EquippedWeapon == weapon) { throw new Exception("Already equipped"); }
 
                 if (weapon.Contains("Wooden"))

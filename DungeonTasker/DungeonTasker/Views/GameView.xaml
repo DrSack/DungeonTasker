@@ -9,43 +9,103 @@
     
     <ContentPage.Content>
         <StackLayout x:Name="Collide">
-            <StackLayout VerticalOptions="Start" Margin="0,0,10,0">
+            <StackLayout VerticalOptions="Start" Margin="0,0,10,10">
                 <StackLayout HorizontalOptions="EndAndExpand" x:Name="BossStats">
                     <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="38" FontAttributes="Bold" TextColor="#F44336"/>
                     <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName" TextColor="#F44336" FontAttributes="Bold" FontSize="Medium"/>
-                    <StackLayout HorizontalOptions="EndAndExpand">
-                    <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth" TextColor="Accent" FontSize="Medium"/>
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0">
+                        <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth" TextColor="Accent" FontSize="Medium"/>
+                        <Label Text=" HP" FontSize="Small" TextColor="White" Margin="0,0,0,0"/>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-            
-            <Label Text="[*]" HorizontalTextAlignment="End" x:Name="BossAttacking" Opacity="0" TextColor="#F44336"/>
-            <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce">
+            <Label Text="[*]" HorizontalTextAlignment="End" x:Name="BossAttacking" Opacity="0" TextColor="#F44336" IsEnabled="False" IsVisible="False"/>
 
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce" IsEnabled="False" IsVisible="False">
+                </StackLayout>
+
+                <Frame IsEnabled="False" IsVisible="False" x:Name="ItemAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">
+                    <StackLayout x:Name="Items">
+                        
+                    </StackLayout>
+                </Frame>
+
+                <Frame IsEnabled="False" IsVisible="False" x:Name="MagicAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">
+
+                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="30">
+                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                            <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
+                                <Label Text="Fireball:" VerticalTextAlignment="Start" TextColor="#F44336" FontSize="Medium" Margin="0,0,4,0"/>
+                                <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
+                                    <Label Text="15 - 30 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Text="Mana: 15mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Lvl 1" VerticalTextAlignment="Center" TextColor="Accent"/>
+                                </StackLayout>
+                                <Button  Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonFire" CornerRadius="10" BackgroundColor="#F44336" Padding="15,0,15,0"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                            <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
+                                <Label Text="Lightning:" VerticalTextAlignment="Start" TextColor="#9B870C" FontSize="Medium" Margin="0,0,4,0"/>
+                                <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
+                                    <Label Text="25 - 45 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Text="Mana: 30mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Lvl 3" VerticalTextAlignment="Center" TextColor="Accent"/>
+                                </StackLayout>
+                                <Button Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonLightning" CornerRadius="10" BackgroundColor="#F44336" Padding="0,0,0,0"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                            <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
+                                <Label Text="Void:" VerticalTextAlignment="Start" TextColor="Purple" FontSize="Medium" Margin="0,0,4,0"/>
+                                <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
+                                    <Label Text="35 - 55 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
+                                    <Label Text="Mana: 50mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Lvl 5" VerticalTextAlignment="Center" TextColor="Accent"/>
+                                </StackLayout>
+                                <Button  Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonVoid" CornerRadius="10" BackgroundColor="#F44336" Padding="0,0,0,0"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                </Frame>
             </StackLayout>
             
-            <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0" TextColor="Accent"/>
             
+            
+            <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0" TextColor="Accent" IsEnabled="False" IsVisible="False" Margin="0,0,0,10"/>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
                 <StackLayout Orientation="Vertical" Margin="10,0,0,0" x:Name="CharacterStats">
                     <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="38" FontAttributes="Bold" TextColor="Accent"/>
                     <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName" TextColor="White" FontAttributes="Bold" FontSize="Medium"/>
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth" TextColor="Accent" FontSize="Medium"/>
-                </StackLayout>
-                
-                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
-                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
-                        <StackLayout>
-                            <Button Text="Attack" Clicked="AttackBtn" TextColor="#F44336" BackgroundColor="White"/>
-                            <Button Text="Dodge" Clicked="dodgeBtn" TextColor="Accent" BackgroundColor="White"/>
-                        </StackLayout>
-                        
-                        <StackLayout>
-                            <Button Text="Button" BackgroundColor="White"/>
-                            <Button Text="Button" BackgroundColor="White"/>
-                        </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="0">
+                        <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth" TextColor="Accent" FontSize="Medium"/>
+                        <Label Text=" HP" FontSize="Small" TextColor="White" Margin="0,0,10,0"/>
+                        <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterMana" TextColor="Cyan" FontSize="Medium"/>
+                        <Label Text=" MP" FontSize="Small" TextColor="White"/>
                     </StackLayout>
                 </StackLayout>
+
+                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0">
+                    <Frame BorderColor="Accent" CornerRadius="8" Padding="7,7,7,7">
+                        <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
+                            <StackLayout>
+                                <Button Text="Attack" Clicked="AttackBtn" TextColor="#F44336" BackgroundColor="White"/>
+                                <Button Text="Dodge" Clicked="DodgeBtn" TextColor="Accent" BackgroundColor="White"/>
+                            </StackLayout>
+
+                            <StackLayout>
+                                <Button Text="Magic" Clicked="MagicBtn" BackgroundColor="White" TextColor="Cyan"/>
+                                <Button Text="Items" Clicked="ItemsBtn" BackgroundColor="White" TextColor="Wheat"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                
+
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

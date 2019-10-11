@@ -41,7 +41,6 @@
                     <Label x:Name="Items" Text="Items" FontSize="Medium" HorizontalTextAlignment="Center" 
                            FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
                     <StackLayout x:Name="ItemsList" BackgroundColor="White" >
-
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

@@ -27,6 +27,7 @@ namespace DungeonTasker.ViewModel
         logged truth;
         MasterPageView mainpage;
         PageOpenModel PageOn;
+        ShopView Shop;
         /*
          * Contructor for Masterpage, initialize all components and BindingContext 
          * 
@@ -41,7 +42,8 @@ namespace DungeonTasker.ViewModel
          * 
          * RETURNS Nothing
          */
-        public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv)
+        public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, 
+        MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv, ShopView Shop)
         {
             this.page = page;
             this.user = user;
@@ -51,6 +53,7 @@ namespace DungeonTasker.ViewModel
             this.ItemInv = ItemInv;
             this.mainpage = mainpage;
             this.dungeon = dungeon;
+            this.Shop = Shop;
             weapon.SetWeapon(display, UserModel.CheckForstring(items.Invfile, "Equipped:"));
             Tasks_Clicked = new Command(async () => await TaskNavAsync());
             Inventory_Clicked = new Command(async () => await InventoryNavAsync());
@@ -61,6 +64,7 @@ namespace DungeonTasker.ViewModel
             Shop_Clicked = new Command(async () => await ShopNavAsync());
             PageOn = new PageOpenModel();
             PageOn.Tasks = true;
+            dungeon.Shop = this.Shop;
         }
 
         /*
@@ -145,7 +149,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Shop = true;
-                await SetPageAsync(new NavigationPage(new ShopView(items, user, ItemInv)));
+                await SetPageAsync(new NavigationPage(Shop));
             }
         }
 

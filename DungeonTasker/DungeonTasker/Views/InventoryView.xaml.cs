@@ -32,6 +32,8 @@ namespace DungeonTasker.Views
             this.weapon = weapon;
             this.User = user;
             this.ItemInv = ItemInv;
+            this.pots = ItemInv.pots;
+            this.weapons = weapon.weapons;
             InitializeComponent ();
             DisplayInventory();
             DisplayKey();
@@ -53,19 +55,6 @@ namespace DungeonTasker.Views
          */
         private void DisplayInventory()
         {
-            string weaponsInv;
-            string[] split;
-            weaponsInv = UserModel.CheckForstring(items.Invfile, "Weapons:");
-
-            split = weaponsInv.Split(',');
-            foreach(string item in split)
-            {
-                if (!string.IsNullOrEmpty(item))
-                {
-                    weapons.Add(new ItemModel(item));
-                }
-            }
-
             foreach (ItemModel weaponitem in weapons)
             {
                 if (!string.IsNullOrEmpty(weaponitem.item))
@@ -74,11 +63,11 @@ namespace DungeonTasker.Views
                 }
             }
 
-            foreach (ItemModel stash in ItemInv.pots)
+            foreach (ItemModel stash in pots)
             {
                 if (!string.IsNullOrEmpty(stash.item))
                 {
-                    CreateDisplayItem(stash,false, ItemsList, ItemInv.pots);
+                    CreateDisplayItem(stash,false, ItemsList, pots);
                 }
             }
         }
@@ -177,7 +166,6 @@ namespace DungeonTasker.Views
                 if (sellcount == 2) // If pressed twice
                 {
                     list.Remove(stash); // Remove off list
-
                     string invetory = "";
                     foreach (ItemModel itemInv in list)
                     {
@@ -190,11 +178,12 @@ namespace DungeonTasker.Views
                     if (isWep)
                     {
                         UserModel.Rewrite("Weapons:", invetory, items.Invfile); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        weapon.weapons = this.weapons;
                     }      
                     if (!isWep)
                     {
                         UserModel.Rewrite("Items:", invetory, items.Invfile);
-                        ItemInv.Rebuild();
+                        ItemInv.pots = this.pots;
                     }
                             
 

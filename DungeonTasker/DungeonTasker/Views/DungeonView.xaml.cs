@@ -26,7 +26,7 @@ namespace DungeonTasker.Views
         public ItemInfoModel itemInv;
         public StatsModel stats;
         public StatsModel boss = new StatsModel();
-        
+        public ShopView Shop;
         /*
          * Constructor for Dungeon
          * Encapsulates UserModel,InventoryItems,WeaponInfo,Stats objects + the bool variable
@@ -151,9 +151,9 @@ namespace DungeonTasker.Views
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
 
-            if (realKeys > 0) {
+            if (realKeys >= 0) {
                 await this.Navigation.PushModalAsync(new GameView(this));
-                items.GiveKey(-1);
+                items.GiveKey(0);
                 selectKey();
             }
 

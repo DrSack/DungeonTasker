@@ -8,6 +8,7 @@ namespace DungeonTasker.Models
     public class StatsModel
     {
         public int Health { get; set; }
+        public int Mana { get; set; }
         public int Experience { get; set; }
         public int Level { get; set; }
         public string file { get; set; }
@@ -41,6 +42,7 @@ namespace DungeonTasker.Models
         public void SetStats()
         {
            Health = Int32.Parse(UserModel.CheckForstring(file, "HEALTH:"));
+           Mana = Int32.Parse(UserModel.CheckForstring(file, "MANA:"));
            Experience = Int32.Parse(UserModel.CheckForstring(file, "EXP:"));
            Level = Int32.Parse(UserModel.CheckForstring(file, "LEVEL:"));
         }
@@ -60,7 +62,9 @@ namespace DungeonTasker.Models
             {
                 Level++;
                 Health += 20;
+                Mana += 10;
                 UserModel.Rewrite("HEALTH:", Health.ToString(), file);
+                UserModel.Rewrite("MANA:", Mana.ToString(), file);
                 UserModel.Rewrite("LEVEL:", Level.ToString(), file);
                 return true;
             }

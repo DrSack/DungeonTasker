@@ -15,18 +15,18 @@ namespace DungeonTasker.Views
     {
         InventoryItemsModel items; // Store items information
         ItemInfoModel ItemInv;
+        WeaponInfoModel weapons;
         UserModel user;
         List<ItemModel> BuyWeapons = new List<ItemModel>(); // Store weapon item details
         List<ItemModel> BuyItem = new List<ItemModel>(); // Store weapon item details
-        public ShopView(InventoryItemsModel items, UserModel user, ItemInfoModel ItemInv)
+        public ShopView(InventoryItemsModel items, UserModel user, ItemInfoModel ItemInv, WeaponInfoModel weapons)
         {
             this.items = items;
             this.user = user;
             this.ItemInv = ItemInv;
+            this.weapons = weapons;
             InitializeComponent();
-            CreateWeaponPool();
-            CreateItemPool();
-            DisplayWeapons();
+            Rebuild();
             InitializeValues();
         }
 
@@ -39,10 +39,17 @@ namespace DungeonTasker.Views
             Gold.TextColor = Color.Gold;
         }
 
+        public void Rebuild()
+        {
+            CreateWeaponPool();
+            CreateItemPool();
+            DisplayWeapons();
+        }
+
         private void CreateWeaponPool()
         {
+            BuyWeapons.Clear();
             Random rnd = new Random();
-            List<int> added = new List<int>();
             string[] list = { "SteelSword", "SteelAxe", "DiamondBow" };
             int weapon1 = rnd.Next(0,3);
             int weapon2 = rnd.Next(0, 3);
@@ -55,13 +62,15 @@ namespace DungeonTasker.Views
 
         private void CreateItemPool()
         {
+            BuyItem.Clear();
             BuyItem.Add(new ItemModel("HealthPotion"));
             BuyItem.Add(new ItemModel("MagicPotion"));
         }
 
         private void DisplayWeapons()
         {
-
+            WeaponList.Children.Clear();
+            ItemsList.Children.Clear();
             foreach (ItemModel weaponitem in BuyWeapons)
             {
                 if (!string.IsNullOrEmpty(weaponitem.item))
@@ -158,6 +167,7 @@ namespace DungeonTasker.Views
                                 item.HorizontalTextAlignment = TextAlignment.Center;
                                 item.HorizontalOptions = LayoutOptions.CenterAndExpand;
                                 UserModel.AddOntoLine("Weapons:", stash.item + ",", items.Invfile);
+                                weapons.Rebuild();
                             }
                             else
                             {
