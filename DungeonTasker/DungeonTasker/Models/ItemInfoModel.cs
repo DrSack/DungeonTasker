@@ -8,10 +8,10 @@ namespace DungeonTasker.Models
     {
         public string EquippedWeapon { get; set;}
         public List<ItemModel> pots = new List<ItemModel>(); // Store weapon item details
-        InventoryItemsModel items;
+        public InventoryItemsModel items;
         
         /*
-         * The WeaponInfo Constructor that encapsulates the current weapon.
+         * The ItemInfo Constructor that encapsulates the current item.
          *  @Param items: the inventory items class
          *  Returns Nothing
          */
@@ -23,9 +23,10 @@ namespace DungeonTasker.Models
         }
 
         /*
-        *  An int method that returns either the minimum or maximum damage of a given weapon.
-        *  @Param weapon: the weapon item, minimum: true or false to check for minimum or maximum damage.
-        *  Returns The minimum damage is bool minimum is true, else return total damage.
+        *  This is called outside of the class and is used by the inventory/shop/ 
+        *  and game as this method users the providied item.
+        *  @Param Nothing
+        *  Returns Nothing.
         */
 
         public void Rebuild()
@@ -46,9 +47,9 @@ namespace DungeonTasker.Models
         }
 
         /*
-        *  An int method that returns either the minimum or maximum damage of a given weapon.
-        *  @Param weapon: the weapon item, minimum: true or false to check for minimum or maximum damage.
-        *  Returns The minimum damage is bool minimum is true, else return total damage.
+        *  An int method that returns either the minimum or maximum number of a given item.
+        *  @Param weapon: the item, minimum: true or false to check for minimum or maximum numbers.
+        *  Returns The minimum number is bool minimum if true, else return total damage.
         */
 
         public static int ObtainItemInfo(string invitem, bool minimum)
@@ -70,9 +71,9 @@ namespace DungeonTasker.Models
         }
 
         /*
-       *  An int method that returns either the minimum or maximum damage of a given weapon.
-       *  @Param weapon: the weapon item, minimum: true or false to check for minimum or maximum damage.
-       *  Returns The minimum damage is bool minimum is true, else return total damage.
+        *  A string method that returns either the action, or Initials of the item.
+        *  @Param weapon: the item, extra: the extra information.
+        *  Returns the string to be returned.
        */
 
         public static string ObtainItemString(string invitem, bool extra)
@@ -91,7 +92,7 @@ namespace DungeonTasker.Models
         }
 
         /*
-       *  An int method that returns the gold value of a given weapon.
+       *  An int method that returns the gold value of a given item.
        *  @Param weapon: the weapon item
        *  Returns The gold value.
        */

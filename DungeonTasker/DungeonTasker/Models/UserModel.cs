@@ -248,7 +248,7 @@ namespace DungeonTasker.Models
                 {
                     //Write onto file and save onto device
                     File.WriteAllText(filename, line);
-                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:0\nEquipped:IronDagger\nItems:");
+                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
                     File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
                     File.WriteAllText(Timer, "");
                     // Show display alert then close current page and go back to previous opened window.

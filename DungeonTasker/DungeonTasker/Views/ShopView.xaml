@@ -19,6 +19,7 @@
                         </Label.FormattedText>
                     </Label>
 
+                        
                     <Label HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
@@ -44,7 +45,10 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
+
             
+
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
