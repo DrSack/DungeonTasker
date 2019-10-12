@@ -30,6 +30,11 @@ namespace DungeonTasker.Views
             InitializeValues();
         }
 
+        protected override void OnAppearing()
+        {
+            InitializeValues();
+        }
+
         private void InitializeValues()
         {
             Character.Text = user.Character;
