@@ -14,18 +14,15 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StatsView : ContentPage
     {
-        public StatsView(ItemInfoModel items)
+        public StatsView(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user)
         {
             InitializeComponent();
-            BindingContext = new StatViewModel(items);
+            
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            var button = sender as Button;
-            var delete = button.BindingContext as ItemModel;
-            var vm = BindingContext as StatViewModel;
-            vm.Remove.Execute(delete);
+            
         }
     }
 }

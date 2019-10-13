@@ -1,4 +1,5 @@
 ﻿using DungeonTasker.Models;
+using DungeonTasker.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,199 +14,18 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopView : ContentPage
     {
-        InventoryItemsModel items; // Store items information
-        ItemInfoModel ItemInv;
-        WeaponInfoModel weapons;
-        UserModel user;
-        List<ItemModel> BuyWeapons = new List<ItemModel>(); // Store weapon item details
-        List<ItemModel> BuyItem = new List<ItemModel>(); // Store weapon item details
-        public ShopView(InventoryItemsModel items, UserModel user, ItemInfoModel ItemInv, WeaponInfoModel weapons)
+        public ShopView(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user)
         {
-            this.items = items;
-            this.user = user;
-            this.ItemInv = ItemInv;
-            this.weapons = weapons;
             InitializeComponent();
-            Rebuild();
-            InitializeValues();
+            BindingContext = new ShopViewModel(items, Inv, Weapon, user);
         }
 
-        protected override void OnAppearing()
+        private void Button_Clicked(object sender, EventArgs e)
         {
-            InitializeValues();
-        }
-
-        private void InitializeValues()
-        {
-            Character.Text = user.Character;
-            Keys.Text = UserModel.CheckForstring(items.Invfile, "Keys:");
-            Keys.TextColor = Color.Gold;
-            Gold.Text = UserModel.CheckForstring(items.Invfile, "Gold:");
-            Gold.TextColor = Color.Gold;
-        }
-
-        public void Rebuild()
-        {
-            CreateWeaponPool();
-            CreateItemPool();
-            DisplayWeapons();
-        }
-
-        private void CreateWeaponPool()
-        {
-            BuyWeapons.Clear();
-            Random rnd = new Random();
-            string[] list = { "SteelSword", "SteelAxe", "DiamondBow" };
-            int weapon1 = rnd.Next(0,3);
-            int weapon2 = rnd.Next(0, 3);
-            while (weapon2 == weapon1)
-                weapon2 = rnd.Next(0, 3);
-
-            BuyWeapons.Add(new ItemModel(list[weapon1]));
-            BuyWeapons.Add(new ItemModel(list[weapon2]));
-        }
-
-        private void CreateItemPool()
-        {
-            BuyItem.Clear();
-            BuyItem.Add(new ItemModel("HealthPotion"));
-            BuyItem.Add(new ItemModel("MagicPotion"));
-        }
-
-        private void DisplayWeapons()
-        {
-            WeaponList.Children.Clear();
-            ItemsList.Children.Clear();
-            foreach (ItemModel weaponitem in BuyWeapons)
-            {
-                if (!string.IsNullOrEmpty(weaponitem.item))
-                {
-                    CreateDisplayWep(weaponitem,true, WeaponList);
-                }
-            }
-            foreach (ItemModel stashitem in BuyItem)
-            {
-                if (!string.IsNullOrEmpty(stashitem.item))
-                {
-                    CreateDisplayWep(stashitem, false, ItemsList);
-                }
-            }
-        }
-
-        private void CreateDisplayWep(ItemModel stash, bool isWep, StackLayout layout)
-        {
-            int count = 0;
-            var frame = new Frame();
-            var LayoutItem = new StackLayout();
-
-            var item = new Label();
-            var extra = new Label();
-            var buy = new Button();
-
-            LayoutItem.HorizontalOptions = LayoutOptions.FillAndExpand;
-            LayoutItem.Orientation = StackOrientation.Horizontal;
-            LayoutItem.BackgroundColor = Color.White;
-
-            item.Margin = new Thickness(5, 0, 0, 0);
-            item.Text = stash.item;
-            item.FontAttributes = FontAttributes.Bold;
-            item.HorizontalTextAlignment = TextAlignment.Start;
-            item.VerticalTextAlignment = TextAlignment.Center;
-            item.TextColor = Color.FromHex("#212121");
-
-            if(isWep)
-            {
-                extra.Text = string.Format("Damage: {0} - {1}",
-                WeaponInfoModel.ObtainWeaponInfo(stash.item, true).ToString(),
-                WeaponInfoModel.ObtainWeaponInfo(stash.item, false));
-                extra.TextColor = Color.Red;
-                extra.HorizontalTextAlignment = TextAlignment.Start;
-                extra.VerticalTextAlignment = TextAlignment.Center;
-            }
-            else
-            {
-                extra.Text = string.Format("{0}: {1} - {2} {3}",
-                ItemInfoModel.ObtainItemString(stash.item, true),
-                ItemInfoModel.ObtainItemInfo(stash.item, true),
-                ItemInfoModel.ObtainItemInfo(stash.item, false),
-                ItemInfoModel.ObtainItemString(stash.item, false));
-                extra.TextColor = Color.Red;
-                extra.HorizontalTextAlignment = TextAlignment.Start;
-                extra.VerticalTextAlignment = TextAlignment.Center;
-            }
-            
-            buy.Text = "Buy";
-            buy.HorizontalOptions = LayoutOptions.EndAndExpand;
-            buy.WidthRequest = 70;
-            buy.HeightRequest = 50;
-            buy.BackgroundColor = Color.FromHex("#00CC33");
-            buy.TextColor = Color.White;
-
-            buy.Clicked += (s, a) =>
-            {
-                if (isWep)
-                    buy.Text = WeaponInfoModel.ObtainWeaponValue(stash.item).ToString();
-                if (!isWep)
-                    buy.Text = ItemInfoModel.ObtainItemValue(stash.item).ToString();
-
-                if(count == 1)
-                {
-                    int CurrentGold = CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
-                    int Price = 0;
-                    int TotalGold;
-                    if (isWep)
-                    {
-                        Price = WeaponInfoModel.ObtainWeaponValue(stash.item);
-                    }
-                    if (!isWep)
-                    {
-                        Price = ItemInfoModel.ObtainItemValue(stash.item);
-                    }
-                    TotalGold = CurrentGold - Price;
-                    if (CurrentGold - Price >= 0)
-                        {
-                            if (isWep)
-                            {
-                                LayoutItem.Children.Remove(extra);
-                                LayoutItem.Children.Remove(buy);
-                                item.Text = "Sold";
-                                item.HorizontalTextAlignment = TextAlignment.Center;
-                                item.HorizontalOptions = LayoutOptions.CenterAndExpand;
-                                UserModel.AddOntoLine("Weapons:", stash.item + ",", items.Invfile);
-                                weapons.Rebuild();
-                            }
-                            else
-                            {
-                                UserModel.AddOntoLine("Items:", stash.item + ",", items.Invfile);
-                                ItemInv.Rebuild();
-                            }
-                        UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile); //Rewrite the gold values
-                        InitializeValues();
-                        DisplayAlert("Bought", string.Format("You have bought a {0}", stash.item), "Close");
-                        }
-                        else
-                        {
-                            int remainder = CurrentGold - Price;
-                            remainder = remainder * -1;
-                            DisplayAlert("Error", string.Format("You need {0} more gold to purchase this item",remainder.ToString() ), "Close");
-                            buy.Text = "Buy";
-                        }
-                             
-                    count = 0; return;
-                }
-                
-                count++;
-            };
-
-            LayoutItem.Children.Add(item);
-            LayoutItem.Children.Add(extra);
-            LayoutItem.Children.Add(buy);
-
-            frame.Padding = 3;
-            frame.BorderColor = Color.Black;
-            frame.Content = LayoutItem;
-            layout.Children.Add(frame);
-            
+            var button = sender as Button;
+            var delete = button.BindingContext as ItemModel;
+            var vm = BindingContext as ShopViewModel;
+            vm.Remove.Execute(delete);
         }
     }
 }

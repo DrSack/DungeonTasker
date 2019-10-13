@@ -28,7 +28,8 @@ namespace DungeonTasker
             InitializeComponent();
             WeaponInfoModel weapon = new WeaponInfoModel(items);
             ItemInfoModel Invitem = new ItemInfoModel(items);
-            ShopView Shop = new ShopView(items,user,Invitem,weapon);
+            ShopModel Shop = new ShopModel(items);
+            
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             DungeonView dungeon = new DungeonView(user, items, weapon, Invitem, stats, false);
             this.Detail = new NavigationPage(new TasksView(user, items, truth, dungeon));// Set Detailspage arguments with user information and truth value.

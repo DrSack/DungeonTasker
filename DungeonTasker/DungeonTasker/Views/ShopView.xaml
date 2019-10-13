@@ -6,48 +6,73 @@
              mc:Ignorable="d"
              x:Class="DungeonTasker.Views.ShopView"
              Title="Shop">
+
     <ContentPage.Content>
         <StackLayout>
+
             <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
                 <StackLayout>
                     <Label VerticalOptions="StartAndExpand" HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Keys: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Keys"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Keys}" TextColor="Gold"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
 
-                        
+
                     <Label HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Gold: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Gold"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Gold}" TextColor="Gold"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" x:Name="Character" Margin="60,0,0,60"></Label>
+                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="60,0,0,60" Text="{Binding Character}"></Label>
                 </StackLayout>
             </Frame>
-            
-            <ScrollView BackgroundColor="White" VerticalOptions="FillAndExpand" Margin="0,0,0,5">
-                <StackLayout Margin="20,0">
-                    <Label x:Name="Weapons" Text="Weapons" FontSize="Medium" HorizontalTextAlignment="Center" 
-                           FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
-                    <StackLayout x:Name="WeaponList" BackgroundColor="White">
-                    </StackLayout>
 
-                    <Label x:Name="Items" Text="Items" FontSize="Medium" HorizontalTextAlignment="Center" 
-                           FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
-                    <StackLayout x:Name="ItemsList" BackgroundColor="White" >
-                    </StackLayout>
-                </StackLayout>
-            </ScrollView>
 
-            
+            <ListView x:Name="MissingVolumeListView"  
+                          ItemsSource="{Binding Volumes}"
+                      Margin="15,10,15,10"
+                      SeparatorVisibility="Default"
+                      RowHeight="90"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="60">
+                            <StackLayout MinimumHeightRequest="40" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
+                                <Label Text="{Binding Title}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="#212121"
+                                       VerticalOptions="CenterAndExpand" IsEnabled="{Binding titleTrue}" IsVisible="{Binding titleVis}" FontSize="Large" FontAttributes="Bold"/>
+
+                                <Frame BorderColor="Black" Padding="0" MinimumHeightRequest="40" IsEnabled="{Binding frameOn}" IsVisible="{Binding frameVis}">
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,0" MinimumHeightRequest="40">
+
+                                        <Label  Text="{Binding notes}" TextColor="Black" 
+                                            VerticalTextAlignment="Center" HorizontalTextAlignment="{Binding texthoz}" 
+                                            HorizontalOptions="{Binding hozopnotes}" 
+                                            VerticalOptions="CenterAndExpand" Margin="6,14,0,14"/>
+
+                                        <Label Text="{Binding item}" TextColor="Red" HorizontalOptions="StartAndExpand" 
+                                               VerticalTextAlignment="Center" HorizontalTextAlignment="Start" 
+                                               IsVisible="{Binding isvisItem}" IsEnabled="{Binding isenbItem}"/>
+
+                                        <Button Text= "{Binding buy}" HorizontalOptions="EndAndExpand" BackgroundColor="#00CC33" TextColor="#212121"
+                                                Clicked="Button_Clicked" IsEnabled="{Binding isenabled}" 
+                                                IsVisible="{Binding isvisible}" Margin="5"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
 
         </StackLayout>
     </ContentPage.Content>

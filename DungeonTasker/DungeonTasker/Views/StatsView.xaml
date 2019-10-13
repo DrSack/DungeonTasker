@@ -9,56 +9,7 @@
     
     <ContentPage.Content>
         <StackLayout>
-
-            <Frame BackgroundColor="#212121" HorizontalOptions="FillAndExpand" HeightRequest="130" CornerRadius="0">
-                <StackLayout>
-                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="End">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Keys: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Keys"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-
-
-                    <Label HorizontalOptions="End">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Gold: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Gold"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" x:Name="Character" Margin="60,0,0,60"></Label>
-                </StackLayout>
-            </Frame>
-
-
-            <ListView x:Name="MissingVolumeListView"  
-                          ItemsSource="{Binding Volumes}"
-                      Margin="10,10,10,10"
-                      SeparatorVisibility="Default"
-                      RowHeight="90"
-                      HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell Height="60">
-                            <StackLayout VerticalOptions="FillAndExpand" MinimumHeightRequest="40">
-                                <Label Text="{Binding Title}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" 
-                                       VerticalOptions="CenterAndExpand" IsEnabled="{Binding titleTrue}" IsVisible="{Binding titleVis}" FontSize="Large"/>
-                                <Frame BorderColor="Black" Padding="0" MinimumHeightRequest="40" IsEnabled="{Binding frameOn}" IsVisible="{Binding frameVis}">
-                                <StackLayout Orientation="Horizontal" Margin="0,0,0,0" VerticalOptions="CenterAndExpand" MinimumHeightRequest="40">
-                                    <Label  Text="{Binding notes}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Margin="0,14,0,14"/>
-                                    <Button Text= "Sell" HorizontalOptions="EndAndExpand" Clicked="Button_Clicked" IsEnabled="{Binding isenabled}" IsVisible="{Binding isvisible}"/>
-                                </StackLayout>
-                            </Frame>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
+            <Label Text="Stuff will be here probably"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

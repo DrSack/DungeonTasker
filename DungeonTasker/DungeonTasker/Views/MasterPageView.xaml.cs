@@ -30,7 +30,7 @@ namespace DungeonTasker.Views
          */
 
         public MasterPageView (Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, 
-        logged truth, DungeonView dungeon, ItemInfoModel itemInv, ShopView Shop)
+        logged truth, DungeonView dungeon, ItemInfoModel itemInv, ShopModel Shop)
 		{
 			InitializeComponent();
             BindingContext = new MasterPageViewModel(page,user,items,weapon,truth,this,this, dungeon, itemInv, Shop);

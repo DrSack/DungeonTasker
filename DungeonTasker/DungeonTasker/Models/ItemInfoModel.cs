@@ -6,7 +6,6 @@ namespace DungeonTasker.Models
 {
     public class ItemInfoModel
     {
-        public string EquippedWeapon { get; set;}
         public List<ItemModel> pots = new List<ItemModel>(); // Store weapon item details
         public InventoryItemsModel items;
         

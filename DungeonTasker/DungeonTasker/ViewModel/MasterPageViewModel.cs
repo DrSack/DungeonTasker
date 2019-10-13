@@ -27,7 +27,7 @@ namespace DungeonTasker.ViewModel
         logged truth;
         MasterPageView mainpage;
         PageOpenModel PageOn;
-        ShopView Shop;
+        ShopModel Shop;
         /*
          * Contructor for Masterpage, initialize all components and BindingContext 
          * 
@@ -43,7 +43,7 @@ namespace DungeonTasker.ViewModel
          * RETURNS Nothing
          */
         public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, 
-        MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv, ShopView Shop)
+        MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv, ShopModel Shop)
         {
             this.page = page;
             this.user = user;
@@ -132,7 +132,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Stats = true;
-                await SetPageAsync(new NavigationPage(new StatsView(ItemInv)));
+                await SetPageAsync(new NavigationPage(new StatsView(Shop, ItemInv, weapon, user)));
             }
         }
 
@@ -149,7 +149,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Shop = true;
-                await SetPageAsync(new NavigationPage(Shop));
+                await SetPageAsync(new NavigationPage(new ShopView(Shop, ItemInv, weapon, user)));
             }
         }
 
