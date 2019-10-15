@@ -7,13 +7,25 @@ using Xamarin.Forms;
 
 namespace DungeonTasker.ViewModel
 {
-    class RegisterViewModel
+    public class RegisterViewModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
         public Command RegisterBtn { get; set; }
         RegisterView page;
+
+
+        //Empty parameter contructor for testing
+        public RegisterViewModel()
+        {
+            Username = "";
+            Password = "";
+            FullName = "";
+            RegisterBtn = new Command(async () => await RegisterAddAccount());
+        }
+
+
         /*
          * A constructor for the RegisterViewModel
          * 
@@ -37,13 +49,20 @@ namespace DungeonTasker.ViewModel
         * eventargs: object data
         * RETURNS Nothing
         */
-        private async Task RegisterAddAccount()
+        public async Task RegisterAddAccount(bool test = false)
         {
             try
             {
                 if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username and password fields are filled
                 {
-                    UserModel.StoreInfo(Username, Password, FullName, page);// store and create new files based on the information given
+                    if (test) 
+                    {
+                        UserModel.StoreInfo(Username, Password, FullName, new RegisterView(false), true);// store and create new files based on the information given
+                    }
+                    else
+                    {
+                        UserModel.StoreInfo(Username, Password, FullName, page);// store and create new files based on the information given
+                    }
                 }
                 else
                 {
@@ -52,7 +71,18 @@ namespace DungeonTasker.ViewModel
             }
             catch (Exception es)
             {
-                if (es != null) { await page.DisplayAlert("Error", es.Message, "Close"); }// display error message
+                if (test)
+                {
+                    if (es != null)
+                    {
+                        throw new Exception(es.Message);
+                    }
+                    else
+                    {
+                        throw new Exception("Please delete current account");
+                    }
+                }
+                else if (es != null) { await page.DisplayAlert("Error", es.Message, "Close"); }// display error message
                 else { await page.DisplayAlert("Error", "Please delete current account", "Close"); }
             }
         }

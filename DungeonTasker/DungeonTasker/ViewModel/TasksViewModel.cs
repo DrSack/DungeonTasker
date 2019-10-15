@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace DungeonTasker.ViewModel
 {
-    class TasksViewModel
+    public class TasksViewModel
     {
         public string Character { get; set; }
         public string Tasks { get; set; }

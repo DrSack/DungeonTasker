@@ -23,6 +23,12 @@ namespace DungeonTasker.Views
         public DungeonView dungeon;
         bool truth = true; // Initialize all variables
 
+
+        public TasksView()// parameterless constructor for unit testing
+        {
+
+        }
+
         /*
          * Contructor for DetailsPage to encapsulate current user information and truth value
          * 

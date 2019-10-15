@@ -26,9 +26,11 @@
                 </StackLayout>
 
                 <Frame IsEnabled="False" IsVisible="False" x:Name="ItemAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">
-                    <StackLayout x:Name="Items">
-                        
-                    </StackLayout>
+                    <ScrollView>
+                        <StackLayout x:Name="Items">
+
+                        </StackLayout>
+                    </ScrollView>
                 </Frame>
 
                 <Frame IsEnabled="False" IsVisible="False" x:Name="MagicAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">

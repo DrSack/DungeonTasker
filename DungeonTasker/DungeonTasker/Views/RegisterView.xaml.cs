@@ -16,13 +16,18 @@ namespace DungeonTasker
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class RegisterView : ContentPage
 	{
+
+
         /*
          * This is the Contructor, Initialize all controls
          * 
          */
-		public RegisterView()
+		public RegisterView(bool test = true)
 		{
-			InitializeComponent();
+            if (test)
+            {
+                InitializeComponent();
+            }
             BindingContext = new RegisterViewModel(this);
 		}
        

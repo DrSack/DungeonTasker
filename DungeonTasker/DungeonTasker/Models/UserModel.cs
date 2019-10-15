@@ -227,7 +227,7 @@ namespace DungeonTasker.Models
          *  @returns is Void
          *  
          */
-        public static async void StoreInfo(string User, string Pass, string FullName, RegisterView Rego)
+        public static async void StoreInfo(string User, string Pass, string FullName, RegisterView Rego, bool test = false)
         {
             try
             {
@@ -251,16 +251,19 @@ namespace DungeonTasker.Models
                     File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
                     File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
                     File.WriteAllText(Timer, "");
-                    // Show display alert then close current page and go back to previous opened window.
-                    await UserModel.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
+                    if (!test)
                     {
-                        await Rego.Navigation.PopModalAsync();
-                    });
+                        // Show display alert then close current page and go back to previous opened window.
+                        await UserModel.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
+                        {
+                            await Rego.Navigation.PopModalAsync();
+                        });
+                    }
                 }
             }
             catch (Exception e)
             {   //What an exception is caught, display alert message
-                await Rego.DisplayAlert("Error", e.Message, "Close");
+              await Rego.DisplayAlert("Error", e.Message, "Close");
             }
             
         }

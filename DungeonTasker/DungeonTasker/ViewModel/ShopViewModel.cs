@@ -31,8 +31,8 @@ namespace DungeonTasker.ViewModel
         public string Character { get; set; }
 
         private ShopModel items;
-        private ItemInfoModel Inv;
-        private WeaponInfoModel Weapon;
+        public ItemInfoModel Inv;
+        public WeaponInfoModel Weapon;
         public Command<ItemModel> Remove
         {
             get
@@ -75,7 +75,8 @@ namespace DungeonTasker.ViewModel
                 });
             }
         }
-        public ShopViewModel(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user)
+
+        public ShopViewModel(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user, bool test = false)
         {
             Gold = UserModel.CheckForstring(items.Inv.Invfile, "Gold:");
             Keys = UserModel.CheckForstring(items.Inv.Invfile, "Keys:");
@@ -83,11 +84,14 @@ namespace DungeonTasker.ViewModel
             this.items = items;
             this.Inv = Inv;
             this.Weapon = Weapon;
-            Volumes = new ObservableCollection<ItemModel>();
-            CreateLists(items, Volumes);
+            if (!test)
+            {
+                Volumes = new ObservableCollection<ItemModel>();
+                CreateLists(items, Volumes);
+            }
         }
 
-        private void Buy(InventoryItemsModel items, int typecase, string ChoItem)
+        public bool Buy(InventoryItemsModel items, int typecase, string ChoItem, bool test = false)
         {
             int CurrentGold = CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
             int Price = 0;
@@ -115,13 +119,15 @@ namespace DungeonTasker.ViewModel
                 }
                 UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile); //Rewrite the gold values
                 Gold = UserModel.CheckForstring(items.Invfile, "Gold:");
-                Application.Current.MainPage.DisplayAlert("Success", string.Format("You bought a {0}.", ChoItem), "Close");
+                if (!test) { Application.Current.MainPage.DisplayAlert("Success", string.Format("You bought a {0}.", ChoItem), "Close"); }
+                return true;
             }
             else
             {
                 int remainder = CurrentGold - Price;
                 remainder = remainder * -1;
-                Application.Current.MainPage.DisplayAlert("Error", string.Format("You need {0} more gold to purchase this item", remainder.ToString()), "Close");
+                if (!test) { Application.Current.MainPage.DisplayAlert("Error", string.Format("You need {0} more gold to purchase this item", remainder.ToString()), "Close"); }
+                return false;
             }
         }
 

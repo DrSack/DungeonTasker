@@ -87,7 +87,7 @@ namespace DungeonTasker.Models
         {
             int LevelPass = (Level * 21) + 15;
             int left = LevelPass - Experience;
-            if(left < 0)
+            if(left <= 0)
             {
                 return "LEVEL UP";
             }

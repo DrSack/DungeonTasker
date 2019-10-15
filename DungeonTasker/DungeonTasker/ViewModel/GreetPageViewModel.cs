@@ -36,7 +36,7 @@ namespace DungeonTasker.ViewModel
         * PARAM Nothing
         * RETURNS Nothing
         */
-        private async Task LoginCommand()
+        public async Task LoginCommand(bool test = false)
         {
             try
             {
@@ -63,12 +63,15 @@ namespace DungeonTasker.ViewModel
                         UserModel.Rewrite("Logged:", "true", file);
                         string character = UserModel.CheckForstring(file, "Character:");
                         string logged = UserModel.CheckForstring(file, "Logged:");//obtain file information
-                        
+
                         UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, Timers);
                         InventoryItemsModel item = new InventoryItemsModel(Items);
                         StatsModel stat = new StatsModel(Stats);
+
+                        _UserModel = user;
                         
-                        
+                        if(test == true) { return; }
+
                         MessagingCenter.Send(this, "Animation");
                         await Task.Delay(600);
                         Application.Current.MainPage = new NavigationPage(new AddView(user, item, stat));
@@ -91,6 +94,7 @@ namespace DungeonTasker.ViewModel
             }
             catch (Exception es)//catch exception
             {
+                if (test) { throw new Exception(es.Message); }
                 if (es.GetType().FullName == "System.IndexOutOfRangeException") { await Application.Current.MainPage.DisplayAlert("Error", "Please enter both Username and password", "Close"); }
                 else if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); }
                 else { await Application.Current.MainPage.DisplayAlert("Error", "Account not found", "Close"); }
