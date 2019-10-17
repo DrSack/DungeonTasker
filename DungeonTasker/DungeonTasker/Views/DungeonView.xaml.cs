@@ -60,7 +60,7 @@ namespace DungeonTasker.Views
          */
         public void selectKey()
         {
-            string keys = UserModel.CheckForstring(items.Invfile, "Keys:");
+            string keys = items.Invfile.Object.Keys;
             keys = keys.Replace(",", "");
             KeysLeft.Text = keys;
         }
@@ -147,13 +147,13 @@ namespace DungeonTasker.Views
         private async void BattleBtn(object sender, EventArgs e)
         {
             int realKeys;
-            string keys = UserModel.CheckForstring(items.Invfile, "Keys:");
+            string keys = items.Invfile.Object.Keys;
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
 
             if (realKeys >= 0) {
                 await this.Navigation.PushModalAsync(new GameView(this));
-                items.GiveKey(0);
+                items.GiveKeyAsync(0);
                 selectKey();
             }
 

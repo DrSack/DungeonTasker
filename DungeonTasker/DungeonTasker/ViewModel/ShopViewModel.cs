@@ -37,7 +37,7 @@ namespace DungeonTasker.ViewModel
         {
             get
             {
-                return new Command<ItemModel>(delete =>
+                return new Command<ItemModel>(async delete =>
                 {
                     if(delete.countCheck()) 
                     {
@@ -46,7 +46,7 @@ namespace DungeonTasker.ViewModel
                         {
                             case 0:
                                 SoldDisplay(delete);
-                                Buy(items.Inv, 0, RealItem);
+                                await BuyAsync(items.Inv, 0, RealItem);
                                 foreach (ItemModel wep in items.BuyWeapons) 
                                 {
                                     if (wep.item.Contains(RealItem)) { wep.item = "Sold"; }
@@ -55,7 +55,7 @@ namespace DungeonTasker.ViewModel
                                 break;
                             case 1:
                                 Volumes[Volumes.IndexOf(delete)].buy = "Buy";
-                                Buy(items.Inv, 1, RealItem);
+                                await BuyAsync(items.Inv, 1, RealItem);
                                 break;
                         }
                     }
@@ -78,8 +78,8 @@ namespace DungeonTasker.ViewModel
 
         public ShopViewModel(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user, bool test = false)
         {
-            Gold = UserModel.CheckForstring(items.Inv.Invfile, "Gold:");
-            Keys = UserModel.CheckForstring(items.Inv.Invfile, "Keys:");
+            Gold = items.Inv.Invfile.Object.Gold;
+            Keys = items.Inv.Invfile.Object.Keys;
             Character = user.Character;
             this.items = items;
             this.Inv = Inv;
@@ -91,9 +91,9 @@ namespace DungeonTasker.ViewModel
             }
         }
 
-        public bool Buy(InventoryItemsModel items, int typecase, string ChoItem, bool test = false)
+        public async System.Threading.Tasks.Task<bool> BuyAsync(InventoryItemsModel items, int typecase, string ChoItem, bool test = false)
         {
-            int CurrentGold = CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Invfile, "Gold:"));
+            int CurrentGold = CurrentGold = Int32.Parse(items.Invfile.Object.Gold);
             int Price = 0;
             int TotalGold;
             if (typecase == 0)
@@ -109,24 +109,25 @@ namespace DungeonTasker.ViewModel
             {
                 if (typecase == 0)
                 {
-                    UserModel.AddOntoLine("Weapons:", ChoItem + ",", items.Invfile);
+                    items.Invfile.Object.Weapons += ChoItem + ",";
                     Weapon.Rebuild();
                 }
                 else
                 {
-                    UserModel.AddOntoLine("Items:", ChoItem + ",", items.Invfile);
+                    items.Invfile.Object.Items += ChoItem + ",";
                     Inv.Rebuild();
                 }
-                UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Invfile); //Rewrite the gold values
-                Gold = UserModel.CheckForstring(items.Invfile, "Gold:");
-                if (!test) { Application.Current.MainPage.DisplayAlert("Success", string.Format("You bought a {0}.", ChoItem), "Close"); }
+                items.Invfile.Object.Gold = TotalGold.ToString();
+                await items.UpdateInv();
+                Gold = items.Invfile.Object.Gold;
+                if (!test) { await Application.Current.MainPage.DisplayAlert("Success", string.Format("You bought a {0}.", ChoItem), "Close"); }
                 return true;
             }
             else
             {
                 int remainder = CurrentGold - Price;
                 remainder = remainder * -1;
-                if (!test) { Application.Current.MainPage.DisplayAlert("Error", string.Format("You need {0} more gold to purchase this item", remainder.ToString()), "Close"); }
+                if (!test) { await Application.Current.MainPage.DisplayAlert("Error", string.Format("You need {0} more gold to purchase this item", remainder.ToString()), "Close"); }
                 return false;
             }
         }

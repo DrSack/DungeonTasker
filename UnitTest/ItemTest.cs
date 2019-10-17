@@ -1,4 +1,5 @@
 ﻿using DungeonTasker;
+using DungeonTasker.FirebaseData;
 using DungeonTasker.Models;
 using DungeonTasker.ViewModel;
 using DungeonTasker.Views;
@@ -16,9 +17,11 @@ namespace UnitTest
         [Fact]
         public void TestShopItems()// Test if the items generated at all.
         {
+            FirebaseUser client = new FirebaseUser();
             string tempFile = Path.GetTempFileName();//create a temporary file
             File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
-            ItemInfoModel test = new ItemInfoModel(new InventoryItemsModel(tempFile));
+            UserModel UserModel = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client);
+            ItemInfoModel test = new ItemInfoModel(new InventoryItemsModel(UserModel.UserItems, UserModel.Token, UserModel.UserLogin.Object.Username));
 
             Assert.Empty(test.pots);//Default value is nothing
         }

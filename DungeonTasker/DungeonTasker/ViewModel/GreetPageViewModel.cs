@@ -1,9 +1,11 @@
-﻿using DungeonTasker.Models;
+﻿using DungeonTasker.FirebaseData;
+using DungeonTasker.Models;
 using DungeonTasker.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,80 +27,51 @@ namespace DungeonTasker.ViewModel
         */
         public GreetPageViewModel()
         {
-            Login = new Command(async () => await LoginCommand());
-            RegisterCommand = new Command(async () => await Navigation.PushModalAsync(new RegisterView()));
+            Login = new Command(async () => await LoginCommandDatabase());
+            RegisterCommand = new Command(async () => await Navigation.PushModalAsync(new RegisterView(Navigation)));
             _UserModel = new UserModel();
             FadeOut = 100;
         }
 
-        /*
-        * The login algorithm that decides whenver the UserModel trying to login is genuine
-        * PARAM Nothing
-        * RETURNS Nothing
-        */
-        public async Task LoginCommand(bool test = false)
+        public async Task LoginCommandDatabase()
         {
+            FirebaseUser client = new FirebaseUser();
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
             try
             {
-                string[] line;
-                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
-                
-                var files = Directory.GetFiles(documents);
-                bool hit = false;
-                foreach (var file in files)
+                switch (await client.Login(_UserModel.Username, _UserModel.Password))
                 {
-                    string crnt;
-                    using (StreamReader sr = new StreamReader(file)) { crnt = sr.ReadToEnd(); }
-                    line = crnt.Split(',');
+                    case 0:
+                        var Timers = Path.Combine(documents, client.UserLogin.Object.Username + "Timer.dt");
+                        var Logged = Path.Combine(documents, "Logged.dt");
+                        UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
+                        InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username);
+                        StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username);
+                        UserModel.Rewrite("Username:", client.UserLogin.Object.Username, newuser.file);
+                        UserModel.Rewrite("Password:", client.UserLogin.Object.Password, newuser.file);
 
-                    if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }// obtain UserModelname and password information
-
-                    if (_UserModel.Username == line[0] && _UserModel.Password == line[1])// checks if entrytext is the same as file information
-                    {
-                        hit = true;
-                        var Timers = Path.Combine(documents,line[0] + "Timer.dt");
-                        var Items = Path.Combine(documents, line[0] + "Inv.dt");
-                        var Stats = Path.Combine(documents, line[0] + "Stats.dt");
-
-                        UserModel.Rewrite("Logged:", "true", file);
-                        string character = UserModel.CheckForstring(file, "Character:");
-                        string logged = UserModel.CheckForstring(file, "Logged:");//obtain file information
-
-                        UserModel user = new UserModel(line[0], line[1], line[2], character, logged, file, Timers);
-                        InventoryItemsModel item = new InventoryItemsModel(Items);
-                        StatsModel stat = new StatsModel(Stats);
-
-                        _UserModel = user;
-                        
-                        if(test == true) { return; }
+                        newuser.UserLogin.Object.Logged = "True";
+                        newuser.RewriteDATA();
 
                         MessagingCenter.Send(this, "Animation");
                         await Task.Delay(600);
-                        Application.Current.MainPage = new NavigationPage(new AddView(user, item, stat));
-                    }
-
-                    else if (_UserModel.Username == line[0] && _UserModel.Password != line[1])// if the password is incorrect
-                    {
-                        hit = true;
-                        throw new Exception("Incorrect Password");
-                    }
-                }
-                if (!UserModel.checkinfo(_UserModel.Password, _UserModel.Password))// if both entry's are empty
-                {
-                    throw new Exception("Please enter both Username and password");
-                }
-                else if (!hit)// if entrytext found no accounts corresponding to that UserModelname.
-                {
-                    throw new Exception("Account not found");
+                        Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+                        break;
+                    case 1:
+                        throw new Exception("Incorrect password");
+                    case 2:
+                        throw new Exception("No account found");
+                    case 3:
+                        throw new Exception("Account already in use");
+                    case 4:
+                        throw new Exception("Can't connect to server");
                 }
             }
-            catch (Exception es)//catch exception
+            catch(Exception es)
             {
-                if (test) { throw new Exception(es.Message); }
-                if (es.GetType().FullName == "System.IndexOutOfRangeException") { await Application.Current.MainPage.DisplayAlert("Error", "Please enter both Username and password", "Close"); }
-                else if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); }
-                else { await Application.Current.MainPage.DisplayAlert("Error", "Account not found", "Close"); }
+                if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); }
             }
+            
         }
 
         /*/
@@ -109,38 +82,44 @@ namespace DungeonTasker.ViewModel
          * PARAM begin: checks whenever the UserModel has only accessed the page once.
          * RETURNS Nothing
          */
-        public static bool OnAppearing(bool begin)
+        public static async Task<bool> OnAppearingAsync(bool begin)
         {
-            string[] line;
-            string all;
 
            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-           Directory.CreateDirectory(documents+ "/Users");
-            
+           Directory.CreateDirectory(documents+ "/Users"); 
+           FirebaseUser client = new FirebaseUser();
+
             var files = Directory.GetFiles(documents+ "/Users");
-
-            foreach (var file in files)
+            try
             {
-                var textfile = File.ReadAllText(file);
-                line = textfile.Split(',');
-                using (StreamReader sr = new StreamReader(file)) { all = sr.ReadToEnd(); }
-                if (line[0].Contains("ID:")) { line[0] = line[0].Replace("ID:", ""); }
-
-                string character = UserModel.CheckForstring(file, "Character:");
-                string logged = UserModel.CheckForstring(file, "Logged:");
-                if (all.Contains("Logged:true"))
+                foreach (var file in files)
                 {
-                    var Timer = Path.Combine(documents + "/Users", line[0] + "Timer.dt");
-                    var Items = Path.Combine(documents + "/Users", line[0] + "Inv.dt");
-                    var Stats = Path.Combine(documents+ "/Users", line[0] + "Stats.dt");
-                    UserModel UserModel = new UserModel(line[0], line[1],line[2], character, logged, file, Timer);
-                    InventoryItemsModel items = new InventoryItemsModel(Items);
-                    StatsModel stat = new StatsModel(Stats);
-                    Application.Current.MainPage = new NavigationPage(new AddView(UserModel, items, stat));
+                    if (Path.GetFileName(file).Contains("Logged"))
+                    {
+                        switch (await client.Login(UserModel.CheckForstring(file, "Username:"), UserModel.CheckForstring(file, "Password:"), true))
+                        {
+                            case 0:
+                                var Timers = Path.Combine(documents+"/Users", client.UserLogin.Object.Username + "Timer.dt");
+                                var Logged = Path.Combine(documents+"/Users", "Logged.dt");
+                                UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
+                                InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username);
+                                StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username);
+                                Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+                                return false;
+                        }
+                    }
                 }
             }
+            catch (Exception es)
+            {
+                if (es != null) { Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); return false; }
+            }
+            
             if (begin && !CheckAccounts(files))
             {
+                var documentz = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
+                var Logged = Path.Combine(documentz,"Logged.dt");
+                File.WriteAllText(Logged, "Username:\nPassword:");
                 Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new User", "close");
                 return false;
             }

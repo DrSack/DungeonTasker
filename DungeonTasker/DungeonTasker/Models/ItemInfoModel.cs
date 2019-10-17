@@ -33,7 +33,7 @@ namespace DungeonTasker.Models
             pots.Clear();
             string itemsInv;
             string[] split;
-            itemsInv = UserModel.CheckForstring(items.Invfile, "Items:");
+            itemsInv = items.Invfile.Object.Items;
 
             split = itemsInv.Split(',');
             foreach (string item in split)

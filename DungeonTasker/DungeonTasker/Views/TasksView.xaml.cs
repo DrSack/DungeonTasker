@@ -67,7 +67,7 @@ namespace DungeonTasker.Views
         protected override void OnAppearing()
         {
             bool dungeonEND = true;
-            if (UserModel.CheckForstring(Currentuser.file, "Tutorial:").Contains("True"))// This is the tutorial.
+            if (Currentuser.UserLogin.Object.Tutorial.Contains("True"))// This is the tutorial.
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -80,7 +80,8 @@ namespace DungeonTasker.Views
                             {
                                 if (dungeonEND)
                                 {
-                                    UserModel.Rewrite("Tutorial:", "False", Currentuser.file);
+                                    Currentuser.UserLogin.Object.Tutorial = "False";
+                                    Currentuser.RewriteDATA();
                                     this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
                                     dungeonEND = false;
                                 }
@@ -96,10 +97,9 @@ namespace DungeonTasker.Views
 
             if (truth) // If this is the first time opening the content page
             {
-                using (var sr = new StreamReader(Currentuser.timer))
+                using (var sr = new StringReader(Currentuser.UserTimes.Object.Timer))
                 {
-                    string line;
-                    while (!string.IsNullOrEmpty(line = sr.ReadLine()))
+                    for (string line = sr.ReadLine(); line != null; line= sr.ReadLine())
                     {
                         Regex Name = new Regex("Name:(.*?)Time:");
                         string Taskname = Name.Match(line).Groups[1].Value;
@@ -308,7 +308,7 @@ namespace DungeonTasker.Views
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
-                items.GiveKey(1);
+                items.GiveKeyAsync(1);
                 await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };
 

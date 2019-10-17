@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DungeonTasker.Views;
+using Firebase.Database.Query;
 using Xamarin.Forms;
 
 namespace DungeonTasker.Models
@@ -34,7 +36,7 @@ namespace DungeonTasker.Models
             weapons.Clear();
             string weaponsInv;
             string[] split;
-            weaponsInv = UserModel.CheckForstring(items.Invfile, "Weapons:");
+            weaponsInv = items.Invfile.Object.Weapons;
             split = weaponsInv.Split(',');
             foreach (string item in split)
             {
@@ -128,42 +130,42 @@ namespace DungeonTasker.Models
       *  Returns Nothing.
       */
       
-        public bool SetWeapon(ContentPage page, string weapon)
+        public async Task<bool> SetWeaponAsync(ContentPage page, string weapon)
         {
             int totaldmg = 0;
             int minimum = 0;
             try
             {
-                if(weapon.Contains("Not Equipped")) { confirmWeapon(totaldmg+2, minimum+0, weapon); return true;}
+                if(weapon.Contains("Not Equipped")) { await confirmWeaponAsync(totaldmg+2, minimum+0, weapon); return true;}
                 if (EquippedWeapon == weapon) { throw new Exception("Already equipped"); }
 
                 if (weapon.Contains("Wooden"))
                 {
                     totaldmg += 1;
                     minimum = totaldmg;
-                    if (weapon.Contains("Spoon")) { totaldmg += 2; confirmWeapon(totaldmg, minimum, weapon);}
-                    if (weapon.Contains("Bow")) { totaldmg += 3; confirmWeapon(totaldmg, minimum, weapon);}
+                    if (weapon.Contains("Spoon")) { totaldmg += 2; await confirmWeaponAsync(totaldmg, minimum, weapon);}
+                    if (weapon.Contains("Bow")) { totaldmg += 3; await confirmWeaponAsync(totaldmg, minimum, weapon);}
                 }
                 if (weapon.Contains("Iron"))
                 {
                     totaldmg += 2;
                     minimum = totaldmg;
-                    if (weapon.Contains("Dagger")){totaldmg += 3; confirmWeapon(totaldmg, minimum, weapon);}
-                    if (weapon.Contains("Bow")) { totaldmg += 4; confirmWeapon(totaldmg, minimum, weapon);}
-                    if (weapon.Contains("Sword")) { totaldmg += 5; confirmWeapon(totaldmg, minimum+1, weapon);}
+                    if (weapon.Contains("Dagger")){totaldmg += 3; await confirmWeaponAsync(totaldmg, minimum, weapon);}
+                    if (weapon.Contains("Bow")) { totaldmg += 4; await confirmWeaponAsync(totaldmg, minimum, weapon);}
+                    if (weapon.Contains("Sword")) { totaldmg += 5; await confirmWeaponAsync(totaldmg, minimum+1, weapon);}
                 }
                 if (weapon.Contains("Steel"))
                 {
                     totaldmg += 4;
                     minimum = totaldmg;
-                    if (weapon.Contains("Sword")) { totaldmg += 7; confirmWeapon(totaldmg, minimum + 1, weapon);}
-                    if (weapon.Contains("Axe")) { totaldmg += 8; confirmWeapon(totaldmg, minimum + 2, weapon); }
+                    if (weapon.Contains("Sword")) { totaldmg += 7; await confirmWeaponAsync(totaldmg, minimum + 1, weapon);}
+                    if (weapon.Contains("Axe")) { totaldmg += 8; await confirmWeaponAsync(totaldmg, minimum + 2, weapon); }
                 }
                 if (weapon.Contains("Diamond"))
                 {
                     totaldmg += 6;
                     minimum = totaldmg;
-                    if (weapon.Contains("Bow")) { totaldmg += 9; confirmWeapon(totaldmg, minimum+4, weapon); }
+                    if (weapon.Contains("Bow")) { totaldmg += 9; await confirmWeaponAsync(totaldmg, minimum+4, weapon); }
                 }
                 return true;
             }
@@ -175,12 +177,17 @@ namespace DungeonTasker.Models
             
         }
 
-        private void confirmWeapon(int totaldmg, int minimum, string weapon)
+        private async Task confirmWeaponAsync(int totaldmg, int minimum, string weapon)
         {
             Maximumdmg = totaldmg;
             Minimumdmg = minimum;
             EquippedWeapon = weapon;
-            UserModel.Rewrite("Equipped:", EquippedWeapon, items.Invfile);
+
+            items.Invfile.Object.Equipped = weapon;
+
+            await items.Client
+                .Child(string.Format("{0}Inv", items.Username))
+                .Child(items.Invfile.Key).PutAsync(items.Invfile.Object);
         }
     }
 }

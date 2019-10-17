@@ -1,7 +1,11 @@
-﻿using System;
+﻿using DungeonTasker.FirebaseData;
+using Firebase.Database;
+using Firebase.Database.Query;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DungeonTasker.Models
 {
@@ -9,7 +13,9 @@ namespace DungeonTasker.Models
 
     public class InventoryItemsModel
     {
-        public string Invfile { get; set; }//Initialize variables 
+        public FirebaseObject<ItemDetails> Invfile { get; set; }//Initialize variables 
+        public FirebaseClient Client;
+        public string Username;
 
         /*
          * Contructor for Inventory items, encapsulates the inventory file to be used throughout the entire program whenever called.
@@ -17,9 +23,11 @@ namespace DungeonTasker.Models
          * file: the file of the inventory items.
          * RETURNS Nothing
          */
-        public InventoryItemsModel(string file)
+        public InventoryItemsModel(FirebaseObject<ItemDetails> file, FirebaseClient Client, string Username)
         {
             this.Invfile = file;
+            this.Client = Client;
+            this.Username = Username;
         }
 
         /*
@@ -28,13 +36,20 @@ namespace DungeonTasker.Models
          * key: the number of keys to be added.
          * RETURNS Nothing
          */
-        public void GiveKey(int key)
+        public async Task GiveKeyAsync(int key)
         {
-            string keys = UserModel.CheckForstring(Invfile, "Keys:");
-            keys = keys.Replace(",", "");
+            string keys = Invfile.Object.Keys;
             int realkey = Int32.Parse(keys);
-            realkey += key;
-            UserModel.Rewrite("Keys:", realkey.ToString(), Invfile);
+            realkey += key; Invfile.Object.Keys = realkey.ToString();
+
+            await UpdateInv();
+        }
+
+        public async Task UpdateInv()
+        {
+            await Client
+                .Child(string.Format("{0}Inv", Username))
+                .Child(Invfile.Key).PutAsync(Invfile.Object);
         }
 
     }

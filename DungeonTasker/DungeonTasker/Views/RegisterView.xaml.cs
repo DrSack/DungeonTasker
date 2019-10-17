@@ -22,13 +22,17 @@ namespace DungeonTasker
          * This is the Contructor, Initialize all controls
          * 
          */
-		public RegisterView(bool test = true)
+		public RegisterView(INavigation Navigation,bool test = true)
 		{
             if (test)
             {
                 InitializeComponent();
             }
-            BindingContext = new RegisterViewModel(this);
+            RegisterViewModel VM = new RegisterViewModel(this)
+            {
+                Navigation = Navigation
+            };
+            BindingContext = VM;
 		}
        
 

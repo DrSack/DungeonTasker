@@ -18,7 +18,6 @@
             <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
         </StackLayout>
 
-
         <StackLayout x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
             <Label>
                 <Label.FormattedText>

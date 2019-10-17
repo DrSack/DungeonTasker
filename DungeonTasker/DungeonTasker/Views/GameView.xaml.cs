@@ -188,13 +188,13 @@ namespace DungeonTasker.Views
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .3);
                 string[] loot = { "SteelSword", "IronSword", "WoodenSpoon" };
                 string currentloot = loot[lootindx];
-                UserModel.AddOntoLine("Weapons:", currentloot + ",", dungeon.items.Invfile);
+                dungeon.items.Invfile.Object.Weapons += currentloot + ",";
                 dungeon.weapon.Rebuild();
-                dungeon.stats.ExpEnter(expgained);
+                await dungeon.stats.ExpEnterAsync(expgained);
                 await DisplayAlert("YOU WIN", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
-                if (dungeon.stats.StatsCheck())
+                if (await dungeon.stats.StatsCheckAsync())
                 {
-                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file, "LEVEL:"), UserModel.CheckForstring(dungeon.stats.file, "HEALTH:")), "Close");
+                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", dungeon.stats.file.Object.LEVEL, dungeon.stats.file.Object.HEALTH), "Close");
                 }
             }
             else
@@ -204,13 +204,13 @@ namespace DungeonTasker.Views
                 int expgained = Convert.ToInt32(dungeon.boss.Health * .1);
                 string[] loot = { "WoodenSpoon", "WoodenBow" };
                 string currentloot = loot[lootindx];
-                UserModel.AddOntoLine("Weapons:", currentloot + ",", dungeon.items.Invfile);
+                dungeon.items.Invfile.Object.Weapons += currentloot + ",";
                 dungeon.weapon.Rebuild();
-                dungeon.stats.ExpEnter(expgained);
+                await dungeon.stats.ExpEnterAsync(expgained);
                 await DisplayAlert("YOU LOSE", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
-                if (dungeon.stats.StatsCheck())
+                if (await dungeon.stats.StatsCheckAsync())
                 {
-                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", UserModel.CheckForstring(dungeon.stats.file, "LEVEL:"), UserModel.CheckForstring(dungeon.stats.file, "HEALTH:")), "Close");
+                    await DisplayAlert("Congrats", string.Format("You are now Level: {0}\nCurrent Health: {1}", dungeon.stats.file.Object.LEVEL, dungeon.stats.file.Object.HEALTH), "Close");
                 }
             }
             dungeon.Shop.Rebuild();
@@ -548,7 +548,8 @@ namespace DungeonTasker.Views
                         invetory += itemInv.item + ","; // Create string for file
                     }
                 }
-                UserModel.Rewrite("Items:", invetory, dungeon.items.Invfile);
+                dungeon.items.Invfile.Object.Items = invetory;
+                await dungeon.items.UpdateInv();
                 dungeon.itemInv.pots = this.pots;
 
                 await ItemAbility.FadeTo(0, 200);

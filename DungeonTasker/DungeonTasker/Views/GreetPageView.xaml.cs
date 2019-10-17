@@ -36,10 +36,10 @@ namespace DungeonTasker
             });
             InitializeComponent();
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            begin = GreetPageViewModel.OnAppearing(begin);
+            begin = await GreetPageViewModel.OnAppearingAsync(begin);
         }
 
     }

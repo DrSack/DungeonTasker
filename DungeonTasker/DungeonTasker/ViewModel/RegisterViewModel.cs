@@ -1,4 +1,5 @@
-﻿using DungeonTasker.Models;
+﻿using DungeonTasker.FirebaseData;
+using DungeonTasker.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,12 +10,12 @@ namespace DungeonTasker.ViewModel
 {
     public class RegisterViewModel
     {
+        public INavigation Navigation;
         public string Username { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
         public Command RegisterBtn { get; set; }
         RegisterView page;
-
 
         //Empty parameter contructor for testing
         public RegisterViewModel()
@@ -38,8 +39,38 @@ namespace DungeonTasker.ViewModel
             Username = "";
             Password = "";
             FullName = "";
-            RegisterBtn = new Command(async () => await RegisterAddAccount());
+            RegisterBtn = new Command(async () => await RegisterAddAccountFIREBASE());
         }
+
+        /*
+        * Whenever the register button is called create a file with the details parsed through the Entry controls
+        * 
+        * PARAM 
+        * sender: reference to the control object
+        * eventargs: object data
+        * RETURNS Nothing
+        */
+        public async Task RegisterAddAccountFIREBASE(bool test = false)
+        {
+            try
+            {
+                if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username and password fields are filled
+                {
+                    FirebaseUser client = new FirebaseUser();
+                    await client.Register(FullName, Username, Password, Navigation);
+                }
+                else
+                {
+                    throw new Exception("Please enter all credentials... ");// throw exception
+                }
+            }
+            catch (Exception es)
+            {
+                if (es != null) { await page.DisplayAlert("Error", "a" , "Close"); }// display error message
+                else { await page.DisplayAlert("Error", "Please delete current account", "Close"); }
+            }
+        }
+
 
         /*
         * Whenever the register button is called create a file with the details parsed through the Entry controls
@@ -57,7 +88,7 @@ namespace DungeonTasker.ViewModel
                 {
                     if (test) 
                     {
-                        UserModel.StoreInfo(Username, Password, FullName, new RegisterView(false), true);// store and create new files based on the information given
+                        UserModel.StoreInfo(Username, Password, FullName, new RegisterView(Navigation,false), true);// store and create new files based on the information given
                     }
                     else
                     {

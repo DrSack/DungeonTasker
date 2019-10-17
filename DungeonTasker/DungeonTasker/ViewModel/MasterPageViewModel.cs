@@ -54,7 +54,7 @@ namespace DungeonTasker.ViewModel
             this.mainpage = mainpage;
             this.dungeon = dungeon;
             this.Shop = Shop;
-            weapon.SetWeapon(display, UserModel.CheckForstring(items.Invfile, "Equipped:"));
+            weapon.SetWeaponAsync(display, items.Invfile.Object.Equipped);
             Tasks_Clicked = new Command(async () => await TaskNavAsync());
             Inventory_Clicked = new Command(async () => await InventoryNavAsync());
             Dungeon_Clicked = new Command(async () => await DungeonNavAsync());
