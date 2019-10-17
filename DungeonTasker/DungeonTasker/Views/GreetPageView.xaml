@@ -3,34 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DungeonTasker.GreetPageView"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="#212121" Opacity="{Binding FadeOut}">
+             BackgroundColor="#212121">
+    <AbsoluteLayout>
+        <StackLayout Orientation="Vertical" Opacity="{Binding FadeOut}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout Margin="0,90,0,40" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Center">
+                <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
+            </StackLayout>
 
-    <StackLayout Orientation="Vertical">
-        <StackLayout Margin="0,90,0,0" Orientation="Vertical" x:Name="Title" HorizontalOptions="Center" VerticalOptions="Start">
-            <Label FontSize="50" TextColor="#00ff33" Text="Dungeon&#x0a; Tasker" FontFamily="norwester.otf#Norwester-Regular"></Label>
-        </StackLayout>
+            <ActivityIndicator  IsRunning="{Binding IsRunning}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" x:Name="ActivityInd"/>
 
-        <StackLayout VerticalOptions="CenterAndExpand" Margin="30,60,30,30">
-            <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding _UserModel.Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
-            <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding _UserModel.Password}" TextColor="White" 
+            <StackLayout VerticalOptions="Start" Margin="30,0,30,30">
+                <Entry Placeholder="Username" x:Name="EntryMrk" Text="{Binding _UserModel.Username}" TextColor="White" PlaceholderColor="#BDBDBD"/>
+                <Entry Placeholder="Password" x:Name="EntryMrk2" Text="{Binding _UserModel.Password}" TextColor="White" 
                    PlaceholderColor="#BDBDBD" IsPassword="True"/>
 
-            <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
-        </StackLayout>
+                <Button Text="Login" Command="{Binding Login}" Margin="20,30,20,0" BorderRadius="25" BackgroundColor="#F44336" TextColor="White"></Button>
+            </StackLayout>
 
-        <StackLayout x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
-            <Label>
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span TextColor="White" Text="Don't have an account? "/>
-                        <Span TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline">
-                            <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
-                            </Span.GestureRecognizers>
-                        </Span>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+            <StackLayout x:Name="Buttones" Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,20" VerticalOptions="EndAndExpand">
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span TextColor="White" Text="Don't have an account? "/>
+                            <Span TextColor="#F44336" Text="Register" x:Name="Register" TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+        <ActivityIndicator IsRunning="{Binding LoggedIsRunning}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" 
+                           HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+    </AbsoluteLayout>
 </ContentPage>

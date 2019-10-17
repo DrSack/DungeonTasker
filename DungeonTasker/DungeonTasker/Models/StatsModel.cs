@@ -12,6 +12,7 @@ namespace DungeonTasker.Models
     public class StatsModel
     {
         public FirebaseObject<StatDetails> file { get; set; }//Initialize variables 
+        public string Localfile { get; set; }
         public FirebaseClient Client;
         public string Username;
         public int Health { get; set; }
@@ -30,16 +31,28 @@ namespace DungeonTasker.Models
         }
 
         /*
+        * Stats Constructor for local only users
+        * Param Nothing
+        * Returns Nothing
+        */
+
+        public StatsModel(string Localfile)
+        {
+            this.Localfile = Localfile;
+            SetStats();
+        }
+        /*
          * Stats Constructor for player
          * Param
          * @file the file path to the Stats file.
          * Returns Nothing
          */
-        public StatsModel(FirebaseObject<StatDetails> file, FirebaseClient Client, string Username)
+        public StatsModel(FirebaseObject<StatDetails> file, FirebaseClient Client, string Username, string Localfile)
         {
             this.file = file;
             this.Client = Client;
             this.Username = Username;
+            this.Localfile = Localfile;
             SetStats();
         }
 
@@ -49,10 +62,10 @@ namespace DungeonTasker.Models
          */
         public void SetStats()
         {
-           Health = Int32.Parse(file.Object.HEALTH);
-           Mana = Int32.Parse(file.Object.MANA);
-           Experience = Int32.Parse(file.Object.EXP);
-           Level = Int32.Parse(file.Object.LEVEL);
+           Health = Int32.Parse(UserModel.CheckForstring(Localfile, "HEALTH:"));
+           Mana = Int32.Parse(UserModel.CheckForstring(Localfile, "MANA:"));
+           Experience = Int32.Parse(UserModel.CheckForstring(Localfile, "EXP:"));
+           Level = Int32.Parse(UserModel.CheckForstring(Localfile, "LEVEL:"));
         }
 
         /*
@@ -68,13 +81,24 @@ namespace DungeonTasker.Models
             int LevelPass = (Level * 21) + 15;
             if (Experience >= LevelPass)
             {
-                Level++; file.Object.LEVEL = Level.ToString();
-                Health += 20; file.Object.HEALTH = Health.ToString();
-                Mana += 10; file.Object.MANA = Mana.ToString();
+                Level++;
+                UserModel.Rewrite("HEALTH:", Health.ToString(), Localfile);
+                Health += 20; 
+                UserModel.Rewrite("LEVEL:", Level.ToString(), Localfile);
+                Mana += 10; 
+                UserModel.Rewrite("MANA:", Mana.ToString(), Localfile);
 
-                await Client
+                try
+                {
+                    file.Object.LEVEL = Level.ToString();
+                    file.Object.HEALTH = Health.ToString();
+                    file.Object.MANA = Mana.ToString();
+                    await Client
                     .Child(string.Format("{0}Stats", Username))
                     .Child(file.Key).PutAsync(file.Object);
+                }
+                catch { }
+                
                 return true;
             }
 
@@ -113,10 +137,18 @@ namespace DungeonTasker.Models
          */
         public async Task ExpEnterAsync(int exp)
         {
-            Experience += exp; file.Object.EXP = Experience.ToString();
-            await Client
+            Experience += exp; 
+            UserModel.Rewrite("EXP:", Experience.ToString(), Localfile);
+
+            try
+            {
+                file.Object.EXP = Experience.ToString();
+                await Client
                     .Child(string.Format("{0}Stats", Username))
                     .Child(file.Key).PutAsync(file.Object);
+            }
+            catch { }
+            
         }
     }
 }

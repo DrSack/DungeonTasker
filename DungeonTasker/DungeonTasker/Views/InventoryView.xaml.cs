@@ -158,7 +158,7 @@ namespace DungeonTasker.Views
                 if(!isWep)
                     Goldvalue = ItemInfoModel.ObtainItemValue(stash.item);
 
-                int CurrentGold = Int32.Parse(items.Invfile.Object.Gold);
+                int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile,"Gold:"));
                 int TotalGold = Goldvalue + CurrentGold; // Get your gold and add onto the gold you have recieved.
 
                 sell.Text = Goldvalue.ToString() + " G";
@@ -177,28 +177,43 @@ namespace DungeonTasker.Views
 
                     if (isWep)
                     {
-                        
-                        items.Invfile.Object.Weapons = invetory;
-                        await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        UserModel.Rewrite("Weapons:", invetory, items.Localfile);
+                        try
+                        {
+                            items.Invfile.Object.Weapons = invetory;
+                            await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        }catch { }
                         weapon.weapons = this.weapons;
                     }      
                     if (!isWep)
                     {
-                        items.Invfile.Object.Items = invetory;
-                        await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        UserModel.Rewrite("Items:", invetory, items.Localfile);
+                        try
+                        {
+                            items.Invfile.Object.Items = invetory;
+                            await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        }catch { }
                         ItemInv.pots = this.pots;
                     }
 
-                    items.Invfile.Object.Gold = TotalGold.ToString();
-                    await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                    UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Localfile);
+                    try
+                    {
+                        items.Invfile.Object.Gold = TotalGold.ToString();
+                        await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                    }catch { }
+                    
                     DisplayGold(); //Display the gold
 
-                    string equipped = items.Invfile.Object.Equipped;
-                    if (!items.Invfile.Object.Weapons.Contains(equipped) && isWep) //If the Weapons: section is empty replace with "Not Equipped"
+                    string equipped = UserModel.CheckForstring(items.Localfile, "Equipped:");
+                    if (!UserModel.CheckForstring(items.Localfile,"Weapons:").Contains(equipped) && isWep) //If the Weapons: section is empty replace with "Not Equipped"
                     {
-                        
-                        items.Invfile.Object.Equipped = "Not Equipped";
-                        await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        UserModel.Rewrite("Equipped:", "Not Equipped", items.Localfile);
+                        try
+                        {
+                            items.Invfile.Object.Equipped = "Not Equipped";
+                            await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        }catch { }
                         weapon.SetWeaponAsync(this, "Not Equipped"); //Rewrite and Set weapon to nothing
                     }
                     DisplayEquipped();
@@ -274,7 +289,7 @@ namespace DungeonTasker.Views
         */
         private void DisplayKey()
         {
-            Keys.Text = items.Invfile.Object.Keys;
+            Keys.Text = UserModel.CheckForstring(items.Localfile,"Keys:");
             Keys.TextColor = Color.Gold;
         }
 
@@ -286,7 +301,7 @@ namespace DungeonTasker.Views
         */
         private void DisplayGold()
         {
-            Gold.Text = items.Invfile.Object.Gold;
+            Gold.Text = UserModel.CheckForstring(items.Localfile, "Gold:");
             Gold.TextColor = Color.Gold;
         }
 
@@ -299,17 +314,17 @@ namespace DungeonTasker.Views
         */
         private void DisplayEquipped()
         {
-            string equippedWep = items.Invfile.Object.Equipped;
+            string equippedWep = UserModel.CheckForstring(items.Localfile, "Equipped:");
             if (equippedWep.Contains("Not Equipped"))
             {
-                EquippedLabel.Text = items.Invfile.Object.Equipped;
+                EquippedLabel.Text = UserModel.CheckForstring(items.Localfile, "Equipped:");
                 EquippedLabel.TextColor = Color.Red;
                 Damage.IsVisible = false;
                 Damage.IsEnabled = false;
             }
 
             else {
-                EquippedLabel.Text = items.Invfile.Object.Equipped;
+                EquippedLabel.Text = UserModel.CheckForstring(items.Localfile, "Equipped:");
                 Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfoModel.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfoModel.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;

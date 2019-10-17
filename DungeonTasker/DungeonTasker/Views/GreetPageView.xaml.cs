@@ -25,11 +25,6 @@ namespace DungeonTasker
 
         public GreetPageView()
         {
-            GreetPageViewModel VM = new GreetPageViewModel
-            {
-                Navigation = Navigation
-            };
-            BindingContext = VM;
             MessagingCenter.Subscribe<GreetPageViewModel>(this, "Animation", async (sender) =>{
                 await this.FadeTo(1, 300);
                 await this.FadeTo(0, 300);
@@ -39,7 +34,15 @@ namespace DungeonTasker
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            begin = await GreetPageViewModel.OnAppearingAsync(begin);
+            if (begin)
+            {
+                GreetPageViewModel VM = new GreetPageViewModel
+                {
+                    Navigation = Navigation
+                };
+                BindingContext = VM;
+                begin = await VM.OnAppearingAsync(begin); 
+            }
         }
 
     }

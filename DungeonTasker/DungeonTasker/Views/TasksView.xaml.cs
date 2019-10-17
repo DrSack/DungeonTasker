@@ -67,7 +67,7 @@ namespace DungeonTasker.Views
         protected override void OnAppearing()
         {
             bool dungeonEND = true;
-            if (Currentuser.UserLogin.Object.Tutorial.Contains("True"))// This is the tutorial.
+            if (UserModel.CheckForstring(Currentuser.LocalLogin, "Tutorial:").Contains("True"))// This is the tutorial.
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -80,8 +80,12 @@ namespace DungeonTasker.Views
                             {
                                 if (dungeonEND)
                                 {
-                                    Currentuser.UserLogin.Object.Tutorial = "False";
-                                    Currentuser.RewriteDATA();
+                                    UserModel.Rewrite("Tutorial:", "False", Currentuser.LocalLogin);
+                                    try
+                                    {
+                                        Currentuser.UserLogin.Object.Tutorial = "False";
+                                        Currentuser.RewriteDATA();
+                                    }catch{ }
                                     this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
                                     dungeonEND = false;
                                 }
@@ -97,9 +101,9 @@ namespace DungeonTasker.Views
 
             if (truth) // If this is the first time opening the content page
             {
-                using (var sr = new StringReader(Currentuser.UserTimes.Object.Timer))
+                using (var sr = new StringReader(File.ReadAllText(Currentuser.LocalTimer)))
                 {
-                    for (string line = sr.ReadLine(); line != null; line= sr.ReadLine())
+                    for (string line = sr.ReadLine(); !string.IsNullOrEmpty(line); line= sr.ReadLine())
                     {
                         Regex Name = new Regex("Name:(.*?)Time:");
                         string Taskname = Name.Match(line).Groups[1].Value;

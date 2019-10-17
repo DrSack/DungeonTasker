@@ -49,11 +49,20 @@ namespace DungeonTasker.ViewModel
         private async Task Logout()
         {
             CanCloseLogout = false;
-            user.UserLogin.Object.Logged = "False";
-            await user.RewriteDATA();
-            truth.TasksRun = false;
-            if (user.UserLogin.Object.Logged == "False")
+            UserModel.Rewrite("Logged:", "False", user.LocalLogin);
+            
+            try
             {
+                user.UserLogin.Object.Logged = "False";
+                await user.RewriteDATA();
+            }
+            catch{ }
+            
+            truth.TasksRun = false;
+            if (UserModel.CheckForstring(user.LocalLogin,"Logged:") == "False")
+            {
+                Globals.CLIENT = null;
+                Globals.LOGGED = null;
                 UserModel.Rewrite("Username:", "", user.file);
                 UserModel.Rewrite("Password:", "", user.file);
                 await page.FadeTo(0, 600);

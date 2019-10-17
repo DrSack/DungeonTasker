@@ -54,7 +54,7 @@ namespace DungeonTasker.ViewModel
             this.mainpage = mainpage;
             this.dungeon = dungeon;
             this.Shop = Shop;
-            weapon.SetWeaponAsync(display, items.Invfile.Object.Equipped);
+            weapon.SetWeaponAsync(display, UserModel.CheckForstring(items.Localfile, "Equipped:"));
             Tasks_Clicked = new Command(async () => await TaskNavAsync());
             Inventory_Clicked = new Command(async () => await InventoryNavAsync());
             Dungeon_Clicked = new Command(async () => await DungeonNavAsync());
@@ -75,6 +75,7 @@ namespace DungeonTasker.ViewModel
          */
         private async Task TaskNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Tasks)
             {
@@ -92,6 +93,7 @@ namespace DungeonTasker.ViewModel
          */
         private async Task InventoryNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Inventory)
             {
@@ -109,6 +111,7 @@ namespace DungeonTasker.ViewModel
         */
         private async Task DungeonNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Dungeon)
             {
@@ -127,6 +130,7 @@ namespace DungeonTasker.ViewModel
        */
         private async Task StatsNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Stats)
             {
@@ -144,6 +148,7 @@ namespace DungeonTasker.ViewModel
       */
         private async Task ShopNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Shop)
             {
@@ -161,6 +166,7 @@ namespace DungeonTasker.ViewModel
        */
         private async Task AboutNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.AboutUs)
             {
@@ -177,6 +183,8 @@ namespace DungeonTasker.ViewModel
          */
         private async Task SettingsNavAsync()
         {
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
+
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Settings)
             {
@@ -194,6 +202,12 @@ namespace DungeonTasker.ViewModel
          */
         private async Task SetPageAsync(Page page)
         {
+            try
+            {
+                user.UserLogin.Object.Updated = DateTime.Now.ToString();
+                user.RewriteDATA();
+            }
+            catch{ }
             ((MasterDetailPage)mainpage.Parent).Detail.FadeTo(0, 100);
             await Task.Delay(400);
             ((MasterDetailPage)mainpage.Parent).Detail = page;

@@ -27,6 +27,7 @@ namespace DungeonTasker.ViewModel
         public TasksViewModel(UserModel user, TasksView page)
         {
             this.Currentuser = user;
+            UserModel.Rewrite("Updated:", DateTime.Now.ToString(), Currentuser.LocalLogin);
             Character = Currentuser.Character;
             Tasks = "Current Tasks";
             AddTime = new Command(async () => await this.Navigation.PushModalAsync(new DatePickerView(page, false)));

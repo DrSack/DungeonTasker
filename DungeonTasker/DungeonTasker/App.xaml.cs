@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DungeonTasker.Models;
+using Firebase.Database.Query;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,12 +22,27 @@ namespace DungeonTasker
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            try
+            {
+                Globals.LOGGED.Object.Logged = "False";
+                Globals.CLIENT
+                    .Child(string.Format("{0}Login", Globals.LOGGED.Object.Username))
+                    .Child(Globals.LOGGED.Key).PutAsync(Globals.LOGGED.Object);
+            }
+            catch { }
+            
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            try
+            {
+                Globals.LOGGED.Object.Logged = "True";
+                Globals.CLIENT
+                    .Child(string.Format("{0}Login", Globals.LOGGED.Object.Username))
+                    .Child(Globals.LOGGED.Key).PutAsync(Globals.LOGGED.Object);
+            }
+            catch { }
         }
     }
 }

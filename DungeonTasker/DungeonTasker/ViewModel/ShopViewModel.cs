@@ -78,8 +78,8 @@ namespace DungeonTasker.ViewModel
 
         public ShopViewModel(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user, bool test = false)
         {
-            Gold = items.Inv.Invfile.Object.Gold;
-            Keys = items.Inv.Invfile.Object.Keys;
+            Gold = UserModel.CheckForstring(items.Inv.Localfile, "Gold:");
+            Keys = UserModel.CheckForstring(items.Inv.Localfile, "Keys:");
             Character = user.Character;
             this.items = items;
             this.Inv = Inv;
@@ -93,7 +93,7 @@ namespace DungeonTasker.ViewModel
 
         public async System.Threading.Tasks.Task<bool> BuyAsync(InventoryItemsModel items, int typecase, string ChoItem, bool test = false)
         {
-            int CurrentGold = CurrentGold = Int32.Parse(items.Invfile.Object.Gold);
+            int CurrentGold = CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile, "Gold:"));
             int Price = 0;
             int TotalGold;
             if (typecase == 0)
@@ -109,17 +109,30 @@ namespace DungeonTasker.ViewModel
             {
                 if (typecase == 0)
                 {
-                    items.Invfile.Object.Weapons += ChoItem + ",";
+                    UserModel.AddOntoLine("Weapons:", ChoItem + ",", items.Localfile);
+                    try
+                    {
+                        items.Invfile.Object.Weapons += ChoItem + ",";
+                    }catch { }
                     Weapon.Rebuild();
                 }
                 else
                 {
-                    items.Invfile.Object.Items += ChoItem + ",";
+                    UserModel.AddOntoLine("Items:", ChoItem + ",", items.Localfile);
+                    try
+                    {
+                        items.Invfile.Object.Items += ChoItem + ",";
+                    }catch { }
                     Inv.Rebuild();
                 }
-                items.Invfile.Object.Gold = TotalGold.ToString();
-                await items.UpdateInv();
-                Gold = items.Invfile.Object.Gold;
+                UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Localfile); //Rewrite the gold values
+                try
+                {
+                    items.Invfile.Object.Gold = TotalGold.ToString();
+                    await items.UpdateInv();
+                }
+                catch { }
+                Gold = UserModel.CheckForstring(items.Localfile, "Gold:");
                 if (!test) { await Application.Current.MainPage.DisplayAlert("Success", string.Format("You bought a {0}.", ChoItem), "Close"); }
                 return true;
             }

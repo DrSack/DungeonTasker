@@ -60,7 +60,7 @@ namespace DungeonTasker.Views
          */
         public void selectKey()
         {
-            string keys = items.Invfile.Object.Keys;
+            string keys = UserModel.CheckForstring(items.Localfile, "Keys:");
             keys = keys.Replace(",", "");
             KeysLeft.Text = keys;
         }
@@ -147,7 +147,7 @@ namespace DungeonTasker.Views
         private async void BattleBtn(object sender, EventArgs e)
         {
             int realKeys;
-            string keys = items.Invfile.Object.Keys;
+            string keys = UserModel.CheckForstring(items.Localfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
 

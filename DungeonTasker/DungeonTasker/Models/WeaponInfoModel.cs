@@ -36,7 +36,7 @@ namespace DungeonTasker.Models
             weapons.Clear();
             string weaponsInv;
             string[] split;
-            weaponsInv = items.Invfile.Object.Weapons;
+            weaponsInv = UserModel.CheckForstring(items.Localfile, "Weapons:");
             split = weaponsInv.Split(',');
             foreach (string item in split)
             {
@@ -183,11 +183,26 @@ namespace DungeonTasker.Models
             Minimumdmg = minimum;
             EquippedWeapon = weapon;
 
-            items.Invfile.Object.Equipped = weapon;
+            UserModel.Rewrite("Equipped:", EquippedWeapon, items.Localfile); 
+            try
+            {
+                items.Invfile.Object.Equipped = weapon;
+                await UpdateInv();
+            }
+            catch { }
+            
+            
+        }
 
-            await items.Client
-                .Child(string.Format("{0}Inv", items.Username))
-                .Child(items.Invfile.Key).PutAsync(items.Invfile.Object);
+        public async Task UpdateInv()
+        {
+            try
+            {
+                await items.Client
+                    .Child(string.Format("{0}Inv", items.Username))
+                    .Child(items.Invfile.Key).PutAsync(items.Invfile.Object);
+            }
+            catch { }
         }
     }
 }
