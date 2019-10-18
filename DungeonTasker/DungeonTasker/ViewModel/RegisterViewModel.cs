@@ -32,6 +32,20 @@ namespace DungeonTasker.ViewModel
          * @Param page: parse the register page to display an alert page if an error occured.
          * Returns Nothing.
          */
+        public RegisterViewModel()
+        {
+            Username = "";
+            Password = "";
+            FullName = "";
+        }
+
+
+        /*
+         * A constructor for the RegisterViewModel
+         * 
+         * @Param page: parse the register page to display an alert page if an error occured.
+         * Returns Nothing.
+         */
         public RegisterViewModel(RegisterView page)
         {
             this.page = page;
@@ -49,16 +63,17 @@ namespace DungeonTasker.ViewModel
         * eventargs: object data
         * RETURNS Nothing
         */
-        public async Task RegisterAddAccountFIREBASE(bool test = false)
+        public async Task RegisterAddAccountFIREBASE()
         {
             try
             {
-                if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username and password fields are filled
+                if ((!Username.Equals("") && !Password.Equals("") && !FullName.Equals("")))// check if both username, password and equals are not filled
                 {
                     IsRunning = true;
                     FirebaseUser client = new FirebaseUser();
                     await client.Register(FullName, Username, Password, Navigation);
                     IsRunning = false;
+                    return;
                 }
                 else
                 {
@@ -67,7 +82,12 @@ namespace DungeonTasker.ViewModel
             }
             catch (Exception es)
             {
-                if (es != null) { await page.DisplayAlert("Error", es.Message , "Close"); }// display error message
+                if (es != null) {
+                    try
+                    {
+                        await page.DisplayAlert("Error", es.Message, "Close");
+                    }catch{throw new Exception(es.Message);}
+                }// display error message
                 else { await page.DisplayAlert("Error", "Please delete current account", "Close"); }
             }
         }

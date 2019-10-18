@@ -27,58 +27,23 @@ namespace UnitTest
         }
 
         [Fact]
-        public void TestLoginDetailsLogging()// Test initial values after login
+        public async Task TestLoginDetailsTestNoInputAsync()// Test initial values after login
         {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users");
-
-            string Character;
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-            
             GreetPageViewModel test = new GreetPageViewModel();
-            UserModel.StoreInfo("a", "b", "c", new RegisterView(false),true);
-            test._UserModel.Username = "a";
-            test._UserModel.Password = "b";
-            var filename = Path.Combine(documents + "/Users", test._UserModel.Username + "Login.dt");// File name is equal to the username+login.dt
-            var Timer = Path.Combine(documents + "/Users", test._UserModel.Username + "Timer.dt");
-
-            test.LoginCommand(true);
-            Assert.Equal("a", test._UserModel.Username);//Test values
-            Assert.Equal("b", test._UserModel.Password);//Test values
-            Assert.Equal("c", test._UserModel.FullName);//Test values
-            Assert.Equal("true", test._UserModel.Logged);//Test values
-            Assert.Equal(filename, test._UserModel.file);
-            Assert.Equal(Timer, test._UserModel.timer);
-            Assert.Equal("(ง’̀-‘́)ง",test._UserModel.Character);//This is null as folder paths dont exit
-
-            var Items = Path.Combine(documents + "/Users", "aInv.dt");
-            var Stats = Path.Combine(documents + "/Users", "aStats.dt");
-
-            File.Delete(filename);
-            File.Delete(Items);
-            File.Delete(Stats);
-            File.Delete(Timer);
-            Directory.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users");
+            test._UserModel.Username = "";// Input nothing
+            test._UserModel.Password = "";
+            var msg = await Assert.ThrowsAsync<Exception>(async () => await test.LoginCommandDatabase());
+            Assert.Equal("Please input both Username and Password", msg.Message);
         }
 
         [Fact]
-        public void TestAccountNotFound()
+        public async Task testaccountnotfoundAsync()
         {
-            string Character;
-
             GreetPageViewModel test = new GreetPageViewModel();
-
-            test._UserModel.Username = "";
-            test._UserModel.Password = "";
-
-            try
-            {
-                test.LoginCommand(true);
-            }
-            catch(Exception msg)
-            {
-                Assert.Equal("Account not found", msg.Message);
-            }
-
+            test._UserModel.Username = "9999999";// Input invalid name
+            test._UserModel.Password = "9999999";
+            var msg = await Assert.ThrowsAsync<Exception>(async () => await test.LoginCommandDatabase());
+            Assert.Equal("No account found", msg.Message);
         }
 
     }

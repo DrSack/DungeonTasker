@@ -27,11 +27,7 @@ namespace UnitTest
         public async Task TestRegisterCreateAccountError()
         {
             RegisterViewModel test = new RegisterViewModel();
-            test.Username = "";
-            test.Password = "";
-            test.FullName = "";
-
-            var msg = await Assert.ThrowsAsync<Exception>(() => test.RegisterAddAccount(true));
+            var msg = await Assert.ThrowsAsync<Exception>(async () => await test.RegisterAddAccountFIREBASE());
             Assert.Equal("Please enter all credentials... ", msg.Message);
         }
 

@@ -183,7 +183,12 @@ namespace DungeonTasker.ViewModel
             }
             catch(Exception es)
             {
-                if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); }
+                if (es != null) {
+                    try
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close");
+                    }catch { throw new Exception(es.Message); }
+                }
             }
             IsVisible = false;
             IsRunning = false;
