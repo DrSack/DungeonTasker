@@ -225,6 +225,10 @@ namespace DungeonTasker.Models
             await Token
                 .Child(string.Format("{0}Timer", Username))
                 .Child(UserTimes.Key).DeleteAsync();
+            File.Delete(LocalLogin);
+            File.Delete(LocalItem);
+            File.Delete(LocalStats);
+            File.Delete(LocalTimer);
         }
 
         /*

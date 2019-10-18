@@ -12,10 +12,6 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DungeonView : ContentPage
     {
-        private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "Battle Mage", "Death Robot", "Ogre" };
-        private string[] Currentears = { "<>", "||", "!!", "~~", "^^", "{}", "[]", "++" };
-        private string Currenteyes = "0^#@.Xx-";
-        private string Currentnose = ".*@:!O0IVvXxw";
         public string CurrentBoss { get; set; }
         public string CurrentName { get; set; }
 
@@ -27,6 +23,7 @@ namespace DungeonTasker.Views
         public StatsModel stats;
         public StatsModel boss = new StatsModel();
         public ShopModel Shop;
+        public DungeonModel realdungeon;
         /*
          * Constructor for Dungeon
          * Encapsulates UserModel,InventoryItems,WeaponInfo,Stats objects + the bool variable
@@ -40,8 +37,9 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public DungeonView(UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, ItemInfoModel itemInv, StatsModel stats, bool tut)
+        public DungeonView(UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, ItemInfoModel itemInv, StatsModel stats, bool tut, DungeonModel realdungeon)
         {
+            this.realdungeon = realdungeon;
             this.user = user;
             this.items = items;
             this.weapon = weapon;
@@ -49,8 +47,55 @@ namespace DungeonTasker.Views
             this.tut = tut;
             this.itemInv = itemInv;
             InitializeComponent();
-            selectBoss();
-            selectBossHP();
+            InitializeBoss();
+        }
+
+        public void InitializeBoss()
+        {
+            boss.Health = realdungeon.Easyboss.Health;
+            Character.Text = realdungeon.EasyBoss;
+            Character.HorizontalTextAlignment = TextAlignment.Center;
+            CharName.Text = ""; CharName.Text = realdungeon.EasyName;
+            TypeBoss.Text = "Easy";
+            TypeBoss.TextColor = Color.Accent;
+            CurrentBoss = realdungeon.EasyBoss;
+            CurrentName = realdungeon.EasyName;
+        }
+
+        private void Easy(object sender, EventArgs e)
+        {
+            boss.Health = realdungeon.Easyboss.Health;
+            Character.Text = realdungeon.EasyBoss;
+            Character.HorizontalTextAlignment = TextAlignment.Center;
+            CharName.Text = ""; CharName.Text = realdungeon.EasyName;
+            TypeBoss.Text = "Easy";
+            TypeBoss.TextColor = Color.Accent;
+            CurrentBoss = realdungeon.EasyBoss;
+            CurrentName = realdungeon.EasyName;
+        }
+
+        private void Medium(object sender, EventArgs e)
+        {
+            boss.Health = realdungeon.Mediumboss.Health;
+            Character.Text = realdungeon.MediumBoss;
+            Character.HorizontalTextAlignment = TextAlignment.Center;
+            CharName.Text = ""; CharName.Text = realdungeon.MediumName;
+            TypeBoss.Text = "Medium";
+            TypeBoss.TextColor = Color.Orange;
+            CurrentBoss = realdungeon.MediumBoss;
+            CurrentName = realdungeon.MediumName;
+        }
+
+        private void Hard(object sender, EventArgs e)
+        {
+            boss.Health = realdungeon.Hardboss.Health;
+            Character.Text = realdungeon.HardBoss;
+            Character.HorizontalTextAlignment = TextAlignment.Center;
+            CharName.Text = ""; CharName.Text = realdungeon.HardName;
+            TypeBoss.Text = "Hard";
+            TypeBoss.TextColor = Color.FromHex("#F44336");
+            CurrentBoss = realdungeon.HardBoss;
+            CurrentName = realdungeon.HardName;
         }
         /*
          * Obtains how keys there are within the Invfile and display it on the KetsLeft label text
@@ -63,79 +108,6 @@ namespace DungeonTasker.Views
             string keys = UserModel.CheckForstring(items.Localfile, "Keys:");
             keys = keys.Replace(",", "");
             KeysLeft.Text = keys;
-        }
-
-        /*
-         * Set current boss and name to NULL, then reselect the boss hp and character.
-         * 
-         * PARAM Nothing
-         * RETURN Nothing
-         */
-        public void clearBoss()
-        {
-            CurrentBoss = null;
-            CurrentName = null;
-            selectBossHP();
-            selectBoss();
-        }
-
-        /*
-         * Randomly select the BossHP
-         * 
-         * PARAM Nothing
-         * RETURN Nothing
-         */
-        private void selectBossHP()
-        {
-            Random rnd = new Random();
-            int HEALTH = rnd.Next(25, 101);
-            boss.Health = HEALTH;
-        }
-
-        /*
-         * Randomly selects the features of what the boss character will look like
-         * 
-         * PARAM Nothing
-         * RETURN Nothing
-         */
-
-        private void selectBoss()
-        {
-            if (CurrentBoss == null && CurrentName == null)
-            {
-                int num;
-                string Boss;
-                string Name;
-
-                char leftear;
-                char rightear;
-                char Eyes;
-                char Nose;
-                Random rand = new Random();
-
-                num = rand.Next(0, Currentears.Length - 1);
-                leftear = Currentears[num][0];
-                rightear = Currentears[num][1];
-
-                num = rand.Next(0, Currenteyes.Length - 1);
-                Eyes = Currenteyes[num];
-
-                num = rand.Next(0, Currentnose.Length - 1);
-                Nose = Currentnose[num];
-
-                num = rand.Next(0, Names.Length - 1);
-                Name = Names[num];
-
-                Boss = string.Format("{0}{1}{2}{3}{4}", leftear, Eyes, Nose, Eyes, rightear);
-                Character.Text = Boss;
-                Character.HorizontalTextAlignment = TextAlignment.Center;
-
-                CharName.Text = Name;
-
-                CurrentBoss = Boss;
-                CurrentName = Name;
-                
-            }
         }
 
         /*

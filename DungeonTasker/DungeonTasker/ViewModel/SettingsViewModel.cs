@@ -34,7 +34,7 @@ namespace DungeonTasker.ViewModel
             this.user = user;
             this.truth = truth;
             this.page = page;
-            DeleteAccountBtn = new Command(async () => await DeleteAccount());
+            DeleteAccountBtn = new Command(() => DeleteAccount());
             LogoutBtn = new Command(async() => await Logout());
         }
 
@@ -76,13 +76,21 @@ namespace DungeonTasker.ViewModel
          * RETURNS Nothing
          */
 
-        private async Task DeleteAccount()
+        private void DeleteAccount()
         {
-            CanCloseDelete = false;
-            truth.TasksRun = false;
-            user.DeleteAccount();
-            await page.FadeTo(0, 600);
-            Application.Current.MainPage = new NavigationPage(new SpashScreen());
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await page.DisplayAlert("Alert!", "Do you really want to delete this Account?", "No", "Yes");
+                if (!result)
+                {
+                    CanCloseDelete = false;
+                    truth.TasksRun = false;
+                    user.DeleteAccount();
+                    await page.FadeTo(0, 600);
+                    Application.Current.MainPage = new NavigationPage(new SpashScreen());
+                }
+            });
+
         }
     }
 }

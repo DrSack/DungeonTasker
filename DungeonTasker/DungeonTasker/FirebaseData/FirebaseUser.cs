@@ -151,7 +151,6 @@ namespace DungeonTasker.FirebaseData
                 {
                     Timer = ""
                 });
-            CreateLocalData(Username, Password, Fullname);
         }
 
         public async Task<bool> ValidateAsync(string Username)
@@ -180,20 +179,6 @@ namespace DungeonTasker.FirebaseData
                 }
             }
             return true;
-        }
-
-        public void CreateLocalData(string Fullname, string Username, string Password)
-        {
-            string line = string.Format("Updated:{0}\nUsername:{1}\nPassword:{2}\nFullname:{3}\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True", DateTime.Now.ToString(),Username, Password, Fullname);// format file structure
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-            var filename = Path.Combine(documents + "/Users", Username + "Login.dt");// File name is equal to the username+login.dt
-            var Items = Path.Combine(documents + "/Users", Username + "Inv.dt");
-            var Stats = Path.Combine(documents + "/Users", Username + "Stats.dt");
-            var Timer = Path.Combine(documents + "/Users", Username + "Timer.dt");
-            File.WriteAllText(filename, line);
-            File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
-            File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
-            File.WriteAllText(Timer, "");
         }
     }
 }

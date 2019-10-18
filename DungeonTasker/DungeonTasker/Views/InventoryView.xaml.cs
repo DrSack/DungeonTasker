@@ -184,7 +184,8 @@ namespace DungeonTasker.Views
                             await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
                         }catch { }
                         weapon.weapons = this.weapons;
-                    }      
+                    }
+                    
                     if (!isWep)
                     {
                         UserModel.Rewrite("Items:", invetory, items.Localfile);
@@ -325,6 +326,7 @@ namespace DungeonTasker.Views
 
             else {
                 EquippedLabel.Text = UserModel.CheckForstring(items.Localfile, "Equipped:");
+                EquippedLabel.TextColor = Color.Black;
                 Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfoModel.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfoModel.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;

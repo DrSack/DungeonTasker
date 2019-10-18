@@ -65,6 +65,14 @@ namespace DungeonTasker.ViewModel
             FadeOut = 100.0;
         }
 
+        /*/
+         * Log into the Database and check if user is either online or offline, 
+         * if offline then use local data from last used account
+         * 
+         * PARAM begin: checks whenever the UserModel has only accessed the page once.
+         * RETURNS Nothing
+         */
+
         public async Task LoginCommandDatabase()
         {
             IsVisible = true;
@@ -102,8 +110,9 @@ namespace DungeonTasker.ViewModel
 
                         InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
                         StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
-                        UserModel.Rewrite("Username:", client.UserLogin.Object.Username, newuser.file);
-                        UserModel.Rewrite("Password:", client.UserLogin.Object.Password, newuser.file);
+
+                        UserModel.Rewrite("Username:", _UserModel.Username, newuser.file);
+                        UserModel.Rewrite("Password:", _UserModel.Username, newuser.file);
 
                         newuser.UserLogin.Object.Logged = "True";
                         await newuser.RewriteDATA();
@@ -142,6 +151,8 @@ namespace DungeonTasker.ViewModel
                         StatsModel localstat = new StatsModel(localStats);
                         local.Character = UserModel.CheckForstring(localLogin, "Character:");
 
+                        UserModel.Rewrite("Username:", _UserModel.Username, local.file);
+                        UserModel.Rewrite("Password:", _UserModel.Username, local.file);
 
                         MessagingCenter.Send(this, "Animation");
                         await Task.Delay(600);
@@ -154,6 +165,19 @@ namespace DungeonTasker.ViewModel
                     case 4:
                         throw new Exception("Account already in use");
                     case 5:
+                        var FakeLogin = Path.Combine(documents, _UserModel.Username + "Login.dt");
+                        var FakeTimers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
+                        var FakeItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
+                        var FakeStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
+
+                        if (File.Exists(FakeLogin))
+                        {
+                            File.Delete(FakeLogin);
+                            File.Delete(FakeTimers);
+                            File.Delete(FakeItems);
+                            File.Delete(FakeStats);
+                            throw new Exception("No online account found, Deleting Local Data.");
+                        }
                         throw new Exception("No account found");
                 }
             }
@@ -193,18 +217,23 @@ namespace DungeonTasker.ViewModel
                             case 0:
                                 var Logged = Path.Combine(documents+"/Users", "Logged.dt");
 
-                                var Login = Path.Combine(documents + "/Users", client.UserLogin.Object.Username + "Login.dt");
-                                var Timers = Path.Combine(documents + "/Users", client.UserLogin.Object.Username + "Timer.dt");
-                                var Items = Path.Combine(documents + "/Users", client.UserLogin.Object.Username + "Inv.dt");
-                                var Stats = Path.Combine(documents + "/Users", client.UserLogin.Object.Username + "Stats.dt");
+                                var Login = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
+                                var Timers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
+                                var Items = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
+                                var Stats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
+                                
 
                                 UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
-                                InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username,Login);
-                                StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username,Login);
+                                newuser.Getfile(Login, Items, Stats, Timers);
+                                InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username,Items);
+                                StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username,Stats);
+
+                                UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), newuser.file);
+                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Username:"), newuser.file);
 
                                 Globals.LOGGED = client.UserLogin;
                                 Globals.CLIENT = client.Client;
-
+                                
                                 //ADD CHECK FOR LOCAL DATA THEN UPDATE IF TIMES ARE DIFFERENT
                                 newuser.UpdateAll();
 
@@ -228,12 +257,15 @@ namespace DungeonTasker.ViewModel
                                 {
                                     File.ReadAllText(localLogin);
                                 }
-                                catch { throw new Exception();}
+                                catch { throw new Exception("aids");}
 
                                 local.Getfile(localLogin, localItems, localStats, localTimers);
                                 InventoryItemsModel localitem = new InventoryItemsModel(localItems);
                                 StatsModel localstat = new StatsModel(localStats);
                                 local.Character = UserModel.CheckForstring(localLogin, "Character:");
+
+                                UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), local.file);
+                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), local.file);
 
                                 MessagingCenter.Send(this, "Animation");
                                 await Task.Delay(600);
@@ -242,7 +274,6 @@ namespace DungeonTasker.ViewModel
 
                                 return false;
                             case 2:
-
                                 break;
                         }
                     }
@@ -250,7 +281,7 @@ namespace DungeonTasker.ViewModel
             }
             catch (Exception es)
             {
-                if (es != null) {FadeOut = 100.0; LoggedIsRunning = false; return false;}
+                if (es != null) { Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); FadeOut = 100.0; LoggedIsRunning = false; return false;}
             }
             FadeOut = 100.0;
             LoggedIsRunning = false;

@@ -218,6 +218,7 @@ namespace DungeonTasker.Views
                     dungeon.weapon.UpdateInv();
                 }
                 catch { }
+
                 dungeon.weapon.Rebuild();
                 await dungeon.stats.ExpEnterAsync(expgained);
                 await DisplayAlert("YOU LOSE", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
@@ -228,7 +229,8 @@ namespace DungeonTasker.Views
             }
             UserModel.Rewrite("Updated:", DateTime.Now.ToString(), dungeon.user.LocalLogin);
             dungeon.Shop.Rebuild();
-            dungeon.clearBoss();
+            dungeon.realdungeon.Reselect();
+            dungeon.InitializeBoss();
             await this.Navigation.PopModalAsync();
         }
 
@@ -478,7 +480,9 @@ namespace DungeonTasker.Views
                 MagicDamage = 0;
                 message = "";
 
+                    
                 CharacterMana.Text = CharacterMP.ToString();
+                CharacterMana.RelRotateTo(360, 500);
                 await AttackPixelCharacter();
                 BossHealth.RelRotateTo(360, 500);
                 await BossHealth.ScaleTo(5, 300);
@@ -551,7 +555,11 @@ namespace DungeonTasker.Views
             button.Clicked += async (s, e) =>
             {
                 battlesequence = false;
-                Animations.CloseStackLayout(layout, "closing", 30, 200);
+                await Task.Run(async () =>
+                {
+                    Animations.CloseStackLayout(layout, "closing", 30, 500);
+                });
+                
                 Items.Children.Remove(layout);
                 pots.Remove(item); // Remove off list
                 string invetory = "";
@@ -579,8 +587,8 @@ namespace DungeonTasker.Views
                 {
                     int buff = Obtainbuff(item.item);
                     CharacterHP += buff;
-                    CharacterHealth.Text = CharacterHP.ToString();
                     await Announcer(string.Format("Healed for {0}", buff.ToString()),true);
+                    CharacterHealth.Text = CharacterHP.ToString();
                     CharacterHealth.RelRotateTo(360, 500);
                     await CharacterHealth.ScaleTo(5, 300);
                     await CharacterHealth.ScaleTo(1, 300);
@@ -589,12 +597,11 @@ namespace DungeonTasker.Views
                 {
                     int buff = Obtainbuff(item.item);
                     CharacterMP += buff;
-                    CharacterMana.Text = CharacterMP.ToString();
                     await Announcer(string.Format("Restored {0} Mana", buff.ToString()), true);
+                    CharacterMana.Text = CharacterMP.ToString();
                     CharacterMana.RelRotateTo(360, 500);
                     await CharacterMana.ScaleTo(5, 300);
                     await CharacterMana.ScaleTo(1, 300);
-
                 }
 
                 await Announcer("BOSS TURN", false);

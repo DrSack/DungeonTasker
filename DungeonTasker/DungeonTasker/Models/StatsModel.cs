@@ -81,10 +81,10 @@ namespace DungeonTasker.Models
             int LevelPass = (Level * 21) + 15;
             if (Experience >= LevelPass)
             {
-                Level++;
-                UserModel.Rewrite("HEALTH:", Health.ToString(), Localfile);
-                Health += 20; 
+                Level++; 
                 UserModel.Rewrite("LEVEL:", Level.ToString(), Localfile);
+                Health += 20;
+                UserModel.Rewrite("HEALTH:", Health.ToString(), Localfile);
                 Mana += 10; 
                 UserModel.Rewrite("MANA:", Mana.ToString(), Localfile);
 
