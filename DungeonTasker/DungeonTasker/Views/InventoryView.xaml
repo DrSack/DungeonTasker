@@ -48,12 +48,17 @@
                         <Label Text="No Weapons" HorizontalTextAlignment="Center" x:Name="NoWeps"/>
                     </StackLayout>
 
+                    <Label x:Name="CharactersTitle" Text="Characters" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
+                    <StackLayout x:Name="CharactersList">
+                    </StackLayout>
+
                     <Label x:Name="ItemsTitle" Text="Items" FontSize="Medium" HorizontalTextAlignment="Center" 
                            FontAttributes="Bold" TextColor="#212121" Margin="0,20"/>
                     <StackLayout x:Name="ItemsList" Margin="0,0,0,20">
                         <Label Text="No Items" HorizontalTextAlignment="Center" x:Name="NoItems"/>
                     </StackLayout>
-                    
+
                 </StackLayout>
             </ScrollView>
         </StackLayout>

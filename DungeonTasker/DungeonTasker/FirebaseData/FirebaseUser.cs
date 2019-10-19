@@ -35,7 +35,7 @@ namespace DungeonTasker.FirebaseData
                 var details = (await Client
                 .Child(string.Format("{0}Login", Username))
                 .OnceAsync<LoginDetails>()).Where(item => item.Object.Username == Username).FirstOrDefault();
-                if ((details.Object.Username == Username && details.Object.Password == Password) || bypass)
+                if (details.Object.Username == Username && details.Object.Password == Password)
                 {
                     if(details.Object.Logged == "False" || bypass)
                     {
@@ -142,7 +142,8 @@ namespace DungeonTasker.FirebaseData
                     Keys = "0",
                     Gold = "500",
                     Equipped = "IronDagger",
-                    Items = ""
+                    Items = "",
+                    Characters = "(ง’̀-‘́)ง,"
                 });
 
             await Client

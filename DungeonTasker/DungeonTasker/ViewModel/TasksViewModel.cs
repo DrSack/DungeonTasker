@@ -2,6 +2,7 @@
 using DungeonTasker.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using Xamarin.Forms;
@@ -10,7 +11,6 @@ namespace DungeonTasker.ViewModel
 {
     public class TasksViewModel
     {
-        public string Character { get; set; }
         public string Tasks { get; set; }
         public INavigation Navigation;
         public UserModel Currentuser;
@@ -28,7 +28,6 @@ namespace DungeonTasker.ViewModel
         {
             this.Currentuser = user;
             UserModel.Rewrite("Updated:", DateTime.Now.ToString(), Currentuser.LocalLogin);
-            Character = Currentuser.Character;
             Tasks = "Current Tasks";
             AddTime = new Command(async () => await this.Navigation.PushModalAsync(new DatePickerView(page, false)));
             // Name.Text = Currentuser.Username;

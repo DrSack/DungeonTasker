@@ -24,6 +24,7 @@ namespace DungeonTasker.ViewModel
         public DungeonView dungeon;
         WeaponInfoModel weapon;
         ItemInfoModel ItemInv;
+        CharacterInfoModel Characters;
         logged truth;
         MasterPageView mainpage;
         PageOpenModel PageOn;
@@ -43,7 +44,7 @@ namespace DungeonTasker.ViewModel
          * RETURNS Nothing
          */
         public MasterPageViewModel(Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, logged truth, 
-        MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv, ShopModel Shop)
+        MasterPageView mainpage, ContentPage display, DungeonView dungeon, ItemInfoModel ItemInv, ShopModel Shop, CharacterInfoModel Characters)
         {
             this.page = page;
             this.user = user;
@@ -51,6 +52,7 @@ namespace DungeonTasker.ViewModel
             this.truth = truth;
             this.weapon = weapon;
             this.ItemInv = ItemInv;
+            this.Characters = Characters;
             this.mainpage = mainpage;
             this.dungeon = dungeon;
             this.Shop = Shop;
@@ -99,7 +101,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Inventory = true;
-                await SetPageAsync(new NavigationPage(new InventoryView(items, this.weapon, user, ItemInv)));
+                await SetPageAsync(new NavigationPage(new InventoryView(items, this.weapon, user, ItemInv, Characters)));
             }
         }
 
@@ -154,7 +156,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Shop = true;
-                await SetPageAsync(new NavigationPage(new ShopView(Shop, ItemInv, weapon, user)));
+                await SetPageAsync(new NavigationPage(new ShopView(Shop, ItemInv, weapon, Characters, user)));
             }
         }
 
@@ -184,7 +186,6 @@ namespace DungeonTasker.ViewModel
         private async Task SettingsNavAsync()
         {
             UserModel.Rewrite("Updated:", DateTime.Now.ToString(), user.LocalLogin);
-
             ((MasterDetailPage)mainpage.Parent).IsPresented = false;
             if (!PageOn.Settings)
             {

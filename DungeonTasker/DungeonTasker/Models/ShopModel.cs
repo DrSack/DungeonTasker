@@ -8,6 +8,7 @@ namespace DungeonTasker.Models
     {
         public List<ItemModel> BuyWeapons = new List<ItemModel>(); // Store weapon item details
         public List<ItemModel> BuyItem = new List<ItemModel>(); // Store weapon item details
+        public List<ItemModel> BuyCharacter = new List<ItemModel>();
         public InventoryItemsModel Inv;
         public ShopModel(InventoryItemsModel Inv)
         {
@@ -19,6 +20,7 @@ namespace DungeonTasker.Models
         {
             CreateWeaponPool();
             CreateItemPool();
+            CreateCharacterPool();
         }
 
         private void CreateWeaponPool()
@@ -42,15 +44,32 @@ namespace DungeonTasker.Models
             BuyItem.Add(new ItemModel("MagicPotion"));
         }
 
+        private void CreateCharacterPool()
+        {
+            BuyCharacter.Clear();
+            Random rnd = new Random();
+            string[] list = { "( ͡° ͜ʖ ͡°)", "(¬‿¬)", "(ノಠ益ಠ)ノ", "(；一_一)" };
+            int Character1 = rnd.Next(0, list.Length);
+            int Character2 = rnd.Next(0, list.Length);
+            while (Character1 == Character2)
+                Character2 = rnd.Next(0, list.Length);
+            BuyCharacter.Add(new ItemModel(list[Character1]));
+            BuyCharacter.Add(new ItemModel(list[Character2]));
+        }
+
         public int CheckItem(string item)
         {
             if(WeaponInfoModel.ObtainWeaponInfo(item,true)!= 0)
             {
                 return 0; 
             }
-            else
+            else if(ItemInfoModel.ObtainItemInfo(item,true)!=0)
             {
                 return 1;
+            }
+            else
+            {
+                return 2;
             }
         }
 

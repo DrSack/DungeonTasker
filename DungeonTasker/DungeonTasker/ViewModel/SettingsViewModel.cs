@@ -61,6 +61,7 @@ namespace DungeonTasker.ViewModel
             truth.TasksRun = false;
             if (UserModel.CheckForstring(user.LocalLogin,"Logged:") == "False")
             {
+                user.Token.Dispose();//Close connection....
                 Globals.CLIENT = null;
                 Globals.LOGGED = null;
                 UserModel.Rewrite("Username:", "", user.file);
@@ -83,6 +84,9 @@ namespace DungeonTasker.ViewModel
                 var result = await page.DisplayAlert("Alert!", "Do you really want to delete this Account?", "No", "Yes");
                 if (!result)
                 {
+                    user.Token.Dispose();//Close connection....
+                    Globals.CLIENT = null;
+                    Globals.LOGGED = null;
                     CanCloseDelete = false;
                     truth.TasksRun = false;
                     user.DeleteAccount();

@@ -19,6 +19,7 @@ namespace DungeonTasker.Views
         ItemInfoModel ItemInv;
         List<ItemModel> weapons = new List<ItemModel>(); // Store weapon item details
         List<ItemModel> pots = new List<ItemModel>(); // Store weapon item details
+        List<ItemModel> characters = new List<ItemModel>();
         UserModel User;
 
         /*
@@ -26,7 +27,7 @@ namespace DungeonTasker.Views
          * PARAM items to be used by the class
          * RETURNS Nothing
          */
-		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon, UserModel user, ItemInfoModel ItemInv)
+		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon, UserModel user, ItemInfoModel ItemInv, CharacterInfoModel characters)
 		{
             this.items = items;
             this.weapon = weapon;
@@ -34,6 +35,7 @@ namespace DungeonTasker.Views
             this.ItemInv = ItemInv;
             this.pots = ItemInv.pots;
             this.weapons = weapon.weapons;
+            this.characters = characters.Characters;
             InitializeComponent ();
             DisplayInventory();
             DisplayKey();
@@ -59,7 +61,7 @@ namespace DungeonTasker.Views
             {
                 if (!string.IsNullOrEmpty(weaponitem.item))
                 {
-                    CreateDisplayItem(weaponitem,true, WeaponsList, weapons);
+                    CreateDisplayItem(weaponitem,0, WeaponsList, weapons);
                 }
             }
 
@@ -67,7 +69,15 @@ namespace DungeonTasker.Views
             {
                 if (!string.IsNullOrEmpty(stash.item))
                 {
-                    CreateDisplayItem(stash,false, ItemsList, pots);
+                    CreateDisplayItem(stash,1, ItemsList, pots);
+                }
+            }
+
+            foreach(ItemModel Chars in characters)
+            {
+                if (!string.IsNullOrEmpty(Chars.item))
+                {
+                    CreateDisplayItem(Chars, 2, CharactersList, characters);
                 }
             }
         }
@@ -82,7 +92,7 @@ namespace DungeonTasker.Views
         * PARAM Nothing
         * RETURNS Nothing
         */
-        private void CreateDisplayItem(ItemModel stash, bool isWep, StackLayout layout, List<ItemModel> list)
+        private void CreateDisplayItem(ItemModel stash, int itemtype, StackLayout layout, List<ItemModel> list)
         {
             int sellcount = 0;
             var frame = new Frame();
@@ -105,7 +115,7 @@ namespace DungeonTasker.Views
             item.TextColor = Color.FromHex("#212121");
 
 
-            if (isWep)
+            if(itemtype == 0)
             {
                 extra.Text = string.Format("Damage: {0} - {1}",
                 WeaponInfoModel.ObtainWeaponInfo(stash.item, true).ToString(),
@@ -121,7 +131,7 @@ namespace DungeonTasker.Views
                 equip.BackgroundColor = Color.FromHex("#00CC33");
                 equip.TextColor = Color.White;
             }
-            else
+            else if(itemtype == 1)
             {
                 extra.Text = string.Format("{0}: {1} - {2} {3}",
                 ItemInfoModel.ObtainItemString(stash.item, true),
@@ -131,6 +141,19 @@ namespace DungeonTasker.Views
                 extra.TextColor = Color.Red;
                 extra.HorizontalTextAlignment = TextAlignment.Start;
                 extra.VerticalTextAlignment = TextAlignment.Center;
+            }
+            else
+            {
+                item.FontSize = 30;
+                item.HorizontalTextAlignment = TextAlignment.Center;
+                item.HorizontalOptions = LayoutOptions.CenterAndExpand;
+                extra.Text = "";
+                equip.Text = "equip";
+                equip.HorizontalOptions = LayoutOptions.End;
+                equip.WidthRequest = 70;
+                equip.HeightRequest = 50;
+                equip.BackgroundColor = Color.FromHex("#00CC33");
+                equip.TextColor = Color.White;
             }
 
             sell.Text = "sell";
@@ -143,20 +166,56 @@ namespace DungeonTasker.Views
 
             equip.Clicked += async (s, a) =>
             {
-                if(await weapon.SetWeaponAsync(this, stash.item)) // If the weapon is not already equipped
+                if(itemtype == 0)
                 {
-                    await DisplayAlert("Equipped", string.Format("You have equipped: {0}", stash.item), "Close");
+                    if (await weapon.SetWeaponAsync(this, stash.item)) // If the weapon is not already equipped
+                    {
+                        await DisplayAlert("Equipped", string.Format("You have equipped: {0}", stash.item), "Close");
+                    }
+                    DisplayEquipped();
                 }
-                DisplayEquipped();
+                else if(itemtype == 2)
+                {
+                    if(Character.Text != stash.item)
+                    {
+                        UserModel.Rewrite("Character:", stash.item, User.LocalLogin);
+                        User.Character = stash.item;
+                        Character.Text = stash.item;
+                        try
+                        {
+                            User.UserLogin.Object.Character = stash.item;
+                            await User.RewriteDATA();
+                        }
+                        catch { }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Equipped", "Character already equipped", "Close");
+                    }
+                }
             };
 
             sell.Clicked += async (s, a) =>
             {
+                    if (CharactersList.Children.Count == 1)
+                {
+                    await DisplayAlert("Error", "Cannot delete your only character", "Close");
+                    return;
+                }
+
+                if (Character.Text == stash.item) //If there is no more of the same character then allow to delete.
+                {
+                    await DisplayAlert("Error", "Please unequip before selling", "Close");
+                    return;
+                }
+
                 int Goldvalue = 0;
-                if(isWep)
+                if(itemtype == 0)
                     Goldvalue = WeaponInfoModel.ObtainWeaponValue(stash.item);
-                if(!isWep)
+                if(itemtype == 1)
                     Goldvalue = ItemInfoModel.ObtainItemValue(stash.item);
+                if (itemtype == 2)
+                    Goldvalue = 50;
 
                 int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile,"Gold:"));
                 int TotalGold = Goldvalue + CurrentGold; // Get your gold and add onto the gold you have recieved.
@@ -175,7 +234,7 @@ namespace DungeonTasker.Views
                         }
                     }
 
-                    if (isWep)
+                    if (itemtype == 0)
                     {
                         UserModel.Rewrite("Weapons:", invetory, items.Localfile);
                         try
@@ -185,8 +244,7 @@ namespace DungeonTasker.Views
                         }catch { }
                         weapon.weapons = this.weapons;
                     }
-                    
-                    if (!isWep)
+                    else if (itemtype == 1)
                     {
                         UserModel.Rewrite("Items:", invetory, items.Localfile);
                         try
@@ -196,7 +254,17 @@ namespace DungeonTasker.Views
                         }catch { }
                         ItemInv.pots = this.pots;
                     }
-
+                    else
+                    {
+                        UserModel.Rewrite("Characters:", invetory, items.Localfile);
+                        try
+                        {
+                            items.Invfile.Object.Characters = invetory;
+                            await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
+                        }
+                        catch { }
+                        ItemInv.pots = this.pots;
+                    }
                     UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Localfile);
                     try
                     {
@@ -207,7 +275,7 @@ namespace DungeonTasker.Views
                     DisplayGold(); //Display the gold
 
                     string equipped = UserModel.CheckForstring(items.Localfile, "Equipped:");
-                    if (!UserModel.CheckForstring(items.Localfile,"Weapons:").Contains(equipped) && isWep) //If the Weapons: section is empty replace with "Not Equipped"
+                    if (!UserModel.CheckForstring(items.Localfile,"Weapons:").Contains(equipped) && itemtype == 0) //If the Weapons: section is empty replace with "Not Equipped"
                     {
                         UserModel.Rewrite("Equipped:", "Not Equipped", items.Localfile);
                         try
@@ -233,7 +301,7 @@ namespace DungeonTasker.Views
             LayoutItem.Children.Add(item);
             LayoutItem.Children.Add(extra);
             LayoutItem.Children.Add(sell);
-            if(isWep)
+            if(itemtype == 0 || itemtype == 2)
                 LayoutItem.Children.Add(equip);         
 
             frame.Padding = 3;

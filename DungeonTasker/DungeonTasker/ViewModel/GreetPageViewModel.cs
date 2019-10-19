@@ -101,7 +101,7 @@ namespace DungeonTasker.ViewModel
                             File.Delete(Stats);
                             File.Delete(Timers);
                             File.WriteAllText(Login, string.Format("Updated:\nUsername:\nPassword:\nFullname:\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True"));
-                            File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
+                            File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:(ง’̀-‘́)ง,");
                             File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
                             File.WriteAllText(Timers, "");
                         }
@@ -112,7 +112,8 @@ namespace DungeonTasker.ViewModel
                         StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
 
                         UserModel.Rewrite("Username:", _UserModel.Username, newuser.file);
-                        UserModel.Rewrite("Password:", _UserModel.Username, newuser.file);
+                        UserModel.Rewrite("Password:", _UserModel.Password, newuser.file);
+                        newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
 
                         newuser.UserLogin.Object.Logged = "True";
                         await newuser.RewriteDATA();
@@ -152,7 +153,7 @@ namespace DungeonTasker.ViewModel
                         local.Character = UserModel.CheckForstring(localLogin, "Character:");
 
                         UserModel.Rewrite("Username:", _UserModel.Username, local.file);
-                        UserModel.Rewrite("Password:", _UserModel.Username, local.file);
+                        UserModel.Rewrite("Password:", _UserModel.Password, local.file);
 
                         MessagingCenter.Send(this, "Animation");
                         await Task.Delay(600);
@@ -209,6 +210,7 @@ namespace DungeonTasker.ViewModel
            Directory.CreateDirectory(documents+ "/Users"); 
            FirebaseUser client = new FirebaseUser();
             var files = Directory.GetFiles(documents+ "/Users");
+            var Logged = Path.Combine(documents + "/Users", "Logged.dt");
             FadeOut = 0.0;
             LoggedIsRunning = true;
             try
@@ -220,8 +222,6 @@ namespace DungeonTasker.ViewModel
                         switch (await client.Login(UserModel.CheckForstring(file, "Username:"), UserModel.CheckForstring(file, "Password:"), true))
                         {
                             case 0:
-                                var Logged = Path.Combine(documents+"/Users", "Logged.dt");
-
                                 var Login = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
                                 var Timers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
                                 var Items = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
@@ -234,7 +234,8 @@ namespace DungeonTasker.ViewModel
                                 StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username,Stats);
 
                                 UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), newuser.file);
-                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Username:"), newuser.file);
+                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), newuser.file);
+                                newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
 
                                 Globals.LOGGED = client.UserLogin;
                                 Globals.CLIENT = client.Client;
@@ -250,8 +251,7 @@ namespace DungeonTasker.ViewModel
                                 return false;
 
                             case 1:
-                                var localLogged = Path.Combine(documents + "/Users", "Logged.dt");
-                                UserModel local = new UserModel(); local.file = localLogged;
+                                UserModel local = new UserModel(); local.file = Logged;
 
                                 var localLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
                                 var localTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
@@ -280,6 +280,24 @@ namespace DungeonTasker.ViewModel
                                 return false;
                             case 2:
                                 break;
+                            case 3:
+                                throw new Exception("Incorrect Password");
+                            case 5:
+                                var FakeLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
+                                var FakeTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
+                                var FakeItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
+                                var FakeStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
+                                if (File.Exists(FakeLogin))
+                                {
+                                    File.Delete(FakeLogin);
+                                    File.Delete(FakeTimers);
+                                    File.Delete(FakeItems);
+                                    File.Delete(FakeStats);
+                                    UserModel.Rewrite("Username:", "", Logged);
+                                    UserModel.Rewrite("Password:", "", Logged);
+                                    throw new Exception("No online account found, Deleting Local Data."+ documents + "/Users" + UserModel.CheckForstring(file, "Username:")+"Login.dt");
+                                }
+                                break;
                         }
                     }
                 }
@@ -293,7 +311,6 @@ namespace DungeonTasker.ViewModel
             if (begin && !CheckAccounts(files))
             {
                 var documentz = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
-                var Logged = Path.Combine(documentz,"Logged.dt");
                 File.WriteAllText(Logged, "Username:\nPassword:");
                 Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new User", "close");
                 return false;

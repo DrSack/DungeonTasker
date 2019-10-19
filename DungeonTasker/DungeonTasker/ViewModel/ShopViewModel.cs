@@ -33,6 +33,7 @@ namespace DungeonTasker.ViewModel
         private ShopModel items;
         public ItemInfoModel Inv;
         public WeaponInfoModel Weapon;
+        public CharacterInfoModel Characters;
         public Command<ItemModel> Remove
         {
             get
@@ -45,17 +46,38 @@ namespace DungeonTasker.ViewModel
                         switch (items.CheckItem(delete.notes))
                         {
                             case 0:
-                                SoldDisplay(delete);
-                                await BuyAsync(items.Inv, 0, RealItem);
-                                foreach (ItemModel wep in items.BuyWeapons) 
+                                if(await BuyAsync(items.Inv, 0, RealItem))
                                 {
-                                    if (wep.item.Contains(RealItem)) { wep.item = "Sold"; }
+                                    SoldDisplay(delete);
+                                    foreach (ItemModel wep in items.BuyWeapons)
+                                    {
+                                        if (wep.item.Contains(RealItem)) { wep.item = "Sold"; }
+                                    }
                                 }
-
+                                else
+                                {
+                                    Volumes[Volumes.IndexOf(delete)].buy = "Buy";
+                                }
                                 break;
+
                             case 1:
                                 Volumes[Volumes.IndexOf(delete)].buy = "Buy";
                                 await BuyAsync(items.Inv, 1, RealItem);
+                                break;
+
+                            case 2:
+                                if(await BuyAsync(items.Inv, 2, RealItem))
+                                {
+                                    SoldDisplay(delete);
+                                    foreach (ItemModel chars in items.BuyCharacter)
+                                    {
+                                        if (chars.item.Contains(RealItem)) { chars.item = "Sold"; }
+                                    }
+                                }
+                                else
+                                {
+                                    Volumes[Volumes.IndexOf(delete)].buy = "Buy";
+                                }
                                 break;
                         }
                     }
@@ -69,6 +91,9 @@ namespace DungeonTasker.ViewModel
                             case 1:
                                 Volumes[Volumes.IndexOf(delete)].buy = ItemInfoModel.ObtainItemValue(delete.notes).ToString();
                                 break;
+                            case 2:
+                                Volumes[Volumes.IndexOf(delete)].buy = 50.ToString();
+                                break;
                         }
                         
                     }
@@ -76,7 +101,7 @@ namespace DungeonTasker.ViewModel
             }
         }
 
-        public ShopViewModel(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user, bool test = false)
+        public ShopViewModel(ShopModel items, ItemInfoModel Inv,WeaponInfoModel Weapon, CharacterInfoModel Characters ,UserModel user, bool test = false)
         {
             Gold = UserModel.CheckForstring(items.Inv.Localfile, "Gold:");
             Keys = UserModel.CheckForstring(items.Inv.Localfile, "Keys:");
@@ -84,6 +109,7 @@ namespace DungeonTasker.ViewModel
             this.items = items;
             this.Inv = Inv;
             this.Weapon = Weapon;
+            this.Characters = Characters;
             if (!test)
             {
                 Volumes = new ObservableCollection<ItemModel>();
@@ -93,6 +119,15 @@ namespace DungeonTasker.ViewModel
 
         public async System.Threading.Tasks.Task<bool> BuyAsync(InventoryItemsModel items, int typecase, string ChoItem, bool test = false)
         {
+            foreach (ItemModel item in Characters.Characters)
+            {
+                if (ChoItem == item.item)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Already have this Character", "Close");
+                    return false;
+                }
+            }
+                
             int CurrentGold = CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile, "Gold:"));
             int Price = 0;
             int TotalGold;
@@ -100,9 +135,13 @@ namespace DungeonTasker.ViewModel
             {
                 Price = WeaponInfoModel.ObtainWeaponValue(ChoItem);
             }
-            else
+            else if(typecase == 1)
             {
                 Price = ItemInfoModel.ObtainItemValue(ChoItem);
+            }
+            else
+            {
+                Price = 50;
             }
             TotalGold = CurrentGold - Price;
             if (CurrentGold - Price >= 0)
@@ -116,7 +155,7 @@ namespace DungeonTasker.ViewModel
                     }catch { }
                     Weapon.Rebuild();
                 }
-                else
+                else if(typecase == 1)
                 {
                     UserModel.AddOntoLine("Items:", ChoItem + ",", items.Localfile);
                     try
@@ -124,6 +163,16 @@ namespace DungeonTasker.ViewModel
                         items.Invfile.Object.Items += ChoItem + ",";
                     }catch { }
                     Inv.Rebuild();
+                }
+                else
+                {
+                    UserModel.AddOntoLine("Characters:", ChoItem + ",", items.Localfile);
+                    try
+                    {
+                        items.Invfile.Object.Characters += ChoItem + ",";
+                    }
+                    catch { }
+                    Characters.Rebuild();
                 }
                 UserModel.Rewrite("Gold:", TotalGold.ToString(), items.Localfile); //Rewrite the gold values
                 try
@@ -213,6 +262,49 @@ namespace DungeonTasker.ViewModel
                     hozopnotes = LayoutOptions.Start,
                     buy = "Buy",
                 });
+            }
+            Volumes.Add(new ItemModel("Title") { Title = "Characters", frameOn = false, frameVis = false, titleTrue = true, titleVis = true });
+            foreach (ItemModel item in items.BuyCharacter)
+            {
+                if (item.item.Contains("Sold"))
+                {
+                    Volumes.Add(new ItemModel(item.item)
+                    {
+                        notes = string.Format("{0}", item.item),
+                        item = string.Format("{0} - {1} dmg", WeaponInfoModel.ObtainWeaponInfo(item.item, true), WeaponInfoModel.ObtainWeaponInfo(item.item, false)),
+                        texthoz = TextAlignment.Center,
+                        hozopnotes = LayoutOptions.CenterAndExpand,
+                        isenabled = false,
+                        isvisible = false,
+                        isvisItem = false,
+                        isenbItem = false,
+                        frameOn = true,
+                        frameVis = true,
+                        titleTrue = false,
+                        titleVis = false,
+                        buy = "Buy",
+
+                    });
+                }
+                else
+                {
+                    Volumes.Add(new ItemModel(item.item)
+                    {
+                        notes = string.Format("{0}", item.item),
+                        texthoz = TextAlignment.Center,
+                        item = "",
+                        isenabled = true,
+                        isvisible = true,
+                        frameOn = true,
+                        frameVis = true,
+                        titleTrue = false,
+                        titleVis = false,
+                        isvisItem = true,
+                        isenbItem = true,
+                        hozopnotes = LayoutOptions.CenterAndExpand,
+                        buy = "Buy",
+                    });
+                }  
             }
         }
 

@@ -277,6 +277,7 @@ namespace DungeonTasker.Models
                 UserModel.Rewrite("Gold:", UserItems.Object.Gold, LocalItem);
                 UserModel.Rewrite("Equipped:", UserItems.Object.Equipped, LocalItem);
                 UserModel.Rewrite("Items:", UserItems.Object.Items, LocalItem);
+                UserModel.Rewrite("Characters:", UserItems.Object.Characters, LocalItem);
                 //Stats
                 UserModel.Rewrite("HEALTH:", UserStats.Object.HEALTH, LocalStats);
                 UserModel.Rewrite("MANA:", UserStats.Object.MANA, LocalStats);
@@ -303,6 +304,7 @@ namespace DungeonTasker.Models
                 UserItems.Object.Gold = UserModel.CheckForstring(LocalItem, "Gold:");
                 UserItems.Object.Equipped = UserModel.CheckForstring(LocalItem, "Equipped:");
                 UserItems.Object.Items = UserModel.CheckForstring(LocalItem, "Items:");
+                UserItems.Object.Characters = UserModel.CheckForstring(LocalItem, "Characters:");
                 await RewriteDATAItems();
 
                 //Stats

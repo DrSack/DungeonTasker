@@ -11,5 +11,6 @@ namespace DungeonTasker.FirebaseData
         public string Gold { get; set; }
         public string Equipped { get; set; }
         public string Items { get; set; }
+        public string Characters { get; set; }
     }
 }

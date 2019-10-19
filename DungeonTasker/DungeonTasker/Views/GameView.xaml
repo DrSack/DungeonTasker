@@ -80,8 +80,8 @@
             
             <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0" TextColor="Accent" IsEnabled="False" IsVisible="False" Margin="0,0,0,10"/>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
-                <StackLayout Orientation="Vertical" Margin="10,0,0,0" x:Name="CharacterStats">
-                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="38" FontAttributes="Bold" TextColor="Accent"/>
+                <StackLayout Orientation="Vertical" Margin="10,0,0,0" x:Name="CharacterStats" VerticalOptions="End">
+                    <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="Character" FontSize="20" FontAttributes="Bold" TextColor="Accent"/>
                     <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterName" TextColor="White" FontAttributes="Bold" FontSize="Medium"/>
                     <StackLayout Orientation="Horizontal" Spacing="0">
                         <Label Text="Character" VerticalTextAlignment="Center" HorizontalOptions="Start" x:Name="CharacterHealth" TextColor="Accent" FontSize="Medium"/>

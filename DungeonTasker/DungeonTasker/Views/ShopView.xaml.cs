@@ -14,10 +14,10 @@ namespace DungeonTasker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopView : ContentPage
     {
-        public ShopView(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, UserModel user)
+        public ShopView(ShopModel items, ItemInfoModel Inv, WeaponInfoModel Weapon, CharacterInfoModel Characters, UserModel user)
         {
             InitializeComponent();
-            BindingContext = new ShopViewModel(items, Inv, Weapon, user);
+            BindingContext = new ShopViewModel(items, Inv, Weapon, Characters, user);
         }
 
         private void Button_Clicked(object sender, EventArgs e)

@@ -22,7 +22,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
                 <Button Text="Easy" Grid.Column="0" Grid.Row="0" Clicked="Easy" BackgroundColor="Accent" TextColor="#212121"/>
                 <Button Text="Medium" Grid.Column="1" Grid.Row="0" Clicked="Medium" BackgroundColor="Orange" TextColor="#212121"/>
                 <Button Text="Hard" Grid.Column="2" Grid.Row="0" Clicked="Hard" BackgroundColor="#F44336" TextColor="#212121"/>

@@ -66,6 +66,7 @@ namespace DungeonTasker.Views
          */
         protected override void OnAppearing()
         {
+            chars.Text = Currentuser.Character;
             bool dungeonEND = true;
             if (UserModel.CheckForstring(Currentuser.LocalLogin, "Tutorial:").Contains("True"))// This is the tutorial.
             {
@@ -312,7 +313,7 @@ namespace DungeonTasker.Views
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
-                items.GiveKeyAsync(1);
+                await items.GiveKeyAsync(1);
                 await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };
 
