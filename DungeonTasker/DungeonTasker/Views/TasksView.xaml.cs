@@ -222,6 +222,13 @@ namespace DungeonTasker.Views
             // When the user clicks on the edit button
             editButton.Clicked += async (s, a) =>
             {
+                UserModel.Rewrite("Updated:", DateTime.Now.ToString(), Currentuser.LocalLogin);
+                try
+                {
+                    Currentuser.UserLogin.Object.Updated = DateTime.Now.ToString();
+                    Currentuser.RewriteDATA();
+                }
+                catch { }
                 EditTaskView EditCurrent = new EditTaskView(time, ListTimer, Currentuser, taskName, timerlads, timers);
                 EditCurrent.Disappearing += (s2, e2) =>
                 {
@@ -309,7 +316,13 @@ namespace DungeonTasker.Views
                 {
                     Animations.CloseStackLayout(timerlads, "Timer", 30, 500);
                 });
-
+                UserModel.Rewrite("Updated:", DateTime.Now.ToString(), Currentuser.LocalLogin);
+                try
+                {
+                    Currentuser.UserLogin.Object.Updated = DateTime.Now.ToString();
+                    Currentuser.RewriteDATA();
+                }
+                catch { }
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
                 Currentuser.UpdateCurrenttimes(ListTimer);
