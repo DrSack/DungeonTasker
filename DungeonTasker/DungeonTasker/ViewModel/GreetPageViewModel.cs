@@ -182,11 +182,9 @@ namespace DungeonTasker.ViewModel
             var Items = Path.Combine(documents, _UserModel.Username + "Inv.dt");
             var Stats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
             UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
-            InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
-            StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
             await Task.Run(async () =>
             {
-                if (!File.Exists(Login))
+                if (!File.Exists(Login) || !File.Exists(Items) || !File.Exists(Stats) || !File.Exists(Timers))
                 {
                     skip = true;
                     File.Delete(Login);
@@ -208,6 +206,8 @@ namespace DungeonTasker.ViewModel
                 Globals.LOGGED = client.UserLogin;
                 Globals.CLIENT = client.Client;
             });
+            InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
+            StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
             MessagingCenter.Send(this, "Animation");
             await Task.Delay(700);
             Device.BeginInvokeOnMainThread(async () =>
@@ -256,8 +256,6 @@ namespace DungeonTasker.ViewModel
             var localItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
             var localStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
             UserModel local = new UserModel(); local.file = localLogged;
-            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
-            StatsModel localstat = new StatsModel(localStats);
             await Task.Run(() =>
             {
                 try
@@ -273,6 +271,8 @@ namespace DungeonTasker.ViewModel
                 UserModel.Rewrite("Username:", _UserModel.Username, local.file);
                 UserModel.Rewrite("Password:", _UserModel.Password, local.file);
             });
+            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
+            StatsModel localstat = new StatsModel(localStats);
             MessagingCenter.Send(this, "Animation");
             await Task.Delay(700);// Allow time for all threads to finish
             Device.BeginInvokeOnMainThread(async () =>
@@ -288,8 +288,6 @@ namespace DungeonTasker.ViewModel
             var localItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
             var localStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
             UserModel local = new UserModel(); local.file = Logged;
-            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
-            StatsModel localstat = new StatsModel(localStats);
             await Task.Run(() =>
             {
                 try
@@ -302,6 +300,8 @@ namespace DungeonTasker.ViewModel
                 UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), local.file);
                 UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), local.file);
             });
+            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
+            StatsModel localstat = new StatsModel(localStats);
             MessagingCenter.Send(this, "Animation");
             await Task.Delay(700);
             Device.BeginInvokeOnMainThread(async () =>
