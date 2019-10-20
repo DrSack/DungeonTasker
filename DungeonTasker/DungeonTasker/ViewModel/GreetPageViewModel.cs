@@ -84,77 +84,10 @@ namespace DungeonTasker.ViewModel
                 switch (await client.Login(_UserModel.Username, _UserModel.Password))
                 {
                     case 0:
-                        bool skip = false;
-                        var Logged = Path.Combine(documents, "Logged.dt");
-                        UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
-                        var Login = Path.Combine(documents, _UserModel.Username + "Login.dt");
-                        var Timers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
-                        var Items = Path.Combine(documents, _UserModel.Username + "Inv.dt");
-                        var Stats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
-
-                        if (!File.Exists(Login))
-                        {
-                            skip = true;
-                            File.Delete(Login);
-                            File.Delete(Items);
-                            File.Delete(Stats);
-                            File.Delete(Timers);
-                            File.WriteAllText(Login, string.Format("Updated:\nUsername:\nPassword:\nFullname:\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True"));
-                            File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:(ง’̀-‘́)ง,");
-                            File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
-                            File.WriteAllText(Timers, "");
-                        }
-
-                        newuser.Getfile(Login, Items, Stats, Timers);
-                        InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
-                        StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
-                        UserModel.Rewrite("Username:", _UserModel.Username, newuser.file);
-                        UserModel.Rewrite("Password:", _UserModel.Password, newuser.file);
-                        newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
-
-                        newuser.UserLogin.Object.Logged = "True";
-                        await newuser.RewriteDATA();
-
-                        Globals.LOGGED = client.UserLogin;
-                        Globals.CLIENT = client.Client;
-
-                        //ADD CHECK FOR LOCAL DATA THEN UPDATE IF TIMES ARE DIFFERENT
-                        await newuser.UpdateAll(skip);
-
-                        MessagingCenter.Send(this, "Animation");
-                        await Task.Delay(600);
-                        Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+                        await LoadUser(client, documents);
                         break;
-
                     case 1:
-                        var localLogged = Path.Combine(documents, "Logged.dt");
-                        UserModel local = new UserModel(); local.file = localLogged;
-                       
-                        var localLogin = Path.Combine(documents, _UserModel.Username + "Login.dt");
-                        var localTimers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
-                        var localItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
-                        var localStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
-
-                        try 
-                        { 
-                            File.ReadAllText(localLogin);
-                            File.ReadAllText(localTimers);
-                            File.ReadAllText(localItems);
-                            File.ReadAllText(localStats);
-                        }
-                        catch { throw new Exception("Local Account doesn't exist");}//if logging in and files dont exist then log in
-
-                        local.Getfile(localLogin, localItems, localStats, localTimers);
-                        InventoryItemsModel localitem = new InventoryItemsModel(localItems);
-                        StatsModel localstat = new StatsModel(localStats);
-                        local.Character = UserModel.CheckForstring(localLogin, "Character:");
-
-                        UserModel.Rewrite("Username:", _UserModel.Username, local.file);
-                        UserModel.Rewrite("Password:", _UserModel.Password, local.file);
-
-                        MessagingCenter.Send(this, "Animation");
-                        await Task.Delay(900);// Allow time for all threads to finish
-                        Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
+                        await OfflineLogin(documents);
                         break;
                     case 2:
                         throw new Exception("Please input both Username and Password");
@@ -163,20 +96,8 @@ namespace DungeonTasker.ViewModel
                     case 4:
                         throw new Exception("Account already in use");
                     case 5:
-                        var FakeLogin = Path.Combine(documents, _UserModel.Username + "Login.dt");
-                        var FakeTimers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
-                        var FakeItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
-                        var FakeStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
-
-                        if (File.Exists(FakeLogin))
-                        {
-                            File.Delete(FakeLogin);
-                            File.Delete(FakeTimers);
-                            File.Delete(FakeItems);
-                            File.Delete(FakeStats);
-                            throw new Exception("No online account found, Deleting Local Data.");
-                        }
-                        throw new Exception("No account found");
+                        NoAccount(documents);
+                        break;
                 }
             }
             catch(Exception es)
@@ -219,84 +140,17 @@ namespace DungeonTasker.ViewModel
                         switch (await client.Login(UserModel.CheckForstring(file, "Username:"), UserModel.CheckForstring(file, "Password:"), true))
                         {
                             case 0:
-                                var Login = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
-                                var Timers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
-                                var Items = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
-                                var Stats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
-                                
-
-                                UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
-                                newuser.Getfile(Login, Items, Stats, Timers);
-                                InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username,Items);
-                                StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username,Stats);
-
-                                UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), newuser.file);
-                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), newuser.file);
-                                newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
-
-                                Globals.LOGGED = client.UserLogin;
-                                Globals.CLIENT = client.Client;
-                                
-                                //ADD CHECK FOR LOCAL DATA THEN UPDATE IF TIMES ARE DIFFERENT
-                                await newuser.UpdateAll();
-
-                                newuser.UserLogin.Object.Logged = "True";
-                                await newuser.RewriteDATA();
-
-                                MessagingCenter.Send(this, "Animation");
-                                await Task.Delay(900);
-
-                                Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
-                                IsRunning = false;
+                                await LoadUserLogged(client, documents, file, Logged);
                                 return false;
-
                             case 1:
-                                UserModel local = new UserModel(); local.file = Logged;
-
-                                var localLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
-                                var localTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
-                                var localItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
-                                var localStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
-
-                                try
-                                {
-                                    File.ReadAllText(localLogin);
-                                }
-                                catch { throw new Exception("aids");}
-
-                                local.Getfile(localLogin, localItems, localStats, localTimers);
-                                InventoryItemsModel localitem = new InventoryItemsModel(localItems);
-                                StatsModel localstat = new StatsModel(localStats);
-                                local.Character = UserModel.CheckForstring(localLogin, "Character:");
-
-                                UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), local.file);
-                                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), local.file);
-
-                                MessagingCenter.Send(this, "Animation");
-                                await Task.Delay(900);
-                                Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
-                                IsRunning = false;
-
+                                await OfflineLoginLogged(documents,file,Logged);
                                 return false;
                             case 2:
                                 break;
                             case 3:
                                 throw new Exception("Incorrect Password");
                             case 5:
-                                var FakeLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
-                                var FakeTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
-                                var FakeItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
-                                var FakeStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
-                                if (File.Exists(FakeLogin))
-                                {
-                                    File.Delete(FakeLogin);
-                                    File.Delete(FakeTimers);
-                                    File.Delete(FakeItems);
-                                    File.Delete(FakeStats);
-                                    UserModel.Rewrite("Username:", "", Logged);
-                                    UserModel.Rewrite("Password:", "", Logged);
-                                    throw new Exception("No online account found, Deleting Local Data."+ documents + "/Users" + UserModel.CheckForstring(file, "Username:")+"Login.dt");
-                                }
+                                NoAccountLogged(documents,file,Logged);
                                 break;
                         }
                     }
@@ -304,7 +158,7 @@ namespace DungeonTasker.ViewModel
             }
             catch (Exception es)
             {
-                if (es != null) { Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); FadeOut = 100.0; LoggedIsRunning = false; return false;}
+                if (es != null) { await Application.Current.MainPage.DisplayAlert("Error", es.Message, "Close"); FadeOut = 100.0; LoggedIsRunning = false; return false;}
             }
             FadeOut = 100.0;
             LoggedIsRunning = false;
@@ -312,13 +166,186 @@ namespace DungeonTasker.ViewModel
             {
                 var documentz = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Users";//Get folder path
                 File.WriteAllText(Logged, "Username:\nPassword:");
-                Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new User", "close");
+                await Application.Current.MainPage.DisplayAlert("Welcome", "Welcome to Dungeon Tasker new User", "close");
                 return false;
             }
             return false;
 
         }
 
+        private async Task LoadUser(FirebaseUser client, string documents)// Load user from login mainscreen
+        {
+            bool skip = false;
+            var Logged = Path.Combine(documents, "Logged.dt");
+            var Login = Path.Combine(documents, _UserModel.Username + "Login.dt");
+            var Timers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
+            var Items = Path.Combine(documents, _UserModel.Username + "Inv.dt");
+            var Stats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
+            UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
+            InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
+            StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
+            await Task.Run(async () =>
+            {
+                if (!File.Exists(Login))
+                {
+                    skip = true;
+                    File.Delete(Login);
+                    File.Delete(Items);
+                    File.Delete(Stats);
+                    File.Delete(Timers);
+                    File.WriteAllText(Login, string.Format("Updated:\nUsername:\nPassword:\nFullname:\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True"));
+                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:(ง’̀-‘́)ง,");
+                    File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
+                    File.WriteAllText(Timers, "");
+                }
+                newuser.Getfile(Login, Items, Stats, Timers);
+                newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
+                newuser.UserLogin.Object.Logged = "True";
+                await newuser.RewriteDATA();
+                await newuser.UpdateAll(skip);
+                UserModel.Rewrite("Username:", _UserModel.Username, newuser.file);
+                UserModel.Rewrite("Password:", _UserModel.Password, newuser.file);
+                Globals.LOGGED = client.UserLogin;
+                Globals.CLIENT = client.Client;
+            });
+            MessagingCenter.Send(this, "Animation");
+            await Task.Delay(700);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+            });
+        }
+
+        private async Task LoadUserLogged(FirebaseUser client, string documents, string file, string Logged)// This automatically logs in user.
+        {
+            var Login = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
+            var Timers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
+            var Items = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
+            var Stats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
+            UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
+            InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
+            StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
+            await Task.Run(async () =>
+             {
+                 newuser.Getfile(Login, Items, Stats, Timers);
+                 UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), newuser.file);
+                 UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), newuser.file);
+                 newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
+                 newuser.UserLogin.Object.Logged = "True";
+                 await newuser.RewriteDATA();
+                 Globals.LOGGED = client.UserLogin;
+                 Globals.CLIENT = client.Client;
+                 await newuser.UpdateAll();
+             });
+            MessagingCenter.Send(this, "Animation");
+            await Task.Delay(700);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+            });
+            
+            IsRunning = false;
+            FadeOut = 100.0;
+        }
+
+        private async Task OfflineLogin(string documents)
+        {
+            var localLogged = Path.Combine(documents, "Logged.dt");
+            var localLogin = Path.Combine(documents, _UserModel.Username + "Login.dt");
+            var localTimers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
+            var localItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
+            var localStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
+            UserModel local = new UserModel(); local.file = localLogged;
+            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
+            StatsModel localstat = new StatsModel(localStats);
+            await Task.Run(() =>
+            {
+                try
+                {
+                    File.ReadAllText(localLogin);
+                    File.ReadAllText(localTimers);
+                    File.ReadAllText(localItems);
+                    File.ReadAllText(localStats);
+                }
+                catch { throw new Exception("Local Account doesn't exist"); }//if logging in and files dont exist then log in
+                local.Getfile(localLogin, localItems, localStats, localTimers);
+                local.Character = UserModel.CheckForstring(localLogin, "Character:");
+                UserModel.Rewrite("Username:", _UserModel.Username, local.file);
+                UserModel.Rewrite("Password:", _UserModel.Password, local.file);
+            });
+            MessagingCenter.Send(this, "Animation");
+            await Task.Delay(700);// Allow time for all threads to finish
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
+            });
+        }
+
+        private async Task OfflineLoginLogged(string documents, string file, string Logged)
+        {
+            var localLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
+            var localTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
+            var localItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
+            var localStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
+            UserModel local = new UserModel(); local.file = Logged;
+            InventoryItemsModel localitem = new InventoryItemsModel(localItems);
+            StatsModel localstat = new StatsModel(localStats);
+            await Task.Run(() =>
+            {
+                try
+                {
+                    File.ReadAllText(localLogin);
+                }
+                catch { throw new Exception("Error reading local data"); }
+                local.Getfile(localLogin, localItems, localStats, localTimers);
+                local.Character = UserModel.CheckForstring(localLogin, "Character:");
+                UserModel.Rewrite("Username:", UserModel.CheckForstring(file, "Username:"), local.file);
+                UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), local.file);
+            });
+            MessagingCenter.Send(this, "Animation");
+            await Task.Delay(700);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
+            });
+            FadeOut = 100.0;
+            IsRunning = false;
+        }
+
+        private void NoAccount(string documents)
+        {
+            var FakeLogin = Path.Combine(documents, _UserModel.Username + "Login.dt");
+            var FakeTimers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
+            var FakeItems = Path.Combine(documents, _UserModel.Username + "Inv.dt");
+            var FakeStats = Path.Combine(documents, _UserModel.Username + "Stats.dt");
+
+            if (File.Exists(FakeLogin))
+            {
+                File.Delete(FakeLogin);
+                File.Delete(FakeTimers);
+                File.Delete(FakeItems);
+                File.Delete(FakeStats);
+                throw new Exception("No online account found, Deleting Local Data.");
+            }
+            throw new Exception("No account found");
+        }
+        private void NoAccountLogged(string documents, string file, string Logged)
+        {
+            var FakeLogin = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Login.dt");
+            var FakeTimers = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Timer.dt");
+            var FakeItems = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Inv.dt");
+            var FakeStats = Path.Combine(documents + "/Users", UserModel.CheckForstring(file, "Username:") + "Stats.dt");
+            if (File.Exists(FakeLogin))
+            {
+                File.Delete(FakeLogin);
+                File.Delete(FakeTimers);
+                File.Delete(FakeItems);
+                File.Delete(FakeStats);
+                UserModel.Rewrite("Username:", "", Logged);
+                UserModel.Rewrite("Password:", "", Logged);
+                throw new Exception("No online account found, Deleting Local Data." + documents + "/Users" + UserModel.CheckForstring(file, "Username:") + "Login.dt");
+            }
+        }
 
         /*
          * Check to see if there are anyfiles that exist within the device
