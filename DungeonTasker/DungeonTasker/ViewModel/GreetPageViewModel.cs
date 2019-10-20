@@ -87,7 +87,6 @@ namespace DungeonTasker.ViewModel
                         bool skip = false;
                         var Logged = Path.Combine(documents, "Logged.dt");
                         UserModel newuser = new UserModel(client.UserLogin, client.UserStats, client.UserItems, client.Client, client.UserTimes); newuser.file = Logged;
-
                         var Login = Path.Combine(documents, _UserModel.Username + "Login.dt");
                         var Timers = Path.Combine(documents, _UserModel.Username + "Timer.dt");
                         var Items = Path.Combine(documents, _UserModel.Username + "Inv.dt");
@@ -107,10 +106,8 @@ namespace DungeonTasker.ViewModel
                         }
 
                         newuser.Getfile(Login, Items, Stats, Timers);
-
                         InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
                         StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
-
                         UserModel.Rewrite("Username:", _UserModel.Username, newuser.file);
                         UserModel.Rewrite("Password:", _UserModel.Password, newuser.file);
                         newuser.Character = UserModel.CheckForstring(newuser.LocalLogin, "Character:");
@@ -122,7 +119,7 @@ namespace DungeonTasker.ViewModel
                         Globals.CLIENT = client.Client;
 
                         //ADD CHECK FOR LOCAL DATA THEN UPDATE IF TIMES ARE DIFFERENT
-                        newuser.UpdateAll(skip);
+                        await newuser.UpdateAll(skip);
 
                         MessagingCenter.Send(this, "Animation");
                         await Task.Delay(600);
@@ -156,7 +153,7 @@ namespace DungeonTasker.ViewModel
                         UserModel.Rewrite("Password:", _UserModel.Password, local.file);
 
                         MessagingCenter.Send(this, "Animation");
-                        await Task.Delay(600);
+                        await Task.Delay(900);// Allow time for all threads to finish
                         Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
                         break;
                     case 2:
@@ -241,10 +238,13 @@ namespace DungeonTasker.ViewModel
                                 Globals.CLIENT = client.Client;
                                 
                                 //ADD CHECK FOR LOCAL DATA THEN UPDATE IF TIMES ARE DIFFERENT
-                                newuser.UpdateAll();
+                                await newuser.UpdateAll();
 
                                 newuser.UserLogin.Object.Logged = "True";
                                 await newuser.RewriteDATA();
+
+                                MessagingCenter.Send(this, "Animation");
+                                await Task.Delay(900);
 
                                 Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
                                 IsRunning = false;
@@ -273,7 +273,7 @@ namespace DungeonTasker.ViewModel
                                 UserModel.Rewrite("Password:", UserModel.CheckForstring(file, "Password:"), local.file);
 
                                 MessagingCenter.Send(this, "Animation");
-                                await Task.Delay(600);
+                                await Task.Delay(900);
                                 Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
                                 IsRunning = false;
 

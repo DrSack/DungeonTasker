@@ -111,7 +111,7 @@ namespace DungeonTasker.Models
          * PARAM timer a list that uses the TimerUpdatecs object class
          * RETURNS Nothing
          */
-        public void UpdateCurrenttimes(List<TimerUpdatecs> timer)
+        public async Task UpdateCurrenttimesAsync(List<TimerUpdatecs> timer)
         {
             string tempTimes="";//create a temporary file
             string tempFile = Path.GetTempFileName();
@@ -127,7 +127,7 @@ namespace DungeonTasker.Models
             try
             {
                 UserTimes.Object.Timer = tempTimes;
-                RewriteDATATimes();
+                await RewriteDATATimes();
             } catch { }
         }
 
@@ -211,7 +211,7 @@ namespace DungeonTasker.Models
          * @para nothing
          * @return nothing
          */
-        public async void DeleteAccount()
+        public async Task DeleteAccount()
         {
             await Token
                 .Child(string.Format("{0}Login", Username))
@@ -251,8 +251,8 @@ namespace DungeonTasker.Models
              * @para nothing
              * @return nothing
              */
-            public async void UpdateAll(bool skip = false)
-        {
+            public async Task UpdateAll(bool skip = false)
+            {
             DateTime Server = DateTime.Now;
             DateTime Local = DateTime.Now.AddDays(1);
             try
@@ -288,88 +288,41 @@ namespace DungeonTasker.Models
             }
             else
             {
-                //Login
-                UserLogin.Object.Updated = DateTime.Now.ToString();// GOTTA ADD ITEMS HERE
-                UserLogin.Object.Username = UserModel.CheckForstring(LocalLogin, "Username:");
-                UserLogin.Object.Password = UserModel.CheckForstring(LocalLogin, "Password:");
-                UserLogin.Object.FullName = UserModel.CheckForstring(LocalLogin, "Fullname:");
-                UserLogin.Object.Character = UserModel.CheckForstring(LocalLogin, "Character:");
-                UserLogin.Object.Logged = UserModel.CheckForstring(LocalLogin, "Logged:");
-                UserLogin.Object.Tutorial = UserModel.CheckForstring(LocalLogin, "Tutorial:");
-                await RewriteDATA();
+                try
+                {
+                    UserLogin.Object.Updated = DateTime.Now.ToString();// GOTTA ADD ITEMS HERE
+                    UserLogin.Object.Username = UserModel.CheckForstring(LocalLogin, "Username:");
+                    UserLogin.Object.Password = UserModel.CheckForstring(LocalLogin, "Password:");
+                    UserLogin.Object.FullName = UserModel.CheckForstring(LocalLogin, "Fullname:");
+                    UserLogin.Object.Character = UserModel.CheckForstring(LocalLogin, "Character:");
+                    UserLogin.Object.Logged = UserModel.CheckForstring(LocalLogin, "Logged:");
+                    UserLogin.Object.Tutorial = UserModel.CheckForstring(LocalLogin, "Tutorial:");
+                    await RewriteDATA();
 
-                //Inv
-                UserItems.Object.Weapons = UserModel.CheckForstring(LocalItem, "Weapons:");
-                UserItems.Object.Keys = UserModel.CheckForstring(LocalItem, "Keys:");
-                UserItems.Object.Gold = UserModel.CheckForstring(LocalItem, "Gold:");
-                UserItems.Object.Equipped = UserModel.CheckForstring(LocalItem, "Equipped:");
-                UserItems.Object.Items = UserModel.CheckForstring(LocalItem, "Items:");
-                UserItems.Object.Characters = UserModel.CheckForstring(LocalItem, "Characters:");
-                await RewriteDATAItems();
+                    //Inv
+                    UserItems.Object.Weapons = UserModel.CheckForstring(LocalItem, "Weapons:");
+                    UserItems.Object.Keys = UserModel.CheckForstring(LocalItem, "Keys:");
+                    UserItems.Object.Gold = UserModel.CheckForstring(LocalItem, "Gold:");
+                    UserItems.Object.Equipped = UserModel.CheckForstring(LocalItem, "Equipped:");
+                    UserItems.Object.Items = UserModel.CheckForstring(LocalItem, "Items:");
+                    UserItems.Object.Characters = UserModel.CheckForstring(LocalItem, "Characters:");
+                    await RewriteDATAItems();
 
-                //Stats
-                UserStats.Object.HEALTH = UserModel.CheckForstring(LocalStats, "HEALTH:");
-                UserStats.Object.MANA = UserModel.CheckForstring(LocalStats, "MANA:");
-                UserStats.Object.LEVEL = UserModel.CheckForstring(LocalStats, "LEVEL:");
-                UserStats.Object.EXP = UserModel.CheckForstring(LocalStats, "EXP:");
-                await RewriteDATAStats();
+                    //Stats
+                    UserStats.Object.HEALTH = UserModel.CheckForstring(LocalStats, "HEALTH:");
+                    UserStats.Object.MANA = UserModel.CheckForstring(LocalStats, "MANA:");
+                    UserStats.Object.LEVEL = UserModel.CheckForstring(LocalStats, "LEVEL:");
+                    UserStats.Object.EXP = UserModel.CheckForstring(LocalStats, "EXP:");
+                    await RewriteDATAStats();
 
-                //Timer
-                UserTimes.Object.Timer = File.ReadAllText(LocalTimer);
-                await RewriteDATATimes();
+                    //Timer
+                    UserTimes.Object.Timer = File.ReadAllText(LocalTimer);
+                    await RewriteDATATimes();
+                }
+                catch { }
             }
-
             Character = UserModel.CheckForstring(LocalLogin, "Character:");
-        }
-
-        /*
-         * This method is responsible for creating a file and writing the information of the textfields onto it
-         *  @para string User: the username, string Pass: the password, RegisterAdd Rego: the page class. 
-         *  @returns is Void
-         *  
-         */
-        public static async void StoreInfo(string User, string Pass, string FullName, RegisterView Rego, bool test = false)
-        {
-            try
-            {
-                // if the username and password are not filled in throw an exception
-                if (!checkinfo(User, Pass)) { throw new Exception("Please enter all credentials... ");}
-            string line = string.Format("Username:{0}\nPassword:{1}\nFullname:{2}\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True", User, Pass, FullName);// format file structure
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Get folder path
-            var filename = Path.Combine(documents + "/Users", User+"Login.dt");// File name is equal to the username+login.dt
-            var Items = Path.Combine(documents + "/Users", User+"Inv.dt");
-            var Stats = Path.Combine(documents + "/Users", User+"Stats.dt");
-            var Timer = Path.Combine(documents + "/Users", User+"Timer.dt");
-
-                if (File.Exists(filename))// If the file already exists throw and exception
-                {
-                    throw new Exception("Please delete current account");
-                }
-                else
-                {
-                    //Write onto file and save onto device
-                    File.WriteAllText(filename, line);
-                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
-                    File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
-                    File.WriteAllText(Timer, "");
-                    if (!test)
-                    {
-                        // Show display alert then close current page and go back to previous opened window.
-                        await UserModel.ShowMessage("Account Succefully Created", "Create", "Close", Rego, async () =>
-                        {
-                            await Rego.Navigation.PopModalAsync();
-                        });
-                    }
-                }
-            }
-            catch (Exception e)
-            {   //What an exception is caught, display alert message
-              await Rego.DisplayAlert("Error", e.Message, "Close");
-            }
-            
-        }
-
-        
+        }      
 
         public async Task RewriteDATA()
         {

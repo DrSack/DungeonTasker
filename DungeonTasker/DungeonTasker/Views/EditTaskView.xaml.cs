@@ -51,7 +51,7 @@ namespace DungeonTasker.Views
         private async void PopupEditing(object sender, EventArgs e)
         {
             ListTimers[ListTimers.IndexOf(timeStats)].type = TaskEditted.Text;
-            user.UpdateCurrenttimes(ListTimers);
+            user.UpdateCurrenttimesAsync(ListTimers);
             label.Text = TaskEditted.Text;
             await Navigation.PopModalAsync();
         }
@@ -60,7 +60,7 @@ namespace DungeonTasker.Views
         {
             ListTimers.Remove(timeStats);
             outer.Children.Remove(timerlads);
-            user.UpdateCurrenttimes(ListTimers);
+            user.UpdateCurrenttimesAsync(ListTimers);
             Deleted = true;
             await Navigation.PopModalAsync();
         }

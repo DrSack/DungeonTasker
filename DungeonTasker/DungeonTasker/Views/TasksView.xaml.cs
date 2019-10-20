@@ -238,7 +238,7 @@ namespace DungeonTasker.Views
             };
 
             ListTimer.Add(time); // Add the TimerUpdatecs time variable to the ListTimer list
-            Currentuser.UpdateCurrenttimes(ListTimer); // Update the current times on the file
+            Currentuser.UpdateCurrenttimesAsync(ListTimer); // Update the current times on the file
 
             if (DateTime.Now < Trg) // Check whenever the current date is still under the end date of the task.
             {
@@ -325,7 +325,7 @@ namespace DungeonTasker.Views
                 catch { }
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
-                Currentuser.UpdateCurrenttimes(ListTimer);
+                Currentuser.UpdateCurrenttimesAsync(ListTimer);
                 await items.GiveKeyAsync(1);
                 await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };

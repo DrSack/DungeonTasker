@@ -30,7 +30,6 @@ namespace DungeonTasker
             ItemInfoModel Invitem = new ItemInfoModel(items);
             CharacterInfoModel Characters = new CharacterInfoModel(items, user.LocalLogin);
             ShopModel Shop = new ShopModel(items);
-            
             DungeonModel realDungeon = new DungeonModel();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);

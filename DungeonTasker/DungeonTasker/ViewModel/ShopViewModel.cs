@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DungeonTasker.ViewModel
@@ -113,7 +114,10 @@ namespace DungeonTasker.ViewModel
             if (!test)
             {
                 Volumes = new ObservableCollection<ItemModel>();
-                CreateLists(items, Volumes);
+                Task.Run(async () =>
+                {
+                    await CreateLists(items, Volumes);
+                });
             }
         }
 
@@ -194,7 +198,7 @@ namespace DungeonTasker.ViewModel
             }
         }
 
-        private void CreateLists(ShopModel items, ObservableCollection<ItemModel> Volumes)
+        private async Task CreateLists(ShopModel items, ObservableCollection<ItemModel> Volumes)
         {
             Volumes.Add(new ItemModel("Title") { Title = "Weapons", frameOn = false, frameVis = false, titleTrue = true, titleVis = true });
             foreach (ItemModel item in items.BuyWeapons)
@@ -216,7 +220,7 @@ namespace DungeonTasker.ViewModel
                         titleTrue = false,
                         titleVis = false,
                         buy = "Buy",
-                        
+
                     });
                 }
                 else
@@ -238,7 +242,7 @@ namespace DungeonTasker.ViewModel
                         buy = "Buy",
                     });
                 }
-                
+
             }
             Volumes.Add(new ItemModel("Title") { Title = "Potions", frameOn = false, frameVis = false, titleTrue = true, titleVis = true });
             foreach (ItemModel item in items.BuyItem)
@@ -304,7 +308,7 @@ namespace DungeonTasker.ViewModel
                         hozopnotes = LayoutOptions.CenterAndExpand,
                         buy = "Buy",
                     });
-                }  
+                }
             }
         }
 
