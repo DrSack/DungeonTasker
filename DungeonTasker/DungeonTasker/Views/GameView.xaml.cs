@@ -309,7 +309,6 @@ namespace DungeonTasker.Views
         * Param Nothing.
         * Returns Nothing.
         */
-
         private async void BossAttack()
         {
             if (!battlesequence)
@@ -336,7 +335,6 @@ namespace DungeonTasker.Views
       * Param Nothing.
       * Returns Nothing.
       */
-
         private async void AttackBtn(object sender, EventArgs e)
         {
             DisableorEnableFrameLayouts(false, MagicAbility);
@@ -364,7 +362,6 @@ namespace DungeonTasker.Views
          *  Param Nothing
          *  Returns Nothing.
          */
-
         private async void DodgeBtn(object sender, EventArgs e)
         {
             DisableorEnableFrameLayouts(false, MagicAbility);
@@ -400,7 +397,6 @@ namespace DungeonTasker.Views
          *  Param Nothing
          *  Returns Nothing.
          */
-
         private async void MagicBtn(object sender, EventArgs e)
         {
             if(MagicAbility.IsEnabled != true)

@@ -25,7 +25,7 @@
                 <StackLayout VerticalOptions="CenterAndExpand" x:Name="Announce" IsEnabled="False" IsVisible="False">
                 </StackLayout>
 
-                <Frame IsEnabled="False" IsVisible="False" x:Name="ItemAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">
+                <Frame IsEnabled="False" IsVisible="False" x:Name="ItemAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="10, 20" CornerRadius="5" Margin="10">
                     <ScrollView>
                         <StackLayout x:Name="Items">
 
