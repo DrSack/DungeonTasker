@@ -12,7 +12,7 @@
                     <Label VerticalOptions="StartAndExpand" HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Keys: " TextColor="Accent"/>
+                                <Span Text="Keys: " TextColor="#FFCA28"/>
                                 <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Keys"/>
                             </FormattedString>
                         </Label.FormattedText>
@@ -21,7 +21,7 @@
                     <Label HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Gold: " TextColor="Accent"/>
+                                <Span Text="Gold: " TextColor="#FFCA28"/>
                                 <Span FontSize="Medium" FontAttributes="Bold" Text="" x:Name="Gold"/>
                             </FormattedString>
                         </Label.FormattedText>
@@ -38,7 +38,7 @@
                     <Frame BorderColor="Black" Margin="0,3,0,3">
                         <StackLayout x:Name="Equipped" Orientation="Horizontal" BackgroundColor="White" HorizontalOptions="CenterAndExpand">
                             <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#212121"/>
-                            <Label IsEnabled="False" IsVisible="False" x:Name="Damage" TextColor="Red"/>
+                            <Label IsEnabled="False" FontSize="10" IsVisible="False" x:Name="Damage" TextColor="Red" Margin="10,0,0,0"/>
                         </StackLayout>
                     </Frame>
                     

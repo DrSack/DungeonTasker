@@ -61,9 +61,10 @@ namespace DungeonTasker.Views
         {
             boss.Health = realdungeon.Easyboss.Health;
             Character.Text = realdungeon.EasyBoss;
+            Character.TextColor = Color.Accent;
             Character.HorizontalTextAlignment = TextAlignment.Center;
             CharName.Text = ""; CharName.Text = realdungeon.EasyName;
-            TypeBoss.Text = "Easy";
+            TypeBoss.Text = "Difficulty: Easy";
             TypeBoss.TextColor = Color.Accent;
             CurrentBoss = realdungeon.EasyBoss;
             CurrentName = realdungeon.EasyName;
@@ -73,9 +74,10 @@ namespace DungeonTasker.Views
         {
             boss.Health = realdungeon.Easyboss.Health;
             Character.Text = realdungeon.EasyBoss;
+            Character.TextColor = Color.Accent;
             Character.HorizontalTextAlignment = TextAlignment.Center;
             CharName.Text = ""; CharName.Text = realdungeon.EasyName;
-            TypeBoss.Text = "Easy";
+            TypeBoss.Text = "Difficulty: Easy";
             TypeBoss.TextColor = Color.Accent;
             CurrentBoss = realdungeon.EasyBoss;
             CurrentName = realdungeon.EasyName;
@@ -85,10 +87,11 @@ namespace DungeonTasker.Views
         {
             boss.Health = realdungeon.Mediumboss.Health;
             Character.Text = realdungeon.MediumBoss;
+            Character.TextColor = Color.FromHex("#FFCA28");
             Character.HorizontalTextAlignment = TextAlignment.Center;
             CharName.Text = ""; CharName.Text = realdungeon.MediumName;
-            TypeBoss.Text = "Medium";
-            TypeBoss.TextColor = Color.Orange;
+            TypeBoss.Text = "Difficulty: Medium";
+            TypeBoss.TextColor = Color.FromHex("#FFCA28");
             CurrentBoss = realdungeon.MediumBoss;
             CurrentName = realdungeon.MediumName;
         }
@@ -97,9 +100,10 @@ namespace DungeonTasker.Views
         {
             boss.Health = realdungeon.Hardboss.Health;
             Character.Text = realdungeon.HardBoss;
+            Character.TextColor = Color.FromHex("#F44336");
             Character.HorizontalTextAlignment = TextAlignment.Center;
             CharName.Text = ""; CharName.Text = realdungeon.HardName;
-            TypeBoss.Text = "Hard";
+            TypeBoss.Text = "Difficulty: Hard";
             TypeBoss.TextColor = Color.FromHex("#F44336");
             CurrentBoss = realdungeon.HardBoss;
             CurrentName = realdungeon.HardName;
