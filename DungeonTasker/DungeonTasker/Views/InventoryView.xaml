@@ -27,7 +27,7 @@
                         </Label.FormattedText>
                     </Label>
 
-                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" x:Name="Character" Margin="60,0,0,60"></Label>
+                    <Label FontSize="48" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" x:Name="Character" Margin="60,0,0,60"></Label>
                 </StackLayout>
             </Frame>
 
@@ -38,7 +38,7 @@
                     <Frame BorderColor="Black" Margin="0,3,0,3">
                         <StackLayout x:Name="Equipped" Orientation="Horizontal" BackgroundColor="White" HorizontalOptions="CenterAndExpand">
                             <Label Text="" x:Name="EquippedLabel" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#212121"/>
-                            <Label IsEnabled="False" FontSize="10" IsVisible="False" x:Name="Damage" TextColor="Red" Margin="10,0,0,0"/>
+                            <Label IsEnabled="False" FontSize="10" IsVisible="False" x:Name="Damage" TextColor="Red" Margin="10,4,0,0"/>
                         </StackLayout>
                     </Frame>
                     

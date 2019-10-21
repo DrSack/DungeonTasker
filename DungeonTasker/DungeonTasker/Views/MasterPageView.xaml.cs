@@ -28,7 +28,6 @@ namespace DungeonTasker.Views
          * 
          * RETURNS Nothing
          */
-
         public MasterPageView (Page page, UserModel user, InventoryItemsModel items, WeaponInfoModel weapon, 
         logged truth, DungeonView dungeon, ItemInfoModel itemInv, ShopModel Shop, CharacterInfoModel Characters)
 		{

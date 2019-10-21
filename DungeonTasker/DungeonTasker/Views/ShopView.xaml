@@ -15,8 +15,8 @@
                     <Label VerticalOptions="StartAndExpand" HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Keys: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Keys}" TextColor="Gold"/>
+                                <Span Text="Keys: " TextColor="#FFCA28"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Keys}" TextColor="#FFCA28"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
@@ -25,12 +25,12 @@
                     <Label HorizontalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Gold: " TextColor="Accent"/>
-                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Gold}" TextColor="Gold"/>
+                                <Span Text="Gold: " TextColor="#FFCA28"/>
+                                <Span FontSize="Medium" FontAttributes="Bold" Text="{Binding Gold}" TextColor="#FFCA28"/>
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="50" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="60,0,0,60" Text="{Binding Character}"></Label>
+                    <Label FontSize="48" FontAttributes="Bold" TextColor="Accent" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Margin="60,0,0,60" Text="{Binding Character}"></Label>
                 </StackLayout>
             </Frame>
 
@@ -53,16 +53,16 @@
 
                                     <StackLayout Orientation="Horizontal" Margin="0,0,0,0" MinimumHeightRequest="40">
 
-                                        <Label  Text="{Binding notes}" TextColor="Black" 
+                                        <Label  Text="{Binding notes}" TextColor="Black" FontAttributes="Bold"
                                             VerticalTextAlignment="Center" HorizontalTextAlignment="{Binding texthoz}" 
                                             HorizontalOptions="{Binding hozopnotes}" 
-                                            VerticalOptions="CenterAndExpand" Margin="6,14,0,14"/>
+                                            VerticalOptions="CenterAndExpand" Margin="14"/>
 
-                                        <Label Text="{Binding item}" TextColor="Red" HorizontalOptions="StartAndExpand" 
+                                        <Label Text="{Binding item}" TextColor="Red" HorizontalOptions="StartAndExpand" FontSize="10"
                                                VerticalTextAlignment="Center" HorizontalTextAlignment="Start" 
                                                IsVisible="{Binding isvisItem}" IsEnabled="{Binding isenbItem}"/>
 
-                                        <Button Text= "{Binding buy}" HorizontalOptions="EndAndExpand" BackgroundColor="#00CC33" TextColor="#212121"
+                                        <Button Text= "{Binding buy}" HorizontalOptions="EndAndExpand" BackgroundColor="#FFCA28" TextColor="White"
                                                 Clicked="Button_Clicked" IsEnabled="{Binding isenabled}" 
                                                 IsVisible="{Binding isvisible}" Margin="5"/>
                                     </StackLayout>

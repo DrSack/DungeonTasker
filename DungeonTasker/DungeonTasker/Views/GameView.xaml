@@ -14,7 +14,7 @@
                     <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="Boss" FontSize="38" FontAttributes="Bold" TextColor="#F44336"/>
                     <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossName" TextColor="#F44336" FontAttributes="Bold" FontSize="Medium"/>
                     <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0">
-                        <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth" TextColor="Accent" FontSize="Medium"/>
+                        <Label Text="Boss" VerticalTextAlignment="Center" HorizontalTextAlignment="End" x:Name="BossHealth" TextColor="#F44336" FontSize="Medium"/>
                         <Label Text=" HP" FontSize="Small" TextColor="White" Margin="0,0,0,0"/>
                     </StackLayout>
                 </StackLayout>
@@ -33,50 +33,51 @@
                     </ScrollView>
                 </Frame>
 
-                <Frame IsEnabled="False" IsVisible="False" x:Name="MagicAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20,40,20,40" CornerRadius="10">
+                <Frame IsEnabled="False" IsVisible="False" x:Name="MagicAbility" Opacity="0" VerticalOptions="FillAndExpand" Padding="20" CornerRadius="5" Margin="10">
 
-                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="30">
-                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                    <StackLayout VerticalOptions="CenterAndExpand" Spacing="10">
+                        <Frame CornerRadius="5" BorderColor="#F44336" Padding="10">
                             <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
-                                <Label Text="Fireball:" VerticalTextAlignment="Start" TextColor="#F44336" FontSize="Medium" Margin="0,0,4,0"/>
+                                <Label Text="Fireball" VerticalTextAlignment="Center" TextColor="#F44336" FontSize="Medium" FontAttributes="Bold" Margin="10,0,30,0"/>
                                 <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
                                     <Label Text="15 - 30 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
-                                    <Label Text="Mana: 15mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Mana: 15mp" VerticalTextAlignment="Center" TextColor="DarkTurquoise"/>
                                     <Label Text="Lvl 1" VerticalTextAlignment="Center" TextColor="Accent"/>
                                 </StackLayout>
-                                <Button  Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonFire" CornerRadius="10" BackgroundColor="#F44336" Padding="15,0,15,0"/>
+                                <Button  Text="Use" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonFire" CornerRadius="20" 
+                                         TextColor="#F44336" Padding="0" WidthRequest="40" BackgroundColor="White" HeightRequest="20"/>
                             </StackLayout>
                         </Frame>
 
-                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                        <Frame BorderColor="DarkOrange" CornerRadius="5" Padding="10">
                             <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
-                                <Label Text="Lightning:" VerticalTextAlignment="Start" TextColor="#9B870C" FontSize="Medium" Margin="0,0,4,0"/>
+                                <Label Text="Lightning" VerticalTextAlignment="Center" TextColor="DarkOrange" FontSize="Medium" FontAttributes="Bold" Margin="10,0,30,0"/>
                                 <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
                                     <Label Text="25 - 45 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
-                                    <Label Text="Mana: 30mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Mana: 30mp" VerticalTextAlignment="Center" TextColor="DarkTurquoise"/>
                                     <Label Text="Lvl 3" VerticalTextAlignment="Center" TextColor="Accent"/>
                                 </StackLayout>
-                                <Button Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonLightning" CornerRadius="10" BackgroundColor="#F44336" Padding="0,0,0,0"/>
+                                <Button Text="Use" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonLightning" Padding="0"
+                                        CornerRadius="20" TextColor="DarkOrange" BackgroundColor="White" WidthRequest="40" HeightRequest="20"/>
                             </StackLayout>
                         </Frame>
 
-                        <Frame BorderColor="Black" CornerRadius="15" Padding="5,5,5,5">
+                        <Frame BorderColor="Purple" CornerRadius="5" Padding="10">
                             <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Spacing="5">
-                                <Label Text="Void:" VerticalTextAlignment="Start" TextColor="Purple" FontSize="Medium" Margin="0,0,4,0"/>
+                                <Label Text="Void" VerticalTextAlignment="Center" TextColor="Purple" FontSize="Medium" FontAttributes="Bold" Margin="10,0,30,0"/>
                                 <StackLayout Orientation = "Vertical" HorizontalOptions="StartAndExpand" Spacing="2">
                                     <Label Text="35 - 55 dmg" VerticalTextAlignment="Center" TextColor="Black"/>
-                                    <Label Text="Mana: 50mp" VerticalTextAlignment="Center" TextColor="Cyan"/>
+                                    <Label Text="Mana: 50mp" VerticalTextAlignment="Center" TextColor="DarkTurquoise"/>
                                     <Label Text="Lvl 5" VerticalTextAlignment="Center" TextColor="Accent"/>
                                 </StackLayout>
-                                <Button  Text="Attack" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonVoid" CornerRadius="10" BackgroundColor="#F44336" Padding="0,0,0,0"/>
+                                <Button  Text="Use" FontSize="Small" HorizontalOptions="EndAndExpand" x:Name="ButtonVoid" 
+                                         CornerRadius="20" TextColor="Purple" BackgroundColor="White" Padding="0" WidthRequest="40" HeightRequest="30"/>
                             </StackLayout>
                         </Frame>
                     </StackLayout>
 
                 </Frame>
             </StackLayout>
-            
-            
             
             <Label Text="[*]" HorizontalTextAlignment="Start" x:Name="CharacterAttacking" Opacity="0" TextColor="Accent" IsEnabled="False" IsVisible="False" Margin="0,0,0,10"/>
             <StackLayout VerticalOptions="End" Orientation="Horizontal">
@@ -91,23 +92,21 @@
                     </StackLayout>
                 </StackLayout>
 
-                    <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0">
-                    <Frame BorderColor="Accent" CornerRadius="8" Padding="7,7,7,7">
+                <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" Spacing="0">
+                    <Frame CornerRadius="5" Padding="10">
                         <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal" BackgroundColor="White">
                             <StackLayout>
                                 <Button Text="Attack" Clicked="AttackBtn" TextColor="#F44336" BackgroundColor="White"/>
-                                <Button Text="Dodge" Clicked="DodgeBtn" TextColor="Accent" BackgroundColor="White"/>
+                                <Button Text="Dodge" Clicked="DodgeBtn" TextColor="Black" BackgroundColor="White"/>
                             </StackLayout>
 
                             <StackLayout>
-                                <Button Text="Magic" Clicked="MagicBtn" BackgroundColor="White" TextColor="Cyan"/>
-                                <Button Text="Items" Clicked="ItemsBtn" BackgroundColor="White" TextColor="Wheat"/>
+                                <Button Text="Magic" Clicked="MagicBtn" BackgroundColor="White" TextColor="DarkTurquoise"/>
+                                <Button Text="Items" Clicked="ItemsBtn" BackgroundColor="White" TextColor="Peru"/>
                             </StackLayout>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                
-
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

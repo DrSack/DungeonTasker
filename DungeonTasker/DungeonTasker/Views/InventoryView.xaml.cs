@@ -122,7 +122,7 @@ namespace DungeonTasker.Views
                 WeaponInfoModel.ObtainWeaponInfo(stash.item, false));
                 extra.TextColor = Color.Red;
                 extra.FontSize = 10;
-                extra.Margin = new Thickness(10, 0, 0, 0);
+                extra.Margin = new Thickness(15, 0, 0, 0);
                 extra.HorizontalTextAlignment = TextAlignment.Start;
                 extra.VerticalTextAlignment = TextAlignment.Center;
 
