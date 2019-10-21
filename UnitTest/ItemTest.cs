@@ -65,7 +65,7 @@ namespace UnitTest
             int manavalue = ItemInfoModel.ObtainItemInfo(MagicPot, false);
 
             Assert.Equal(40, healthvalue);
-            Assert.Equal(60, manavalue);//Test Minimum values
+            Assert.Equal(60, manavalue);//Test Maximum values
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace UnitTest
             int value2 = ItemInfoModel.ObtainItemInfo(incorrect, true);
 
             Assert.Equal(0, value);
-            Assert.Equal(0, value2);//Test Minimum values
+            Assert.Equal(0, value2);//Test Wrong values
         }
 
         [Fact]

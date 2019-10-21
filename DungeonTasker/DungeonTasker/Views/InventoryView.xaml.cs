@@ -199,13 +199,13 @@ namespace DungeonTasker.Views
 
             sell.Clicked += async (s, a) =>
             {
-                    if (CharactersList.Children.Count == 1)
+                    if (CharactersList.Children.Count == 1 && itemtype == 2)
                 {
                     await DisplayAlert("Error", "Cannot delete your only character", "Close");
                     return;
                 }
 
-                if (Character.Text == stash.item) //If there is no more of the same character then allow to delete.
+                if (Character.Text == stash.item && itemtype == 2) //If there is no more of the same character then allow to delete.
                 {
                     await DisplayAlert("Error", "Please unequip before selling", "Close");
                     return;
