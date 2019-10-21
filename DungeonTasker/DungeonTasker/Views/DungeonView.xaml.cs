@@ -24,6 +24,13 @@ namespace DungeonTasker.Views
         public StatsModel boss = new StatsModel();
         public ShopModel Shop;
         public DungeonModel realdungeon;
+
+        public DungeonView()
+        {
+            //This is to be used for testing
+        }
+
+
         /*
          * Constructor for Dungeon
          * Encapsulates UserModel,InventoryItems,WeaponInfo,Stats objects + the bool variable

@@ -67,12 +67,12 @@ namespace UnitTest
         public void BuyWeapon()//Test buying a weapon
         {
             string tempFile = Path.GetTempFileName();//create a temporary file
-            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
+            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:");
             InventoryItemsModel info = new InventoryItemsModel(tempFile);
             UserModel user = new UserModel();
 
             user.Character = "(0_0)";
-            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), user, true);
+            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), new CharacterInfoModel(info, "test"), user, true);
 
             test.BuyAsync(info, 0, "SteelSword", true);
             Assert.Equal(3, test.Weapon.weapons.Count);
@@ -84,12 +84,12 @@ namespace UnitTest
         public void BuyItem()//Test buying an item
         {
             string tempFile = Path.GetTempFileName();//create a temporary file
-            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:");
+            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:");
             InventoryItemsModel info = new InventoryItemsModel(tempFile);
             UserModel user = new UserModel();
 
             user.Character = "(0_0)";
-            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), user, true);
+            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), new CharacterInfoModel(info, "test"), user, true);
 
             test.BuyAsync(info, 1, "HealthPotion", true);
             Assert.Single(test.Inv.pots);
@@ -101,12 +101,12 @@ namespace UnitTest
         public async Task BuyWithNoGoldAsync()//Test buying an item
         {
             string tempFile = Path.GetTempFileName();//create a temporary file
-            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:0\nEquipped:IronDagger\nItems:");
+            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:0\nEquipped:IronDagger\nItems:\nCharacters:");
             InventoryItemsModel info = new InventoryItemsModel(tempFile);
             UserModel user = new UserModel();
 
             user.Character = "(0_0)";
-            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), user, true);
+            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), new CharacterInfoModel(info, "test"), user, true);
 
             Assert.False(await test.BuyAsync(info, 1, "HealthPotion", true));
             Assert.Empty(test.Inv.pots);

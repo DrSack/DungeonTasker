@@ -17,7 +17,7 @@ namespace DungeonTasker.Views
     public partial class TasksView : ContentPage
     {
         List<TimerUpdatecs> ListTimer = new List<TimerUpdatecs>();
-        UserModel Currentuser;
+        public UserModel Currentuser;
         InventoryItemsModel items;
         logged truthtime;
         public DungeonView dungeon;
