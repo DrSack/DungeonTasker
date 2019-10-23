@@ -77,7 +77,7 @@ namespace DungeonTasker.Views
                         DatePickerView Tutorial = new DatePickerView();
                         Tutorial.Disappearing += async (s, e) =>
                         {
-                            dungeon.Disappearing += (s2, e2) =>
+                            dungeon.Disappearing += async (s2, e2) =>
                             {
                                 if (dungeonEND)
                                 {
@@ -85,7 +85,7 @@ namespace DungeonTasker.Views
                                     try
                                     {
                                         Currentuser.UserLogin.Object.Tutorial = "False";
-                                        Currentuser.RewriteDATA();
+                                        await Currentuser.RewriteDATA();
                                     }catch{ }
                                     this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
                                     dungeonEND = false;
@@ -226,7 +226,7 @@ namespace DungeonTasker.Views
                 try
                 {
                     Currentuser.UserLogin.Object.Updated = DateTime.Now.ToString();
-                    Currentuser.RewriteDATA();
+                    await Currentuser.RewriteDATA();
                 }
                 catch { }
                 EditTaskView EditCurrent = new EditTaskView(time, ListTimer, Currentuser, taskName, timerlads, timers);
@@ -320,7 +320,7 @@ namespace DungeonTasker.Views
                 try
                 {
                     Currentuser.UserLogin.Object.Updated = DateTime.Now.ToString();
-                    Currentuser.RewriteDATA();
+                    await Currentuser.RewriteDATA();
                 }
                 catch { }
                 timers.Children.Remove(timerlads);
