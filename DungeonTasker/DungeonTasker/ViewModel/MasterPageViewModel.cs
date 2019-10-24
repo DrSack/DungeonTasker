@@ -206,7 +206,7 @@ namespace DungeonTasker.ViewModel
             try
             {
                 user.UserLogin.Object.Updated = DateTime.Now.ToString();
-                user.RewriteDATA();
+                await user.RewriteDATA();
             }
             catch{ }
             ((MasterDetailPage)mainpage.Parent).Detail.FadeTo(0, 100);

@@ -65,9 +65,12 @@ namespace DungeonTasker.Models
 
         public async Task UpdateInv()
         {
-            await Client
+            try
+            {
+                await Client
                 .Child(string.Format("{0}Inv", Username))
                 .Child(Invfile.Key).PutAsync(Invfile.Object);
+            }catch{ }
         }
 
     }
