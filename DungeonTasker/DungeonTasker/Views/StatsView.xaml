@@ -4,12 +4,63 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             BackgroundColor="#212121"
              x:Class="DungeonTasker.Views.StatsView"
              Title="Stats">
-    
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Stuff will be here probably"/>
+        <StackLayout VerticalOptions="FillAndExpand">
+        <Label Text="{Binding Name}" VerticalOptions="End" FontSize="30" TextColor="White" FontAttributes="Bold"/>
+        <Frame CornerRadius="20" VerticalOptions="Center" Margin="30,0,30,30" BorderColor="White" BackgroundColor="Black">
+        <StackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="{Binding Character}" HorizontalTextAlignment="Center" TextColor="Accent" FontSize="50" VerticalOptions="Start" Margin="0,0,0,30"/>
+            <Label HorizontalTextAlignment="Center" TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="HEALTH: "/>
+                            <Span TextColor="#FFCA28" Text="{Binding Health}" TextDecorations="Underline">
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="MANA: "/>
+                            <Span TextColor="#FFCA28" Text="{Binding Mana}" TextDecorations="Underline">
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="Total Bosses defeated: "/>
+                            <Span TextColor="#FFCA28" Text="{Binding BossDefeated}" TextDecorations="Underline">
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="Total keys collected: "/>
+                            <Span TextColor="#FFCA28" Text="{Binding Keys}" TextDecorations="Underline">
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span TextColor="White" Text="EXP: "/>
+                            <Span TextColor="#FFCA28" Text="{Binding Exp}" TextDecorations="Underline">
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+        </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
