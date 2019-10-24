@@ -278,11 +278,13 @@ namespace DungeonTasker.Models
                 UserModel.Rewrite("Equipped:", UserItems.Object.Equipped, LocalItem);
                 UserModel.Rewrite("Items:", UserItems.Object.Items, LocalItem);
                 UserModel.Rewrite("Characters:", UserItems.Object.Characters, LocalItem);
+                UserModel.Rewrite("TOTAL_KEYS:", UserItems.Object.TOTAL_KEYS, LocalItem);
                 //Stats
                 UserModel.Rewrite("HEALTH:", UserStats.Object.HEALTH, LocalStats);
                 UserModel.Rewrite("MANA:", UserStats.Object.MANA, LocalStats);
                 UserModel.Rewrite("LEVEL:", UserStats.Object.LEVEL, LocalStats);
                 UserModel.Rewrite("EXP:", UserStats.Object.EXP, LocalStats);
+                UserModel.Rewrite("TOTAL_BOSSES:", UserStats.Object.TOTAL_BOSSES, LocalStats);
                 //Timer
                 File.WriteAllText(LocalTimer, UserTimes.Object.Timer);
             }
@@ -306,6 +308,7 @@ namespace DungeonTasker.Models
                     UserItems.Object.Equipped = UserModel.CheckForstring(LocalItem, "Equipped:");
                     UserItems.Object.Items = UserModel.CheckForstring(LocalItem, "Items:");
                     UserItems.Object.Characters = UserModel.CheckForstring(LocalItem, "Characters:");
+                    UserItems.Object.TOTAL_KEYS = UserModel.CheckForstring(LocalItem, "TOTAL_KEYS:");
                     await RewriteDATAItems();
 
                     //Stats
@@ -313,6 +316,7 @@ namespace DungeonTasker.Models
                     UserStats.Object.MANA = UserModel.CheckForstring(LocalStats, "MANA:");
                     UserStats.Object.LEVEL = UserModel.CheckForstring(LocalStats, "LEVEL:");
                     UserStats.Object.EXP = UserModel.CheckForstring(LocalStats, "EXP:");
+                    UserStats.Object.TOTAL_BOSSES = UserModel.CheckForstring(LocalStats, "TOTAL_BOSSES:");
                     await RewriteDATAStats();
 
                     //Timer

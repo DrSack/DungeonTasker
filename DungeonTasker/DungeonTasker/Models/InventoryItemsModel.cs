@@ -54,11 +54,24 @@ namespace DungeonTasker.Models
         {
             string keys = UserModel.CheckForstring(Localfile, "Keys:");
             int realkey = Int32.Parse(keys);
+            int realtotalkeys = 0;
             realkey += key;
+
+            if(key > 0)
+            {
+                string totalkeys = UserModel.CheckForstring(Localfile, "TOTAL_KEYS:");
+                realtotalkeys = Int32.Parse(totalkeys);
+                realtotalkeys += key;
+                UserModel.Rewrite("TOTAL_KEYS:", realtotalkeys.ToString(), Localfile);
+            }
             UserModel.Rewrite("Keys:", realkey.ToString(), Localfile);
             try
             {
                 Invfile.Object.Keys = realkey.ToString();
+                if(key > 0)
+                {
+                    Invfile.Object.TOTAL_KEYS = realtotalkeys.ToString();
+                }
                 await UpdateInv();
             }catch { }
         }

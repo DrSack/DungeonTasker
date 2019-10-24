@@ -192,12 +192,13 @@ namespace DungeonTasker.Views
                 try
                 {
                     dungeon.items.Invfile.Object.Weapons += currentloot + ",";
-                    dungeon.weapon.UpdateInv();
+                    await dungeon.weapon.UpdateInv();
                 }
                 catch { }
                 
                 dungeon.weapon.Rebuild();
                 await dungeon.stats.ExpEnterAsync(expgained);
+                await dungeon.stats.AddBossDefeated();
                 await DisplayAlert("YOU WIN", string.Format("Loot: {0}\nExp gained: {1}\nExp left: {2}", currentloot, expgained, dungeon.stats.ExpLeft()), "Close");
                 if (await dungeon.stats.StatsCheckAsync())
                 {
@@ -215,7 +216,7 @@ namespace DungeonTasker.Views
                 try
                 {
                     dungeon.items.Invfile.Object.Weapons += currentloot + ",";
-                    dungeon.weapon.UpdateInv();
+                    await dungeon.weapon.UpdateInv();
                 }
                 catch { }
 
@@ -550,58 +551,62 @@ namespace DungeonTasker.Views
 
             button.Clicked += async (s, e) =>
             {
-                battlesequence = false;
-                await Task.Run(async () =>
+                if (battlesequence)
                 {
-                    Animations.CloseStackLayout(layout, "closing", 30, 500);
-                });
-                
-                Items.Children.Remove(layout);
-                pots.Remove(item); // Remove off list
-                string invetory = "";
-                foreach (ItemModel itemInv in pots)
-                {
-                    if (!String.IsNullOrEmpty(itemInv.item))
+                    battlesequence = false;
+                    await Task.Run(async () =>
                     {
-                        invetory += itemInv.item + ","; // Create string for file
+                        Animations.CloseStackLayout(layout, "closing", 30, 500);
+                    });
+
+                    Items.Children.Remove(layout);
+                    pots.Remove(item); // Remove off list
+                    string invetory = "";
+                    foreach (ItemModel itemInv in pots)
+                    {
+                        if (!String.IsNullOrEmpty(itemInv.item))
+                        {
+                            invetory += itemInv.item + ","; // Create string for file
+                        }
                     }
+                    UserModel.Rewrite("Items:", invetory, dungeon.items.Localfile);
+
+                    try
+                    {
+                        dungeon.items.Invfile.Object.Items = invetory;
+                        await dungeon.items.UpdateInv();
+                    }
+                    catch { }
+
+                    dungeon.itemInv.pots = this.pots;
+
+                    await ItemAbility.FadeTo(0, 200);
+                    DisableorEnableFrameLayouts(false, ItemAbility);
+
+                    if (item.item.Contains("HealthPotion"))
+                    {
+                        int buff = Obtainbuff(item.item);
+                        CharacterHP += buff;
+                        await Announcer(string.Format("Healed for {0}", buff.ToString()), true);
+                        CharacterHealth.Text = CharacterHP.ToString();
+                        CharacterHealth.RelRotateTo(360, 500);
+                        await CharacterHealth.ScaleTo(5, 300);
+                        await CharacterHealth.ScaleTo(1, 300);
+                    }
+                    else if (item.item.Contains("MagicPotion"))
+                    {
+                        int buff = Obtainbuff(item.item);
+                        CharacterMP += buff;
+                        await Announcer(string.Format("Restored {0} Mana", buff.ToString()), true);
+                        CharacterMana.Text = CharacterMP.ToString();
+                        CharacterMana.RelRotateTo(360, 500);
+                        await CharacterMana.ScaleTo(5, 300);
+                        await CharacterMana.ScaleTo(1, 300);
+                    }
+
+                    await Announcer("BOSS TURN", false);
+                    BossAttack();
                 }
-                UserModel.Rewrite("Items:", invetory, dungeon.items.Localfile);
-
-                try
-                {
-                    dungeon.items.Invfile.Object.Items = invetory;
-                    await dungeon.items.UpdateInv();
-                }catch { }
-                
-                dungeon.itemInv.pots = this.pots;
-
-                await ItemAbility.FadeTo(0, 200);
-                DisableorEnableFrameLayouts(false, ItemAbility);
-
-                if (item.item.Contains("HealthPotion"))
-                {
-                    int buff = Obtainbuff(item.item);
-                    CharacterHP += buff;
-                    await Announcer(string.Format("Healed for {0}", buff.ToString()),true);
-                    CharacterHealth.Text = CharacterHP.ToString();
-                    CharacterHealth.RelRotateTo(360, 500);
-                    await CharacterHealth.ScaleTo(5, 300);
-                    await CharacterHealth.ScaleTo(1, 300);
-                }
-                else if (item.item.Contains("MagicPotion"))
-                {
-                    int buff = Obtainbuff(item.item);
-                    CharacterMP += buff;
-                    await Announcer(string.Format("Restored {0} Mana", buff.ToString()), true);
-                    CharacterMana.Text = CharacterMP.ToString();
-                    CharacterMana.RelRotateTo(360, 500);
-                    await CharacterMana.ScaleTo(5, 300);
-                    await CharacterMana.ScaleTo(1, 300);
-                }
-
-                await Announcer("BOSS TURN", false);
-                BossAttack();
             };
 
             layout.Children.Add(Name);

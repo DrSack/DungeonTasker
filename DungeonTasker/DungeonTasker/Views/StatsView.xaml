@@ -9,8 +9,8 @@
              Title="Stats">
 
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand">
-        <Label Text="{Binding Name}" VerticalOptions="End" FontSize="30" TextColor="White" FontAttributes="Bold"/>
+        <StackLayout VerticalOptions="CenterAndExpand">
+        <Label Text="{Binding Name}" HorizontalTextAlignment="Center" VerticalOptions="End" FontSize="30" TextColor="White" FontAttributes="Bold"/>
         <Frame CornerRadius="20" VerticalOptions="Center" Margin="30,0,30,30" BorderColor="White" BackgroundColor="Black">
         <StackLayout VerticalOptions="CenterAndExpand">
             <Label Text="{Binding Character}" HorizontalTextAlignment="Center" TextColor="Accent" FontSize="50" VerticalOptions="Start" Margin="0,0,0,30"/>
@@ -50,10 +50,19 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                    <Label HorizontalOptions="CenterAndExpand" TextColor="White">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span TextColor="White" Text="LEVEL: "/>
+                                <Span TextColor="#FFCA28" Text="{Binding Levels}" TextDecorations="Underline">
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label HorizontalOptions="CenterAndExpand" TextColor="White">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span TextColor="White" Text="EXP: "/>
+                        <Span TextColor="White" Text="EXP LEFT TO LEVEL UP: "/>
                             <Span TextColor="#FFCA28" Text="{Binding Exp}" TextDecorations="Underline">
                         </Span>
                     </FormattedString>

@@ -139,15 +139,28 @@ namespace DungeonTasker.Models
         {
             Experience += exp; 
             UserModel.Rewrite("EXP:", Experience.ToString(), Localfile);
-
             try
             {
                 file.Object.EXP = Experience.ToString();
                 await Client
                     .Child(string.Format("{0}Stats", Username))
                     .Child(file.Key).PutAsync(file.Object);
-            }
-            catch { }
+            }catch { }
+        }
+
+        public async Task AddBossDefeated()
+        {
+            string bosses = UserModel.CheckForstring(Localfile, "TOTAL_BOSSES:");
+            int totalbosses = Int32.Parse(bosses);
+            totalbosses += 1;
+            UserModel.Rewrite("TOTAL_BOSSES:", totalbosses.ToString(), Localfile);
+            try
+            {
+                file.Object.TOTAL_BOSSES = totalbosses.ToString();
+                await Client
+                    .Child(string.Format("{0}Stats", Username))
+                    .Child(file.Key).PutAsync(file.Object);
+            }catch { }
             
         }
     }

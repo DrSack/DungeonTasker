@@ -138,7 +138,7 @@ namespace DungeonTasker.ViewModel
             {
                 PageOn.ResetAll();
                 PageOn.Stats = true;
-                await SetPageAsync(new NavigationPage(new StatsView(Shop, ItemInv, weapon, user)));
+                await SetPageAsync(new NavigationPage(new StatsView(ItemInv,user,dungeon.stats)));
             }
         }
 

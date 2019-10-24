@@ -10,5 +10,6 @@ namespace DungeonTasker.FirebaseData
         public string MANA { get; set; }
         public string LEVEL { get; set; }
         public string EXP { get; set; }
+        public string TOTAL_BOSSES { get; set; }
     }
 }

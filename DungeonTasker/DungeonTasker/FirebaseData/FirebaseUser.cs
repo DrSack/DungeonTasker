@@ -131,7 +131,8 @@ namespace DungeonTasker.FirebaseData
                     HEALTH = "100",
                     MANA = "40",
                     LEVEL = "1",
-                    EXP = "0"
+                    EXP = "0",
+                    TOTAL_BOSSES = "0",
                 });
 
             await Client
@@ -143,7 +144,8 @@ namespace DungeonTasker.FirebaseData
                     Gold = "500",
                     Equipped = "IronDagger",
                     Items = "",
-                    Characters = "(ง’̀-‘́)ง,"
+                    Characters = "(ง’̀-‘́)ง,",
+                    TOTAL_KEYS = "0"
                 });
 
             await Client

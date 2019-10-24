@@ -192,8 +192,8 @@ namespace DungeonTasker.ViewModel
                     File.Delete(Stats);
                     File.Delete(Timers);
                     File.WriteAllText(Login, string.Format("Updated:\nUsername:\nPassword:\nFullname:\nCharacter:(ง’̀-‘́)ง\nLogged:false\nTutorial:True"));
-                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:(ง’̀-‘́)ง,");
-                    File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0");
+                    File.WriteAllText(Items, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:(ง’̀-‘́)ง,\nTOTAL_KEYS:0");
+                    File.WriteAllText(Stats, "HEALTH:100\nMANA:40\nLEVEL:1\nEXP:0\nTOTAL_BOSSES:0");
                     File.WriteAllText(Timers, "");
                 }
                 newuser.Getfile(Login, Items, Stats, Timers);
@@ -210,7 +210,7 @@ namespace DungeonTasker.ViewModel
             StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
             MessagingCenter.Send(this, "Animation");
             await Task.Delay(700);
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
             });

@@ -325,7 +325,7 @@ namespace DungeonTasker.Views
                 catch { }
                 timers.Children.Remove(timerlads);
                 ListTimer.Remove(times);
-                Currentuser.UpdateCurrenttimesAsync(ListTimer);
+                await Currentuser.UpdateCurrenttimesAsync(ListTimer);
                 await items.GiveKeyAsync(1);
                 await this.DisplayAlert("Congratulations", "You finished a task!\n\nHere's a key", "Receive");
             };

@@ -12,5 +12,6 @@ namespace DungeonTasker.FirebaseData
         public string Equipped { get; set; }
         public string Items { get; set; }
         public string Characters { get; set; }
+        public string TOTAL_KEYS { get; set; }
     }
 }
