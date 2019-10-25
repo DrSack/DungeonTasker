@@ -54,7 +54,7 @@
                     </Label.FormattedText>
                 </Label>
 
-                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336" Margin="30"/>
+                <Button Text="BATTLE" TextColor="White" Clicked="BattleBtn" BackgroundColor="#F44336" Margin="30" x:Name="Battle"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

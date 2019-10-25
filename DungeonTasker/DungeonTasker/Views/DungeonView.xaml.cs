@@ -129,20 +129,20 @@ namespace DungeonTasker.Views
         */
         private async void BattleBtn(object sender, EventArgs e)
         {
+            Battle.IsEnabled = false;
             int realKeys;
             string keys = UserModel.CheckForstring(items.Localfile, "Keys:");
             keys = keys.Replace(",", "");
             realKeys = Int32.Parse(keys);
-
             if (realKeys > 0) {
                 await this.Navigation.PushModalAsync(new GameView(this));
-                items.GiveKeyAsync(-1);
+                await items.GiveKeyAsync(-1);
                 selectKey();
             }
-
             else {
                 await DisplayAlert("Error", "Not enough keys to battle", "cancel");
             }
+            Battle.IsEnabled = true;
         }
 
         /*

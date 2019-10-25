@@ -208,11 +208,9 @@ namespace DungeonTasker.ViewModel
             });
             InventoryItemsModel item = new InventoryItemsModel(newuser.UserItems, newuser.Token, newuser.UserLogin.Object.Username, Items);
             StatsModel stat = new StatsModel(newuser.UserStats, newuser.Token, newuser.UserLogin.Object.Username, Stats);
-            MessagingCenter.Send(this, "Animation");
-            await Task.Delay(700);
             Device.BeginInvokeOnMainThread(() =>
             {
-                Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
+              Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
             });
         }
 
@@ -237,15 +235,10 @@ namespace DungeonTasker.ViewModel
                  Globals.CLIENT = client.Client;
                  await newuser.UpdateAll();
              });
-            MessagingCenter.Send(this, "Animation");
-            await Task.Delay(700);
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = new NavigationPage(new AddView(newuser, item, stat));
             });
-            
-            IsRunning = false;
-            FadeOut = 100.0;
         }
 
         private async Task OfflineLogin(string documents)
@@ -273,9 +266,7 @@ namespace DungeonTasker.ViewModel
             });
             InventoryItemsModel localitem = new InventoryItemsModel(localItems);
             StatsModel localstat = new StatsModel(localStats);
-            MessagingCenter.Send(this, "Animation");
-            await Task.Delay(700);// Allow time for all threads to finish
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
             });
@@ -302,14 +293,10 @@ namespace DungeonTasker.ViewModel
             });
             InventoryItemsModel localitem = new InventoryItemsModel(localItems);
             StatsModel localstat = new StatsModel(localStats);
-            MessagingCenter.Send(this, "Animation");
-            await Task.Delay(700);
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = new NavigationPage(new AddView(local, localitem, localstat));
             });
-            FadeOut = 100.0;
-            IsRunning = false;
         }
 
         private void NoAccount(string documents)
@@ -343,7 +330,7 @@ namespace DungeonTasker.ViewModel
                 File.Delete(FakeStats);
                 UserModel.Rewrite("Username:", "", Logged);
                 UserModel.Rewrite("Password:", "", Logged);
-                throw new Exception("No online account found, Deleting Local Data." + documents + "/Users" + UserModel.CheckForstring(file, "Username:") + "Login.dt");
+                throw new Exception("No online account found, Deleting Local Data.");
             }
         }
 

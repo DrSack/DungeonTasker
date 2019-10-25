@@ -25,11 +25,6 @@ namespace DungeonTasker
 
         public GreetPageView()
         {
-            MessagingCenter.Subscribe<GreetPageViewModel>(this, "Animation", async (sender) =>{
-                await this.FadeTo(1, 300);
-                await this.FadeTo(0, 300);
-                MessagingCenter.Unsubscribe<GreetPageViewModel>(this, "Animation");
-            });
             InitializeComponent();
         }
         protected override async void OnAppearing()
@@ -45,6 +40,5 @@ namespace DungeonTasker
                 begin = await VM.OnAppearingAsync(begin); 
             }
         }
-
     }
 }

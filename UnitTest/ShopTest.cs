@@ -98,6 +98,23 @@ namespace UnitTest
         }
 
         [Fact]
+        public void BuyCharacter()//Test buying a character
+        {
+            string tempFile = Path.GetTempFileName();//create a temporary file
+            File.WriteAllText(tempFile, "Weapons:IronDagger,IronBow,\nKeys:0\nGold:500\nEquipped:IronDagger\nItems:\nCharacters:");
+            InventoryItemsModel info = new InventoryItemsModel(tempFile);
+            UserModel user = new UserModel();
+
+            user.Character = "(0_0)";
+            ShopViewModel test = new ShopViewModel(new ShopModel(info), new ItemInfoModel(info), new WeaponInfoModel(info), new CharacterInfoModel(info, "test"), user, true);
+
+            test.BuyAsync(info, 2, "(¬‿¬)", true);
+            Assert.Single(test.Characters.Characters);
+            Assert.Equal("450", test.Gold);
+            Assert.Equal("(¬‿¬),", UserModel.CheckForstring(tempFile, "Characters:"));
+        }
+
+        [Fact]
         public async Task BuyWithNoGoldAsync()//Test buying an item
         {
             string tempFile = Path.GetTempFileName();//create a temporary file

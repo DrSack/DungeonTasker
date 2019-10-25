@@ -34,7 +34,7 @@ namespace DungeonTasker
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
             DungeonView dungeon = new DungeonView(user, items, weapon, Invitem, stats, false, realDungeon);
-            this.Detail = new NavigationPage(new TasksView(user, items, truth, dungeon));// Set Detailspage arguments with user information and truth value.
+            this.Detail = new NavigationPage(new TasksView(user, items, truth, dungeon, new InventoryView(items,weapon,user,Invitem,Characters)));// Set Detailspage arguments with user information and truth value.
             this.Master = new MasterPageView(Detail, user, items, weapon, truth, dungeon, Invitem, Shop, Characters);// set the masterpage information with user, items, and truth values.
             
         }

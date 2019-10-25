@@ -11,9 +11,9 @@ using System.IO;
 
 namespace DungeonTasker.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InventoryView : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class InventoryView : ContentPage
+    {
         InventoryItemsModel items; // Store items information
         WeaponInfoModel weapon;  // The current weapon
         ItemInfoModel ItemInv;
@@ -21,14 +21,16 @@ namespace DungeonTasker.Views
         List<ItemModel> pots = new List<ItemModel>(); // Store weapon item details
         List<ItemModel> characters = new List<ItemModel>();
         UserModel User;
+        public bool tutorial = false;
 
         /*
          * Constructor for Inventory
          * PARAM items to be used by the class
          * RETURNS Nothing
          */
-		public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon, UserModel user, ItemInfoModel ItemInv, CharacterInfoModel characters)
-		{
+        public InventoryView(InventoryItemsModel items, WeaponInfoModel weapon, UserModel user, ItemInfoModel ItemInv, CharacterInfoModel characters)
+        {
+            tutorial = false;
             this.items = items;
             this.weapon = weapon;
             this.User = user;
@@ -36,7 +38,7 @@ namespace DungeonTasker.Views
             this.pots = ItemInv.pots;
             this.weapons = weapon.weapons;
             this.characters = characters.Characters;
-            InitializeComponent ();
+            InitializeComponent();
             DisplayInventory();
             DisplayKey();
             DisplayGold();
@@ -61,7 +63,7 @@ namespace DungeonTasker.Views
             {
                 if (!string.IsNullOrEmpty(weaponitem.item))
                 {
-                    CreateDisplayItem(weaponitem,0, WeaponsList, weapons);
+                    CreateDisplayItem(weaponitem, 0, WeaponsList, weapons);
                 }
             }
 
@@ -69,11 +71,11 @@ namespace DungeonTasker.Views
             {
                 if (!string.IsNullOrEmpty(stash.item))
                 {
-                    CreateDisplayItem(stash,1, ItemsList, pots);
+                    CreateDisplayItem(stash, 1, ItemsList, pots);
                 }
             }
 
-            foreach(ItemModel Chars in characters)
+            foreach (ItemModel Chars in characters)
             {
                 if (!string.IsNullOrEmpty(Chars.item))
                 {
@@ -115,7 +117,7 @@ namespace DungeonTasker.Views
             item.TextColor = Color.FromHex("#212121");
 
 
-            if(itemtype == 0)
+            if (itemtype == 0)
             {
                 extra.Text = string.Format("Damage: {0} - {1}",
                 WeaponInfoModel.ObtainWeaponInfo(stash.item, true).ToString(),
@@ -133,7 +135,7 @@ namespace DungeonTasker.Views
                 equip.BackgroundColor = Color.FromHex("#00CC33");
                 equip.TextColor = Color.White;
             }
-            else if(itemtype == 1)
+            else if (itemtype == 1)
             {
                 extra.Text = string.Format("{0}: {1} - {2} {3}",
                 ItemInfoModel.ObtainItemString(stash.item, true),
@@ -168,7 +170,7 @@ namespace DungeonTasker.Views
 
             equip.Clicked += async (s, a) =>
             {
-                if(itemtype == 0)
+                if (itemtype == 0)
                 {
                     if (await weapon.SetWeaponAsync(this, stash.item)) // If the weapon is not already equipped
                     {
@@ -176,9 +178,9 @@ namespace DungeonTasker.Views
                     }
                     DisplayEquipped();
                 }
-                else if(itemtype == 2)
+                else if (itemtype == 2)
                 {
-                    if(Character.Text != stash.item)
+                    if (Character.Text != stash.item)
                     {
                         UserModel.Rewrite("Character:", stash.item, User.LocalLogin);
                         User.Character = stash.item;
@@ -199,7 +201,7 @@ namespace DungeonTasker.Views
 
             sell.Clicked += async (s, a) =>
             {
-                    if (CharactersList.Children.Count == 1 && itemtype == 2)
+                if (CharactersList.Children.Count == 1 && itemtype == 2)
                 {
                     await DisplayAlert("Error", "Cannot delete your only character", "Close");
                     return;
@@ -212,14 +214,14 @@ namespace DungeonTasker.Views
                 }
 
                 int Goldvalue = 0;
-                if(itemtype == 0)
+                if (itemtype == 0)
                     Goldvalue = WeaponInfoModel.ObtainWeaponValue(stash.item);
-                if(itemtype == 1)
+                if (itemtype == 1)
                     Goldvalue = ItemInfoModel.ObtainItemValue(stash.item);
                 if (itemtype == 2)
                     Goldvalue = 50;
 
-                int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile,"Gold:"));
+                int CurrentGold = Int32.Parse(UserModel.CheckForstring(items.Localfile, "Gold:"));
                 int TotalGold = Goldvalue + CurrentGold; // Get your gold and add onto the gold you have recieved.
 
                 sell.Text = Goldvalue.ToString() + " G";
@@ -243,7 +245,8 @@ namespace DungeonTasker.Views
                         {
                             items.Invfile.Object.Weapons = invetory;
                             await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
-                        }catch { }
+                        }
+                        catch { }
                         weapon.weapons = this.weapons;
                     }
                     else if (itemtype == 1)
@@ -253,7 +256,8 @@ namespace DungeonTasker.Views
                         {
                             items.Invfile.Object.Items = invetory;
                             await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
-                        }catch { }
+                        }
+                        catch { }
                         ItemInv.pots = this.pots;
                     }
                     else
@@ -272,27 +276,29 @@ namespace DungeonTasker.Views
                     {
                         items.Invfile.Object.Gold = TotalGold.ToString();
                         await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
-                    }catch { }
-                    
+                    }
+                    catch { }
+
                     DisplayGold(); //Display the gold
 
                     string equipped = UserModel.CheckForstring(items.Localfile, "Equipped:");
-                    if (!UserModel.CheckForstring(items.Localfile,"Weapons:").Contains(equipped) && itemtype == 0) //If the Weapons: section is empty replace with "Not Equipped"
+                    if (!UserModel.CheckForstring(items.Localfile, "Weapons:").Contains(equipped) && itemtype == 0) //If the Weapons: section is empty replace with "Not Equipped"
                     {
                         UserModel.Rewrite("Equipped:", "Not Equipped", items.Localfile);
                         try
                         {
                             items.Invfile.Object.Equipped = "Not Equipped";
                             await items.UpdateInv(); // Replace the number of weapons if the remaining weapons set by the weapons list.
-                        }catch { }
-                        weapon.SetWeaponAsync(this, "Not Equipped"); //Rewrite and Set weapon to nothing
+                        }
+                        catch { }
+                        await weapon.SetWeaponAsync(this, "Not Equipped"); //Rewrite and Set weapon to nothing
                     }
                     DisplayEquipped();
                     await Task.Run(async () =>
                     {
                         Animations.CloseStackLayout(LayoutItem, "CloseItem", 60, 250);
                     }); //Run stacklayout close animation.
-                    
+
                     layout.Children.Remove(frame); //Remove stacklayout
                     DisplayNoWep(); // Check if stacklayout is empty and display "No Weapon"
                     DisplayNoItem();
@@ -303,8 +309,8 @@ namespace DungeonTasker.Views
             LayoutItem.Children.Add(item);
             LayoutItem.Children.Add(extra);
             LayoutItem.Children.Add(sell);
-            if(itemtype == 0 || itemtype == 2)
-                LayoutItem.Children.Add(equip);         
+            if (itemtype == 0 || itemtype == 2)
+                LayoutItem.Children.Add(equip);
 
             frame.Padding = 3;
             frame.BorderColor = Color.Black;
@@ -329,7 +335,7 @@ namespace DungeonTasker.Views
             {
                 NoWeps.IsEnabled = false;
                 NoWeps.IsVisible = false;
-            }  
+            }
         }
 
         /*
@@ -360,7 +366,7 @@ namespace DungeonTasker.Views
         */
         private void DisplayKey()
         {
-            Keys.Text = UserModel.CheckForstring(items.Localfile,"Keys:");
+            Keys.Text = UserModel.CheckForstring(items.Localfile, "Keys:");
             Keys.TextColor = Color.Gold;
         }
 
@@ -394,13 +400,25 @@ namespace DungeonTasker.Views
                 Damage.IsEnabled = false;
             }
 
-            else {
+            else
+            {
                 EquippedLabel.Text = UserModel.CheckForstring(items.Localfile, "Equipped:");
                 EquippedLabel.TextColor = Color.Black;
                 Damage.Text = string.Format("Damage: {0} - {1}", WeaponInfoModel.ObtainWeaponInfo(equippedWep, true).ToString(), WeaponInfoModel.ObtainWeaponInfo(equippedWep, false));
                 Damage.IsVisible = true;
                 Damage.IsEnabled = true;
-            }         
+            }
         }
-	}
+
+        protected override async void OnAppearing()
+        {
+            if (tutorial)
+            {
+                await UserModel.ShowMessage("This is Inventory Meny\nThis is where you can equip and sell different items in order to defeat different bosses\n", "Inventory", "Close", this, async () =>
+                {
+                    await this.Navigation.PopModalAsync();
+                });
+            }
+        }
+    }
 }

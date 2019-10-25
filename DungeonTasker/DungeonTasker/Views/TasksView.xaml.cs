@@ -20,9 +20,10 @@ namespace DungeonTasker.Views
         public UserModel Currentuser;
         InventoryItemsModel items;
         logged truthtime;
+        InventoryView inventory;
         public DungeonView dungeon;
         bool truth = true; // Initialize all variables
-
+        bool tutorial = false;
 
         public TasksView()// parameterless constructor for unit testing
         {
@@ -40,12 +41,13 @@ namespace DungeonTasker.Views
          * 
          * RETURN Nothing
          */
-        public TasksView(UserModel user, InventoryItemsModel items, logged truth, DungeonView dungeon)
+        public TasksView(UserModel user, InventoryItemsModel items, logged truth, DungeonView dungeon, InventoryView Inventory)
         {
             this.Currentuser = user;
             this.items = items;
             this.truthtime = truth;
             this.dungeon = dungeon;
+            this.inventory = Inventory;
             TasksViewModel VM = new TasksViewModel(user,this)
             {
                 Navigation = Navigation
@@ -67,9 +69,10 @@ namespace DungeonTasker.Views
         protected override void OnAppearing()
         {
             chars.Text = Currentuser.Character;
-            bool dungeonEND = true;
             if (UserModel.CheckForstring(Currentuser.LocalLogin, "Tutorial:").Contains("True"))// This is the tutorial.
             {
+                bool dungeonEND = true;
+                tutorial = true;
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await UserModel.ShowMessage(string.Format("Welcome to DungeonTasker {0}\nStart adding Tasks with the (+) button below\nGain Keys by completing Tasks!", Currentuser.Username), "Welcome!", "Close", this, async () =>
@@ -77,23 +80,37 @@ namespace DungeonTasker.Views
                         DatePickerView Tutorial = new DatePickerView();
                         Tutorial.Disappearing += async (s, e) =>
                         {
+                            if (tutorial)
+                            {
                             dungeon.Disappearing += async (s2, e2) =>
                             {
-                                if (dungeonEND)
+                                if (tutorial)
                                 {
-                                    UserModel.Rewrite("Tutorial:", "False", Currentuser.LocalLogin);
-                                    try
+                                    inventory.Disappearing += async (s3, e3) =>
                                     {
-                                        Currentuser.UserLogin.Object.Tutorial = "False";
-                                        await Currentuser.RewriteDATA();
-                                    }catch{ }
-                                    this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
-                                    dungeonEND = false;
+                                        if (dungeonEND)
+                                        {
+                                            UserModel.Rewrite("Tutorial:", "False", Currentuser.LocalLogin);
+                                            try
+                                            {
+                                                Currentuser.UserLogin.Object.Tutorial = "False";
+                                                await Currentuser.RewriteDATA();
+                                            }
+                                            catch { }
+                                            await this.DisplayAlert("Ready?", "You're all set!\nComplete those tasks and get some loot!.", "Close");
+                                            dungeonEND = false;
+                                            tutorial = false;
+                                        }
+                                    };
+                                    inventory.tutorial = true;
+                                    await Navigation.PushModalAsync(inventory);
+                                    inventory.tutorial = false;
                                 }
                             };
-                            dungeon.tut = true;
-                            await Navigation.PushModalAsync(dungeon);
-                            dungeon.tut = false;
+                                dungeon.tut = true;
+                                await Navigation.PushModalAsync(dungeon);
+                                dungeon.tut = false;
+                            }
                         };
                         await Navigation.PushModalAsync(Tutorial);
                     });

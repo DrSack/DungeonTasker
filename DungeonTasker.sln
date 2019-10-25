@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTasker.iOS", "Dungeo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonTasker", "DungeonTasker\DungeonTasker\DungeonTasker.csproj", "{06B35D96-E015-4B28-B8CD-DF2FF0FB3177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{83DD7BE5-5C4A-4557-9D07-16E52A9278B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{83DD7BE5-5C4A-4557-9D07-16E52A9278B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
