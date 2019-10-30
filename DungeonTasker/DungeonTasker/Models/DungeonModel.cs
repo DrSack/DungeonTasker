@@ -6,10 +6,10 @@ namespace DungeonTasker.Models
 {
     public class DungeonModel
     {
-        private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "Battle Mage", "Death Robot", "Ogre" };
-        private string[] Currentears = { "<>", "||", "!!", "~~", "^^", "{}", "[]", "++" };
-        private string Currenteyes = "0^#@.Xx-";
-        private string Currentnose = ".*@:!O0IVvXxw";
+        private string[] Names = { "Fighter", "Mage", "Rogue", "Demon", "Zombie", "Vampire", "Ugandan Warlord", "Knight", "Thief", "Battle Mage", "Death Robot", "Ogre", "BigBoi", "Thanos", "Captain Morgan", "Hansimon", "?$#@%^&#^", "QUT", "Sri", "Spooky Skeleton"};
+        private string[] Currentears = { "<>", "||", "!!", "~~", "^^", "{}", "[]", "++", "--", "##", "&&"};
+        private string Currenteyes = "0^#@.Xx-oo//__++";
+        private string Currentnose = ".*@:!O0IVvXxwjlZ?";
         public string EasyBoss { get; set; }
         public string EasyName { get; set; }
         public string MediumBoss { get; set; }
