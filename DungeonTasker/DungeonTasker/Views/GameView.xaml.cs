@@ -530,24 +530,51 @@ namespace DungeonTasker.Views
 
         private void CreateItemDisplay(ItemModel item, List<ItemModel> list)
         {
+            var frame = new Frame();
+            frame.CornerRadius = 5;
+            frame.Padding = new Thickness(15, 15, 5, 15);
+
             var layout = new StackLayout();
             layout.Orientation = StackOrientation.Horizontal;
 
             var Name = new Label();
             Name.Text = item.item;
             Name.VerticalTextAlignment = TextAlignment.Center;
+            Name.Margin = new Thickness(0, 0, 10, 0);
+            Name.FontAttributes = FontAttributes.Bold;
+            if (item.item.Contains("HealthPotion"))
+            {
+                Name.TextColor = Color.FromHex("#F44336");
+                frame.BorderColor = Color.FromHex("#F44336");
+                Name.FontAttributes = FontAttributes.Bold;
+            }
+            else
+            {
+                Name.TextColor = Color.DarkTurquoise;
+                frame.BorderColor = Color.DarkTurquoise;
+                Name.FontAttributes = FontAttributes.Bold;
+            }
 
-            var extras = new Label();
+
+                var extras = new Label();
+            extras.FontSize = 10;
+            extras.TextColor = Color.Black;
             extras.Text = string.Format("{0}: {1} - {2} {3}",
             ItemInfoModel.ObtainItemString(item.item, true),
             ItemInfoModel.ObtainItemInfo(item.item, true),
             ItemInfoModel.ObtainItemInfo(item.item, false),
             ItemInfoModel.ObtainItemString(item.item, false));
+            extras.HorizontalTextAlignment = TextAlignment.Center;
+            extras.HorizontalOptions = LayoutOptions.CenterAndExpand;
             extras.VerticalTextAlignment = TextAlignment.Center;
 
             var button = new Button();
             button.HorizontalOptions = LayoutOptions.EndAndExpand;
             button.Text = "USE";
+            button.CornerRadius = 5;
+            button.BackgroundColor = Color.White;
+            button.TextColor = Color.Accent;
+
 
             button.Clicked += async (s, e) =>
             {
@@ -559,7 +586,7 @@ namespace DungeonTasker.Views
                         Animations.CloseStackLayout(layout, "closing", 30, 500);
                     });
 
-                    Items.Children.Remove(layout);
+                    Items.Children.Remove(frame);
                     pots.Remove(item); // Remove off list
                     string invetory = "";
                     foreach (ItemModel itemInv in pots)
@@ -613,7 +640,8 @@ namespace DungeonTasker.Views
             layout.Children.Add(extras);
             layout.Children.Add(button);
 
-            Items.Children.Add(layout);
+            frame.Content = layout;
+            Items.Children.Add(frame);
         }
 
         private void DisableorEnableFrameLayouts(bool truth, Frame layout)
